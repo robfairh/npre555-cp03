@@ -1,9 +1,8 @@
-
 [GlobalParams]
-  num_groups = 1
+  num_groups = 2
   num_precursor_groups = 8
   use_exp_form = false
-  group_fluxes = 'flux'
+  group_fluxes = 'flux0 flux2'
   sss2_input = true
   account_delayed = false
   temperature = 300
@@ -18,7 +17,12 @@
 []
 
 [Variables]
-  [./flux]
+  [./flux0]
+    order = FIRST
+    family = LAGRANGE
+    initial_condition = 1
+  [../]
+  [./flux2]
     order = FIRST
     family = LAGRANGE
     initial_condition = 1
@@ -26,37 +30,67 @@
 []
 
 [Kernels]
-  [./diff_flux]
+  [./diff_flux0]
     type = GroupDiffusion
-    variable = flux
+    variable = flux0
     group_number = 1
   [../]
-  [./sigma_r_flux]
+  [./sigma_r0_flux0]
     type = SigmaR
-    variable = flux
+    variable = flux0
     group_number = 1
   [../]
-  [./source]
+  [./sigma_r0_flux2]
+    type = InScatter
+    variable = flux0
+    group_number = 1
+  [../]
+  [./source0]
     type = BodyForce
-    variable = flux
+    variable = flux0
     value = 1
+  [../]
+
+  [./diff_flux1]
+    type = GroupDiffusion
+    variable = flux2
+    group_number = 2
+  [../]
+  [./sigma_r1_flux2]
+    type = SigmaR
+    variable = flux2
+    group_number = 2
+  [../]
+  [./sigma_r1_flux0]
+    type = InScatter
+    variable = flux2
+    group_number = 2
+  [../]
+  [./source1]
+    type = BodyForce
+    variable = flux2
+    value = -0.4
   [../]
 []
 
 [BCs]
-  [./vacuum_group1]
+  [./vacuum_flux0]
     type = VacuumConcBC
-    # type = DirichletBC
-    # value = 0
     boundary = 'left right'
-    variable = flux
+    variable = flux0
+  [../]
+
+  [./vacuum_flux2]
+    type = VacuumConcBC
+    boundary = 'left right'
+    variable = flux2
   [../]
 []
 
 [Materials]
   [./cross_sections]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs/'
+    property_tables_root = 'xs2/'
     interp_type = 'linear'
   [../]
 []
@@ -85,7 +119,7 @@
 [Outputs]
   perf_graph = true
   print_linear_residuals = true
-  file_base = 'input'
+  file_base = 'input-diff'
   execute_on = timestep_end
   exodus = true
   csv = true
@@ -98,7 +132,7 @@
 [VectorPostprocessors]
   [./line]
     type = LineValueSampler
-    variable = flux
+    variable = 'flux0 flux2'
     start_point = '0 0 0'
     end_point = '5 0 0'
     sort_by = x
