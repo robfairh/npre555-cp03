@@ -85,7 +85,7 @@
 [Outputs]
   perf_graph = true
   print_linear_residuals = true
-  file_base = 'input'
+  file_base = 'input-1g-fixed'
   execute_on = timestep_end
   exodus = true
   csv = true

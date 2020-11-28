@@ -21,6 +21,8 @@ def process_xs():
 
     fluxg = np.array([1.41871E+21, 3.82855E+21, 1.09417E+21])
     totxsg = np.array([2.07015E-01, 3.42755E-01, 3.63852E-01])
+    fxsg = np.array([8.33511E-05, 6.25616E-04, 7.57266E-03])
+    nfxsg = np.array([2.21190E-04, 1.52254E-03, 1.84485E-02])
     absxsg = np.array([1.35139E-04, 2.50001E-03, 1.22535E-02])
     s0xsg = np.array([[1.93112E-01, 1.37674E-02, 0.00000E+00],
                     [0.00000E+00, 3.36889E-01, 3.36605E-03],
@@ -32,6 +34,8 @@ def process_xs():
 
     flux = sum(fluxg)
     totxs = sum(totxsg * fluxg)/flux
+    fxs = sum(fxsg * fluxg)/flux
+    nfxs = sum(nfxsg * fluxg)/flux
     absxs = sum(absxsg * fluxg)/flux
     s0xs = sum(s0xsg.T @ fluxg)/flux
     s1xs = sum(s1xsg.T @ fluxg)/flux
@@ -39,11 +43,9 @@ def process_xs():
 
     print('Diffusion: ')
     print('D: ', dxs)
-    print('R: ', absxs)
-    
-    print('P1: ')
-    print('sig0: ', totxs-s0xs)
-    print('1/3/sig1: ', 1/3/(totxs-s1xs))
+    print('Sigma_R: ', totxs-s0xs)
+    print('nuSigma_f: ', nfxs)
+    print('Sigma_f: ', fxs)
 
 
 process_xs()

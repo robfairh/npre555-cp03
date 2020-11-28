@@ -38,11 +38,23 @@ def plotcsv_frommoose_temp(file, legend, dire='x'):
 
 
 save = 'output'
-file = 'diffusion/input_line_0001.csv'
+
+file = 'diffusion/input-1g-fixed_line_0001.csv'
 legend = 'diffusion'
 plotcsv_frommoose_temp(file, legend, dire='x')
+
 file = 'p1/input_line_0001.csv'
 legend = 'p1'
 plotcsv_frommoose_temp(file, legend, dire='x')
+
+file = 'p3/input_line_0001.csv'
+legend = 'p3'
+file = pd.read_csv(file)
+flux0 = np.array(file['flux0'].tolist())
+flux2 = np.array(file['flux2'].tolist())
+flux = flux0 - 2*flux2
+x = np.array(file['x'].tolist())
+plt.plot(x, flux, label=legend)
+
 plt.legend(loc='upper right')
 plt.savefig(save, dpi=300, bbox_inches="tight")

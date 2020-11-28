@@ -27,9 +27,10 @@ def plotcsv_frommoose_temp(file, save, dire='x'):
     else:
         d = file[dire].tolist()
 
-    flux0 = np.array(file['flux0'].tolist())
-    flux2 = np.array(file['flux2'].tolist())
-    flux = flux0 - 2*flux2
+    flux = np.array(file['flux'].tolist())
+    # flux0 = np.array(file['flux0'].tolist())
+    # flux2 = np.array(file['flux2'].tolist())
+    # flux = flux0 - 2*flux2
 
     plt.figure()
     plt.plot(d, flux)
@@ -43,7 +44,7 @@ def plotcsv_frommoose_temp(file, save, dire='x'):
     plt.close()
 
 
-save = 'output-p3'
+save = 'output-1g-crit'
 # file = 'input_line_0001.csv'
-file = 'input-diff_line_0001.csv'
+file = 'input-1g-crit_line_0001.csv'
 plotcsv_frommoose_temp(file, save, dire='x')
