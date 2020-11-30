@@ -32,6 +32,8 @@ def process_xs():
                     [0.00000E+00, -3.66985E-04, 1.15004E-02]])
     dxsg = np.array([1.99474E+00, 1.03279E+00, 9.49027E-01])
 
+    print('Sigma_R: ', totxsg-s0xsg.diagonal())
+
     flux = sum(fluxg)
     totxs = sum(totxsg * fluxg)/flux
     fxs = sum(fxsg * fluxg)/flux
