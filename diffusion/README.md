@@ -17,3 +17,16 @@ input-1g-crit.i
 - Criticality source
 - xmax = 200
 - keff = 1.052780e+00
+
+input-3g-fixed.i:
+- Moltres diffusion kernels
+- 3 group
+- Fixed source
+- xmax = 50
+
+input-3g-crit.i:
+- Moltres diffusion kernels
+- 3 group
+- Criticality source
+- xmax = 250, nx = 500
+- keff = 1.01058340e+00
