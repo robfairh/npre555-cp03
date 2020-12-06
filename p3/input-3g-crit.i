@@ -320,10 +320,15 @@
   sol_check_tol = 1e-08
 
   # solve_type = 'NEWTON'
-  solve_type = 'JFNK'
+  # solve_type = 'JFNK'
+  # solve_type = 'PJFNK'
   petsc_options = '-snes_converged_reason -ksp_converged_reason -snes_linesearch_monitor'
+
   petsc_options_iname = '-pc_type -sub_pc_type'
   petsc_options_value = 'asm lu'
+
+  # petsc_options_iname = '-pc_type -sub_ksp_type -snes_linesearch_minlambda'
+  # petsc_options_value = 'lu       preonly       1e-3'
 []
 
 [Postprocessors]
