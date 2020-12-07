@@ -12,16 +12,18 @@ echo 'fuel0 300' >> tempMapping
 echo 'brefl0 300' >> tempMapping
 echo 'trefl0 300' >> tempMapping
 
+> secBranch
+
 > universeMapping
 echo 'fuel 9' >> universeMapping
 echo 'trefl B' >> universeMapping
 echo 'brefl T' >> universeMapping
 
-mkdir xs3g
-python extract-convert.py xs3g mhtgr tempMapping universeMapping
+$MOLTRES/python/extractSerpent2GCs.py xs3g mhtgr tempMapping secBranch universeMapping
 
 rm fuel.coe
 rm brefl.coe
 rm trefl.coe
 rm tempMapping
+rm secBranch
 rm universeMapping

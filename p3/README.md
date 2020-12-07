@@ -31,4 +31,12 @@ input2.i
 - P3 kernels
 - 3 group
 - Criticality source
-- top and bottom reflectors
+- xmax = 793, nx = 500
+- keff = 1.064918
+
+input3.i
+- P3 kernels
+- 3 group
+- Criticality source
+- adds bottom and top reflectors
+- keff = 1.073015e+00

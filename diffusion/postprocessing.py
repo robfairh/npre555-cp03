@@ -57,11 +57,20 @@ def plotcsv_frommoose_temp(file, save, dire='x'):
 
 # save = 'output-1g-fixed'
 # file = 'input-fixed_line_0001.csv'
+
 # save = 'output-1g-crit'
 # file = 'input-1g-crit_line_0001.csv'
+
 # save = 'output-3g-fixed'
 # file = 'input-3g-fixed_line_0001.csv'
-save = 'output-3g-crit'
-file = 'input-3g-crit_line_0001.csv'
+
+# save = 'output-3g-crit'
+# file = 'input-3g-crit_line_0001.csv'
+
+save = 'output2'
+file = 'input2_line_0001.csv'
 plotcsv_frommoose_temp(file, save, dire='x')
 
+save = 'output3'
+file = 'input3_line_0001.csv'
+plotcsv_frommoose_temp(file, save, dire='y')

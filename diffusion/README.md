@@ -30,3 +30,17 @@ input-3g-crit.i:
 - Criticality source
 - xmax = 250, nx = 500
 - keff = 1.01058340e+00
+
+input2.i
+- Moltres diffusion kernels
+- 3 group
+- Criticality source
+- xmax = 793, nx = 500
+- keff = 1.065277e+00
+
+input3.i
+- Moltres diffusion kernels
+- 3 group
+- Criticality source
+- adds bottom and top reflectors
+- keff = 1.073377e+00
