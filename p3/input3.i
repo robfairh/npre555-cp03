@@ -7,12 +7,18 @@
 []
 
 [Mesh]
-  type = GeneratedMesh
-  dim = 1
-  xmax = 250.
-  nx = 500
-  elem_type = EDGE2
-[]
+  [mymesh]
+    type = FileMeshGenerator
+    file = '1D-fuel-reflec.msh'
+  [../]
+  [./add_side_sets]
+    type = SideSetsFromPointsGenerator
+    input = mymesh
+    points = '0    0  0
+              0  1073  0'
+    new_boundary = 'ref_bot ref_top'
+  [../]
+[../]
 
 [Variables]
   [./flux0_1]

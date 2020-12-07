@@ -25,4 +25,10 @@ input-3g-crit.i:
 - 3 group
 - Criticality source
 - xmax = 250, nx = 500
-- keff = 1.00701057e+00
+- keff = 1.0076...
+
+input2.i
+- P3 kernels
+- 3 group
+- Criticality source
+- top and bottom reflectors
