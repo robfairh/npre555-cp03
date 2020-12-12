@@ -16,7 +16,7 @@
         \\ \href{mailto:ref3@illinois.edu}{\texttt{ref3@illinois.edu}}
 }
 
-\title{NPRE 555\\ Computer Project 2}
+\title{NPRE 555\\ Computer Project 3}
 \begin{document}
 %\clearpage
 \begin{titlepage}
@@ -26,146 +26,193 @@
 
 \section{Introduction}
 
-This computer project calculated the neutron flux in a moderator slab using the P$_N$ approximation.
-Table \ref{tab:parameters} summarizes the input parameters.
-The following sections define the equations for each P$_N$ approximation.
+\section{MOOSE}
 
+\section{Simplified P$_3$: Mathematical Basis}
+
+One dimensional P$_3$ equations
+\cite{brantley_simplifiedP3_2000}
+
+\begin{align}
+    & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} + Q_{0,g}  \label{eq:SP3-0} \\
+    & \frac{1}{3} \frac{d}{dx} \phi_{0,g} + \frac{2}{3}\frac{d}{dx}\phi_{2,g} + \Sigma_{t,g} \phi_{1,g} = \sum_{g'=1}^G \Sigma_{s1,g' \rightarrow g} \phi_{1,g'} + Q_{1,g} \label{eq:SP3-1} \\
+    & \frac{2}{5} \frac{d}{dx}\phi_{1,g} + \frac{3}{5}\frac{d}{dx}\phi_{3,g} + \Sigma_{t,g} \phi_{2,g} = \sum_{g'=1}^G \Sigma_{s2,g' \rightarrow g} \phi_{2,g'} + Q_{2,g} \label{eq:SP3-2} \\
+    & \frac{3}{7}\frac{d}{dx}\phi_{2,g} + \Sigma_{t,g} \phi_{3,g} = \sum_{g'=1}^G \Sigma_{s3,g' \rightarrow g} \phi_{3,g'} + Q_{3,g} \label{eq:P3-3} \\
+    \intertext{where}
+    & \phi_{n,g} = \mbox{$n^{th}$ moment of the group $g$ neutron flux } [n \cdot cm^{-2} \cdot s^{-1}]  \notag \\
+    & \Sigma_{t,g} = \mbox{group $g$ macroscopic total cross-section } [cm^{-1}]  \notag \\
+	& \Sigma_{sn,g' \rightarrow g} = \mbox{$n^{th}$ moment of the group $g'$ to group $g$ macroscopic scattering cross-section } [cm^{-1}]  \notag \\
+	& \nu\Sigma_{f,g} = \mbox{group $g$ macroscopic production cross-section } [cm^{-1}]  \notag \\
+	& \chi_{g} = \mbox{group $g$ fission spectrum } [cm^{-1}]  \notag \\
+	& k_{eff} = \mbox{multiplication factor } [-]  \notag \\
+	& Q_{n,g} = \mbox{$n^{th}$ group $g$ external neutron source } [n \cdot cm^{-3} \cdot s^{-1}]  \notag \\
+	& G = \mbox{number of energy groups } [-].  \notag
+\end{align}
+
+Defining the group $g$ "removal" cross-section $\Sigma_{n,g}$, and assuming an isotropic external source and a negligible anisotropic group-to-group scattering \cite{brantley_simplifiedP3_2000}
+
+\begin{align}
+	& \Sigma_{n,g} = \Sigma_{t,g} - \Sigma_{sn,g' \rightarrow g} \notag \\
+	& Q_{n,g} = 0, \quad n > 0 \notag \\
+	& \Sigma_{sn,g' \rightarrow g} = 0, \quad g' \ne g, \quad n > 0 \notag
+    \intertext{the P$_3$ equations become}
+    & \frac{d}{dx} \phi_{1,g} + \Sigma_{0,g} \phi_{0,g} = \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} + Q_{0,g}  \label{eq:SP3-0b} \\
+    & \frac{1}{3} \frac{d}{dx} \phi_{0,g} + \frac{2}{3}\frac{d}{dx}\phi_{2,g} + \Sigma_{1,g} \phi_{1,g} = 0  \label{eq:SP3-1b} \\
+    & \frac{2}{5} \frac{d}{dx}\phi_{1,g} + \frac{3}{5}\frac{d}{dx}\phi_{3,g} + \Sigma_{2,g} \phi_{2,g} = 0  \label{eq:SP3-2b} \\
+    & \frac{3}{7}\frac{d}{dx}\phi_{2,g} + \Sigma_{3,g} \phi_{3,g} = 0. \label{eq:SP3-3b}
+\end{align}
+
+Reorganizing equations \ref{eq:SP3-1b} and \ref{eq:SP3-3b} allows for obtaining a expression for odd moments of the flux $\phi_{1,g}$ and $\phi_{3,g}$
+
+\begin{align}
+    & \phi_{1,g} = -\frac{1}{3 \Sigma_{1,g}} \frac{d}{dx} \left[ \phi_{0,g} + 2 \phi_{2,g} \right] \label{eq:SP3-1c} \\
+    & \phi_{3,g} = -\frac{3}{7 \Sigma_{3,g}}\frac{d}{dx}\phi_{2,g}. \label{eq:SP3-3c}
+\end{align}
+
+With equations \ref{eq:SP3-1c} and \ref{eq:SP3-3c}, equations \ref{eq:SP3-0b} and \ref{eq:SP3-2b} become
+
+\begin{align}
+    & - D_{0,g} \frac{d^2}{dx^2} \left( \phi_{0,g} + 2 \phi_{2,g} \right) + \Sigma_{0,g} \phi_{0,g} = \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} + Q_{0,g}  \label{eq:SP3-0c} \\
+    & - \frac{2}{5} D_{0,g} \frac{d^2}{dx^2} \left( \phi_{0,g} + 2 \phi_{2,g} \right) - D_{2,g} \frac{d^2}{dx^2} \phi_{2,g} + \Sigma_{2,g} \phi_{2,g} = 0  \label{eq:SP3-2c} \\
+    \intertext{where}
+    & D_{0,g} = \frac{1}{3 \Sigma_{1,g}} \notag \\
+    & D_{2,g} = \frac{9}{35 \Sigma_{3,g}} \notag
+\end{align}
+
+Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$ and reorganizing equations \ref{eq:SP3-0c} and \ref{eq:SP3-2c} yields
+
+\begin{align}
+    & - D_{0,g} \frac{d^2}{dx^2} \Phi_{0,g} + \Sigma_{0,g} \Phi_{0,g} - 2 \Sigma_{0,g} \Phi_{2,g} = S_{0,g} \label{eq:SP3-0d} \\
+    & - D_{2,g} \frac{d^2}{dx^2} \Phi_{2,g} + \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g} - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} = -\frac{2}{5} S_{0,g} \label{eq:SP3-2d}
+    \intertext{where}
+    & \Phi_{0,g} = \phi_{0,g} + 2 \phi_{2,g} \notag \\
+    & \Phi_{2,g} = \phi_{2,g} \notag \\
+    & S_{0,g} = \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) + Q_{0,g}. \notag
+\end{align}
+
+The three-dimensional SP3 equations \cite{gelbard_spherical_1960} replace the second-derivatives in equations \ref{eq:SP3-0d} and \ref{eq:SP3-2d} by the Laplace operator $\Delta$ (See PARCS manual)
+
+\begin{align}
+    & - D_{0,g} \Delta \Phi_{0,g} + \Sigma_{0,g} \Phi_{0,g} - 2 \Sigma_{0,g} \Phi_{2,g} = S_{0,g} \label{eq:SP3-0e} \\
+    & - D_{2,g} \Delta \Phi_{2,g} + \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g} - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} = -\frac{2}{5} S_{0,g}. \label{eq:SP3-2e}
+\end{align}
+
+The Marshak vacuum boundary conditions complete the system of equations
+
+\begin{align}
+    & \frac{1}{4} \Phi_{0,g} \pm \frac{1}{2} \hat{n} \cdot J_{0,g} - \frac{3}{16} \Phi_{2,g} = 0 \label{eq:SP3-BC1a} \\
+    & - \frac{3}{80} \Phi_{0,g} \pm \frac{1}{2} \hat{n} \cdot J_{2,g} + \frac{21}{80} \Phi_{2,g} = 0 \label{eq:SP3-BC2a}
+    \intertext{where}
+    & J_{n,g} = -D_{n,g} \nabla \Phi_{n,g}. \notag
+\end{align}
+
+Variational formulation
+
+\begin{align}
+    & \left< \Phi, \Psi \right> = \int_V \Phi \Psi dV \\
+    & \left< \Phi, \Psi \right>_{BC} = \int_S \Phi \Psi dS
+    \intertext{where}
+    & \Psi = \mbox{test function} \notag \\
+    & S = \mbox{boundary surface}. \notag
+\end{align}
+
+\begin{align}
+    & \left< - D_{0,g} \Delta \Phi_{0,g}, \Psi \right> + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> + \left< - S_{0,g}, \Psi \right> = 0 \label{eq:SP3-0e} \\
+    & \left< - D_{2,g} \Delta \Phi_{2,g}, \Psi \right> + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> + \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} D_{2,g}, \Psi \right> + \left< \frac{2}{5} S_{0,g}, \Psi \right> = 0. \label{eq:SP3-2e}
+\end{align}
+
+By means of the Gauss theorem (?), equations \ref{eq:SP3-0e} and \ref{eq:SP3-2e} become
+
+\begin{align}
+    & \left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right> + \left< - D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> + \left< - S_{0,g}, \Psi \right> = 0 \label{eq:SP3-0e} \\
+    & \left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right> + \left< - D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> + \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} D_{2,g}, \Psi \right> + \left< \frac{2}{5} S_{0,g}, \Psi \right> = 0. \label{eq:SP3-2e}
+\end{align}
+
+
+% \usepackage{booktabs}
 \begin{table}[htbp!]
   \centering
-  \caption{Input parameters.}
-  \begin{tabular}{lcc}
+  \caption{.}
+  \begin{tabular}{lc}
   \toprule
-                 & Value & Units   \\
+  Kernel                & Variational form  \\
   \midrule
-  Slab thickness (L) & 8     & cm  \\
-  $\Sigma_t$     & 1.0   & 1/cm    \\
-  $\Sigma_{s0}$  & 0.4   & 1/cm    \\
-  $\Sigma_{s1}$  & 0.1   & 1/cm    \\
-  $\Sigma_{s2}$  & 0.1   & 1/cm    \\
-  $\Sigma_{s3}$  & 0.1   & 1/cm    \\
-  q$_0$          & 1     & n/cm$^{3}$/s \\
+  P3Diffusion           & $\left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right>$ \\
+  P3SigmaR              &  \\
+  P3SigmaCoupled        &  \\
+  P3InScatter           &  \\
+  P3FissionEigenKernel  &  \\
+  \midrule
+  Boundary Condition Kernel & Variational form  \\
+  \midrule
+  -          & - \\
   \bottomrule
   \end{tabular}
   \label{tab:parameters}
 \end{table}
 
-\section{P$_1$ approximation}
 
-\begin{align}
-    & \frac{d}{dx}\phi_1 + \Sigma_0 \phi_0 = q_0  \label{eq:P1-0} \\
-    & \frac{d}{dx}\phi_0 + 3 \Sigma_1 \phi_1 = 0  \label{eq:P1-1} \\
-    \intertext{where}
-    & \Sigma_n = \Sigma_t - \Sigma_{sn} \notag
-\end{align}
 
-\subsection{P$_1$ approximation Marshak boundary condition}
-\label{sec:p1-marshak}
 
-\begin{align}
-    & \frac{1}{4}\phi_0 (x=0) + \frac{1}{2}\phi_1 (x=0)  = 0   \\
-    & -\frac{1}{4}\phi_0 (x=L) + \frac{1}{2}\phi_1 (x=L) = 0
-\end{align}
+% \subsection{Numerical method}
 
-\subsection{P$_1$ approximation Mark boundary condition}
-\label{sec:p1-mark}
+% Through some algebraic manipulation of Equations \ref{eq:P1-0} and \ref{eq:P1-1}, the method obtains the following equation.
+% The solver discretizes the equation with the finite difference method.
+% Equation \ref{eq:P1-1} combined with the boundary condition equations (Sections \ref{sec:p1-marshak} and \ref{sec:p1-mark}) allow to impose the boundary conditions on the numerical solution.
 
-\begin{align}
-    & \frac{1}{2}\phi_0 (x=0) + \frac{3}{2}\phi_1 (x=0) \mu_0 = 0  \\
-    & \frac{1}{2}\phi_0 (x=L) + \frac{3}{2}\phi_1 (x=L) \mu_1 = 0  \\
-    \intertext{where}
-    & \mu_{0,1} = \pm 0.57735 \notag
-\end{align}
+% \begin{align}
+%     & -\frac{d}{dx}\left(\frac{1}{3\Sigma_1} \frac{d}{dx}\phi_0 \right) + \Sigma_0 \phi_0 = q_0
+% \end{align}
 
-\subsection{Numerical method}
+% \subsection{P$_3$ approximation Marshak boundary condition}
+% \label{sec:p3-marshak}
 
-Through some algebraic manipulation of Equations \ref{eq:P1-0} and \ref{eq:P1-1}, the method obtains the following equation.
-The solver discretizes the equation with the finite difference method.
-Equation \ref{eq:P1-1} combined with the boundary condition equations (Sections \ref{sec:p1-marshak} and \ref{sec:p1-mark}) allow to impose the boundary conditions on the numerical solution.
-
-\begin{align}
-    & -\frac{d}{dx}\left(\frac{1}{3\Sigma_1} \frac{d}{dx}\phi_0 \right) + \Sigma_0 \phi_0 = q_0
-\end{align}
-
-\section{P$_3$ approximation}
-
-\begin{align}
-    & \frac{d}{dx}\phi_1 + \Sigma_0 \phi_0 = q_0  \label{eq:P3-0} \\
-    & 2 \frac{d}{dx}\phi_2 + \frac{d}{dx}\phi_0 + 3 \Sigma_1 \phi_1 = 0  \label{eq:P3-1} \\
-    & 3 \frac{d}{dx}\phi_2 + 2\frac{d}{dx}\phi_1 + 5 \Sigma_2 \phi_2 = 0 \label{eq:P3-2} \\
-    & 3\frac{d}{dx}\phi_2 + 7 \Sigma_3 \phi_3 = 0  \label{eq:P3-3} \\
-    \intertext{where}
-    & \Sigma_n = \Sigma_t - \Sigma_{sn} \notag
-\end{align}
-
-\subsection{P$_3$ approximation Marshak boundary condition}
-\label{sec:p3-marshak}
-
-\begin{align}
-    & \frac{1}{2}\phi_0 (x=0) + \phi_1 (x=0) + \frac{5}{8}\phi_2 (x=0) = 0   \\
-    & -\frac{1}{8}\phi_0 (x=0) + \frac{5}{8}\phi_2 (x=0) + \phi_3 (x=0) = 0  \\
-    & -\frac{1}{2}\phi_0 (x=L) + \phi_1 (x=L) - \frac{5}{8}\phi_2 (x=L) = 0  \\
-    & \frac{1}{8}\phi_0 (x=L) - \frac{5}{8}\phi_2 (x=L) + \phi_3 (x=L) = 0
-\end{align}
-
-\subsection{P$_3$ approximation Mark boundary condition}
-\label{sec:p3-mark}
-
-\begin{align}
-    & \frac{1}{2}\phi_0 (x=0) P_0(\mu_0) + \frac{3}{2}\phi_1 (x=0) P_1(\mu_0) + \frac{5}{2}\phi_2 (x=0) P_2(\mu_0) + \frac{7}{2}\phi_3 (x=0) P_3(\mu_0) = 0  \\
-    & \frac{1}{2}\phi_0 (x=0) P_0(\mu_1) + \frac{3}{2}\phi_1 (x=0) P_1(\mu_1) + \frac{5}{2}\phi_2 (x=0) P_2(\mu_1) + \frac{7}{2}\phi_3 (x=0) P_3(\mu_1) = 0  \\
-    & \frac{1}{2}\phi_0 (x=L) P_0(\mu_2) + \frac{3}{2}\phi_1 (x=L) P_1(\mu_2) + \frac{5}{2}\phi_2 (x=L) P_2(\mu_2) + \frac{7}{2}\phi_3 (x=L) P_3(\mu_2) = 0  \\
-    & \frac{1}{2}\phi_0 (x=L) P_0(\mu_3) + \frac{3}{2}\phi_1 (x=L) P_1(\mu_3) + \frac{5}{2}\phi_2 (x=L) P_2(\mu_3) + \frac{7}{2}\phi_3 (x=L) P_3(\mu_3) = 0  \\
-    \intertext{where}
-    & P_0(\mu) = 1    \notag \\
-    & P_1(\mu) = \mu  \notag \\
-    & P_2(\mu) = \frac{1}{2} (3\mu^2-1)    \notag \\
-    & P_3(\mu) = \frac{1}{2} (5\mu^3-\mu)  \notag \\
-    & \mu_{0,1,2,3} = [ 0.86114, 0.33998, -0.33998, -0.86114 ] \notag
-\end{align}
-
-\subsection{Numerical method}
-
-Through some algebraic manipulation of Equations \ref{eq:P3-0} to \ref{eq:P3-3}, the method obtains the following equations.
-The solver discretizes the equations with the finite difference method.
-To solution of the coupled system used an explicit solver based on the previous iteration solution, requiring an iterative solver.
-The convergence criteria was an $L_2$-norm of the relative difference between fluxes smaller than $1 \times 10^{-6}$.
-Equations \ref{eq:P3-1} and \ref{eq:P3-3} combined with the boundary condition equations (Sections \ref{sec:p3-marshak} and \ref{sec:p3-mark}) allow to impose the boundary conditions on the numerical solution.
-
-\begin{align}
-    & -\frac{d}{dx}\left(\frac{1}{3\Sigma_1} \frac{d}{dx}\phi_0 + \frac{2}{3\Sigma_1} \frac{d}{dx}\phi_2 \right) + \Sigma_0 \phi_0 = q_0   \\
-    & -\frac{d}{dx}\left(\frac{2}{3\Sigma_1} \frac{d}{dx}\phi_0 + \left(\frac{4}{3\Sigma_1} + \frac{9}{7\Sigma_3} \right) \frac{d}{dx}\phi_2 \right) + 5 \Sigma_2 \phi_2 = 0
-\end{align}
+% \begin{align}
+%     & \frac{1}{2}\phi_0 (x=0) + \phi_1 (x=0) + \frac{5}{8}\phi_2 (x=0) = 0   \\
+%     & -\frac{1}{8}\phi_0 (x=0) + \frac{5}{8}\phi_2 (x=0) + \phi_3 (x=0) = 0  \\
+%     & -\frac{1}{2}\phi_0 (x=L) + \phi_1 (x=L) - \frac{5}{8}\phi_2 (x=L) = 0  \\
+%     & \frac{1}{8}\phi_0 (x=L) - \frac{5}{8}\phi_2 (x=L) + \phi_3 (x=L) = 0
+% \end{align}
+% \subsection{P$_3$ approximation Mark boundary condition}
+% \label{sec:p3-mark}
+% \begin{align}
+%     & \frac{1}{2}\phi_0 (x=0) P_0(\mu_0) + \frac{3}{2}\phi_1 (x=0) P_1(\mu_0) + \frac{5}{2}\phi_2 (x=0) P_2(\mu_0) + \frac{7}{2}\phi_3 (x=0) P_3(\mu_0) = 0  \\
+%     & \frac{1}{2}\phi_0 (x=0) P_0(\mu_1) + \frac{3}{2}\phi_1 (x=0) P_1(\mu_1) + \frac{5}{2}\phi_2 (x=0) P_2(\mu_1) + \frac{7}{2}\phi_3 (x=0) P_3(\mu_1) = 0  \\
+%     & \frac{1}{2}\phi_0 (x=L) P_0(\mu_2) + \frac{3}{2}\phi_1 (x=L) P_1(\mu_2) + \frac{5}{2}\phi_2 (x=L) P_2(\mu_2) + \frac{7}{2}\phi_3 (x=L) P_3(\mu_2) = 0  \\
+%     & \frac{1}{2}\phi_0 (x=L) P_0(\mu_3) + \frac{3}{2}\phi_1 (x=L) P_1(\mu_3) + \frac{5}{2}\phi_2 (x=L) P_2(\mu_3) + \frac{7}{2}\phi_3 (x=L) P_3(\mu_3) = 0  \\
+%     \intertext{where}
+%     & P_0(\mu) = 1    \notag \\
+%     & P_1(\mu) = \mu  \notag \\
+%     & P_2(\mu) = \frac{1}{2} (3\mu^2-1)    \notag \\
+%     & P_3(\mu) = \frac{1}{2} (5\mu^3-\mu)  \notag \\
+%     & \mu_{0,1,2,3} = [ 0.86114, 0.33998, -0.33998, -0.86114 ] \notag
+% \end{align}
+% \subsection{Numerical method}
+% Through some algebraic manipulation of Equations \ref{eq:P3-0} to \ref{eq:P3-3}, the method obtains the following equations.
+% The solver discretizes the equations with the finite difference method.
+% To solution of the coupled system used an explicit solver based on the previous iteration solution, requiring an iterative solver.
+% The convergence criteria was an $L_2$-norm of the relative difference between fluxes smaller than $1 \times 10^{-6}$.
+% Equations \ref{eq:P3-1} and \ref{eq:P3-3} combined with the boundary condition equations (Sections \ref{sec:p3-marshak} and \ref{sec:p3-mark}) allow to impose the boundary conditions on the numerical solution.
+% \begin{align}
+%     & -\frac{d}{dx}\left(\frac{1}{3\Sigma_1} \frac{d}{dx}\phi_0 + \frac{2}{3\Sigma_1} \frac{d}{dx}\phi_2 \right) + \Sigma_0 \phi_0 = q_0   \\
+%     & -\frac{d}{dx}\left(\frac{2}{3\Sigma_1} \frac{d}{dx}\phi_0 + \left(\frac{4}{3\Sigma_1} + \frac{9}{7\Sigma_3} \right) \frac{d}{dx}\phi_2 \right) + 5 \Sigma_2 \phi_2 = 0
+% \end{align}
 
 \section{Results}
 
-Figure \ref{fig:results} displays the scalar flux for all the approximations with the different boundary conditions.
-Figure \ref{fig:a} shows a full range plot of all the approximations normalized to their maximum value.
-Figure \ref{fig:b} exhibits a reduced range plot close to the right boundary for a better appreciation of the boundary condition effects.
-P$_3$ flux has a larger magnitude than P$_1$ flux away from the boundaries, which indicates that lower P$_N$ approximation fluxes have rounder shapes.
-A rounder shape is an indicator of poorer neutron conservation.
-Additionally, imposing a Mark boundary condition causes the scalar flux to have a smaller magnitude than the Marshak boundary condition case.
-A smaller flux on the boundary is a sign of `more neutrons' leaving the domain, which indicates that the Marshak boundary condition better preserves the neutrons in the domain.
-
-\begin{figure}[h!]
-        \centering
-        \subfigure[Full range plot. \label{fig:a}]{\includegraphics[width=8cm,height=8cm,keepaspectratio]{out.png}}       
-        \subfigure[Reduced range plot. \label{fig:b}]{\includegraphics[width=8cm,height=8cm,keepaspectratio]{out-zoom.png}}
-        \caption{Scalar flux normalized to maximum value.}
-        \label{fig:results}
-\end{figure}
-
 \section{Conclusions}
-In order to conduct the computer project, I had to understand the basics of the P$_N$ method.
-The results help visualize some characteristics of the approximations.
-Using a higher-order P$_N$ approximation better preserves the neutrons inside the domain.
-Using a higher-order P$_N$ approximation also requires a more elaborate solver.
-Choosing a Marshak boundary condition better conserves the neutrons inside the domain.
-This type of boundary condition also requires a more elaborate formulation.
 
 \clearpage
 \bibliographystyle{plain}
-% \bibliography{bibliography}
+\bibliography{bibliography}
 \end{document}
+
+% \begin{figure}[h!]
+%         \centering
+%         \includegraphics[width=8cm,height=8cm,keepaspectratio]{AnalyticalSine1.png}
+%         \caption{Analytical solution of $P(t)$ for the sinusoidal reactivity in eq. \ref{sine1rho}.}
+%         \label{AnalyticSine}
+% \end{figure}
 
 % \begin{figure}[h!]
 %         \centering
@@ -173,13 +220,6 @@ This type of boundary condition also requires a more elaborate formulation.
 %         \subfigure[Solved using BE.]{\includegraphics[width=8cm,height=8cm,keepaspectratio]{output6BE2b.png}}
 %         \caption{Power response for the sinusoidal reactivity in eq. \ref{sine2rho} for 6 Groups, $\Delta t = 1 ms$.}
 %         \label{Output6-2b}
-% \end{figure}
-
-% \begin{figure}[h!]
-%         \centering
-%         \includegraphics[width=8cm,height=8cm,keepaspectratio]{AnalyticalSine1.png}
-%         \caption{Analytical solution of $P(t)$ for the sinusoidal reactivity in eq. \ref{sine1rho}.}
-%         \label{AnalyticSine}
 % \end{figure}
 
 % \begin{align}
@@ -192,24 +232,3 @@ This type of boundary condition also requires a more elaborate formulation.
 %     \Sigma_f &= \mbox{Macroscopic fission cross-section} \notag \\
 %     \nu  &= \mbox{Average number of neutrons born by fission.} \notag \\
 % \end{align}
-
-% \usepackage{booktabs}
-% \begin{table}[htbp!]
-%   \centering
-%   \caption{.}
-%   \begin{tabular}{lcc}
-%   \toprule
-%                  & Value & Units   \\
-%   \midrule
-%   Slab thickness & 8     & cm      \\
-%   $\Sigma_t$     & 1.0   & 1/cm    \\
-%   $\Sigma_{s0}$  & 0.4   & 1/cm    \\
-%   $\Sigma_{s1}$  & 0.1   & 1/cm    \\
-%   $\Sigma_{s2}$  & 0.1   & 1/cm    \\
-%   $\Sigma_{s3}$  & 0.1   & 1/cm    \\
-%   q$_0$          & 1     & n/cm$^{3}$/s \\
-
-%   \bottomrule
-%   \end{tabular}
-%   \label{tab:parameters}
-% \end{table}
