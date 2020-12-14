@@ -111,7 +111,7 @@
 [Materials]
   [./cross_sections]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs3g/'
+    property_tables_root = 'xs3g/mhtgr_fuel_'
     interp_type = 'linear'
   [../]
 []

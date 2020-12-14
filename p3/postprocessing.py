@@ -105,7 +105,12 @@ file = 'input-3g-fixed_line_0001.csv'
 
 save = 'output-3g-crit'
 file = 'input-3g-crit_line_0001.csv'
-plotcsv_frommoose_multi(file, save, dire='x')
+# plotcsv_frommoose_multi(file, save, dire='x')
 
-# save = 'output3'
-# file = 'input3_line_0001.csv'
+save = 'output-3g-crit1'
+file = 'input-3g-crit1_line_0001.csv'
+# plotcsv_frommoose_multi(file, save, dire='x')
+
+save = 'output-3g-crit2'
+file = 'input-3g-crit2_line_0001.csv'
+plotcsv_frommoose_multi(file, save, dire='y')

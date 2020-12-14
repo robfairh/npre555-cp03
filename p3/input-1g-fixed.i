@@ -10,7 +10,7 @@
 [Mesh]
   type = GeneratedMesh
   dim = 1
-  xmax = 5.
+  xmax = 50.
   nx = 100
   elem_type = EDGE2
 []
@@ -147,7 +147,7 @@
     type = LineValueSampler
     variable = 'flux0 flux2'
     start_point = '0 0 0'
-    end_point = '5 0 0'
+    end_point = '50 0 0'
     sort_by = x
     num_points = 100
     execute_on = timestep_end

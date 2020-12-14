@@ -5,6 +5,7 @@ input-1g-fixed.i
 - Moltres diffusion kernels
 - 1 group
 - Fixed source
+- xmax = 50
 
 input-diff.i
 - Moltres diffusion kernels to solve P3
@@ -16,7 +17,7 @@ input-1g-crit.i
 - 1 group
 - Criticality source
 - xmax = 200
-- keff = 1.052780e+00
+- keff = 1.05278137e+00
 
 input-3g-fixed.i:
 - Moltres diffusion kernels
@@ -28,19 +29,19 @@ input-3g-crit.i:
 - Moltres diffusion kernels
 - 3 group
 - Criticality source
-- xmax = 250, nx = 500
-- keff = 1.01058340e+00
+- xmax = 300, nx = 500
+- keff = 1.02877615e+00
 
-input2.i
+input-3g-crit1.i:
 - Moltres diffusion kernels
 - 3 group
 - Criticality source
 - xmax = 793, nx = 500
-- keff = 1.065277e+00
+- keff = 1.06527761e+00
 
-input3.i
+input-3g-crit2.i:
 - Moltres diffusion kernels
 - 3 group
 - Criticality source
 - adds bottom and top reflectors
-- keff = 1.073377e+00
+- keff = 1.07344588e+00

@@ -251,7 +251,7 @@
 [BCs]
   [./vacuum_fluxA_1]
     type = P3VacuumBC
-    boundary = 'left right'
+    boundary = 'ref_bot ref_top'
     variable = flux0_1
     second_flux = flux2_1
     val1 = 0.5
@@ -259,7 +259,7 @@
   [../]
   [./vacuum_fluxA_2]
     type = P3VacuumBC
-    boundary = 'left right'
+    boundary = 'ref_bot ref_top'
     variable = flux0_2
     second_flux = flux2_2
     val1 = 0.5
@@ -267,7 +267,7 @@
   [../]
   [./vacuum_fluxA_3]
     type = P3VacuumBC
-    boundary = 'left right'
+    boundary = 'ref_bot ref_top'
     variable = flux0_3
     second_flux = flux2_3
     val1 = 0.5
@@ -276,7 +276,7 @@
 
   [./vacuum_fluxB_1]
     type = P3VacuumBC
-    boundary = 'left right'
+    boundary = 'ref_bot ref_top'
     variable = flux2_1
     second_flux = flux0_1
     val1 = 0.525
@@ -284,7 +284,7 @@
   [../]
   [./vacuum_fluxB_2]
     type = P3VacuumBC
-    boundary = 'left right'
+    boundary = 'ref_bot ref_top'
     variable = flux2_2
     second_flux = flux0_2
     val1 = 0.525
@@ -292,7 +292,7 @@
   [../]
   [./vacuum_fluxB_3]
     type = P3VacuumBC
-    boundary = 'left right'
+    boundary = 'ref_bot ref_top'
     variable = flux2_3
     second_flux = flux0_3
     val1 = 0.525
@@ -301,12 +301,24 @@
 []
 
 [Materials]
-  [./cross_sections]
+  [./fuel_constants]
     type = GenericMoltresMaterial
     property_tables_root = 'xs3g/mhtgr_fuel_'
-    # interp_type = 'linear'
     interp_type = 'none'
+    block = 'fuel'
   [../]
+  [./brefl_constants]
+    type = GenericMoltresMaterial
+    property_tables_root = 'xs3g/mhtgr_brefl_'
+    interp_type = 'none'
+    block = 'breflector'
+  [../]
+  [./trefl_constants]
+    type = GenericMoltresMaterial
+    property_tables_root = 'xs3g/mhtgr_trefl_'
+    interp_type = 'none'
+    block = 'treflector'
+  [../]  
 []
 
 [Preconditioning]
@@ -318,7 +330,7 @@
 
 [Executioner]
   type = InversePowerMethod
-  max_power_iterations = 150
+  max_power_iterations = 200
   xdiff = 'group1diff'
 
   bx_norm = 'bnorm'
@@ -326,14 +338,14 @@
   pfactor = 1e-4
   l_max_its = 300
 
-  # eig_check_tol = 1e-09
+  eig_check_tol = 1e-08
   sol_check_tol = 1e-08
 
   # solve_type = 'NEWTON' # needs the Jacobians
   # solve_type = 'JFNK' # doesn't need the Jacobians
   solve_type = 'PJFNK' # doesn't need the Jacobians
-  petsc_options = '-snes_converged_reason -ksp_converged_reason -snes_linesearch_monitor'
 
+  petsc_options = '-snes_converged_reason -ksp_converged_reason -snes_linesearch_monitor'
   petsc_options_iname = '-pc_type -sub_pc_type'
   petsc_options_value = 'asm lu'
 
@@ -357,7 +369,7 @@
 [Outputs]
   perf_graph = true
   print_linear_residuals = true
-  file_base = 'input-3g-crit'
+  file_base = 'input-3g-crit2'
   execute_on = timestep_end
   exodus = true
   csv = true
@@ -372,9 +384,9 @@
     type = LineValueSampler
     variable = 'flux0_1 flux0_2 flux0_3 flux2_1 flux2_2 flux2_3'
     start_point = '0 0 0'
-    end_point = '250 0 0'
-    sort_by = x
-    num_points = 100
+    end_point = '0 1073 0'
+    sort_by = y
+    num_points = 500
     execute_on = timestep_end
   [../]
 []

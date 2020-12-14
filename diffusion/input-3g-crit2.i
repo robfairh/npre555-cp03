@@ -10,12 +10,18 @@
 []
 
 [Mesh]
-  type = GeneratedMesh
-  dim = 1
-  xmax = 793.
-  nx = 500
-  elem_type = EDGE2
-[]
+  [mymesh]
+    type = FileMeshGenerator
+    file = '1D-fuel-reflec.msh'
+  [../]
+  [./add_side_sets]
+    type = SideSetsFromPointsGenerator
+    input = mymesh
+    points = '0    0  0
+              0  1073  0'
+    new_boundary = 'ref_bot ref_top'
+  [../]
+[../]
 
 [Variables]
   [./flux1]
@@ -103,27 +109,40 @@
 [BCs]
   [./vacuum1]
     type = VacuumConcBC
-    boundary = 'left right'
+    boundary = 'ref_bot ref_top'
     variable = flux1
   [../]
   [./vacuum2]
     type = VacuumConcBC
-    boundary = 'left right'
+    boundary = 'ref_bot ref_top'
     variable = flux2
   [../]
   [./vacuum3]
     type = VacuumConcBC
-    boundary = 'left right'
+    boundary = 'ref_bot ref_top'
     variable = flux3
   [../]  
 []
 
 [Materials]
-  [./cross_sections]
+  [./fuel_constants]
     type = GenericMoltresMaterial
     property_tables_root = 'xs3g/mhtgr_fuel_'
-    interp_type = 'linear'
+    interp_type = 'none'
+    block = 'fuel'
   [../]
+  [./brefl_constants]
+    type = GenericMoltresMaterial
+    property_tables_root = 'xs3g/mhtgr_brefl_'
+    interp_type = 'none'
+    block = 'breflector'
+  [../]
+  [./trefl_constants]
+    type = GenericMoltresMaterial
+    property_tables_root = 'xs3g/mhtgr_trefl_'
+    interp_type = 'none'
+    block = 'treflector'
+  [../]  
 []
 
 [Preconditioning]
@@ -135,7 +154,7 @@
 
 [Executioner]
   type = InversePowerMethod
-  max_power_iterations = 150
+  max_power_iterations = 200
   xdiff = 'group1diff'
 
   bx_norm = 'bnorm'
@@ -143,11 +162,11 @@
   pfactor = 1e-4
   l_max_its = 300
 
-  # eig_check_tol = 1e-09
-  # sol_check_tol = 1e-08
+  eig_check_tol = 1e-08
+  sol_check_tol = 1e-08
 
   solve_type = 'NEWTON'
-  # solve_type = 'JFNK'
+
   petsc_options = '-snes_converged_reason -ksp_converged_reason -snes_linesearch_monitor'
   petsc_options_iname = '-pc_type -sub_pc_type'
   petsc_options_value = 'asm lu'
@@ -169,7 +188,7 @@
 [Outputs]
   perf_graph = true
   print_linear_residuals = true
-  file_base = 'input2'
+  file_base = 'input-3g-crit2'
   execute_on = timestep_end
   exodus = true
   csv = true
@@ -184,9 +203,9 @@
     type = LineValueSampler
     variable = 'flux1 flux2 flux3'
     start_point = '0 0 0'
-    end_point = '793 0 0'
-    sort_by = x
-    num_points = 100
+    end_point = '0 1073 0'
+    sort_by = y
+    num_points = 500
     execute_on = timestep_end
   [../]
 []

@@ -19,7 +19,8 @@ echo 'fuel 9' >> universeMapping
 echo 'trefl B' >> universeMapping
 echo 'brefl T' >> universeMapping
 
-$MOLTRES/python/extractSerpent2GCs.py xs3g mhtgr tempMapping secBranch universeMapping
+mkdir xs3gB
+$MOLTRES/python/extractSerpent2GCs.py xs3gB mhtgr tempMapping secBranch universeMapping
 
 rm fuel.coe
 rm brefl.coe

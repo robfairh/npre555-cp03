@@ -10,18 +10,12 @@
 []
 
 [Mesh]
-  [mymesh]
-    type = FileMeshGenerator
-    file = '1D-fuel-reflec.msh'
-  [../]
-  [./add_side_sets]
-    type = SideSetsFromPointsGenerator
-    input = mymesh
-    points = '0    0  0
-              0  1073  0'
-    new_boundary = 'ref_bot ref_top'
-  [../]
-[../]
+  type = GeneratedMesh
+  dim = 1
+  xmax = 793.
+  nx = 500
+  elem_type = EDGE2
+[]
 
 [Variables]
   [./flux1]
@@ -109,40 +103,27 @@
 [BCs]
   [./vacuum1]
     type = VacuumConcBC
-    boundary = 'ref_bot ref_top'
+    boundary = 'left right'
     variable = flux1
   [../]
   [./vacuum2]
     type = VacuumConcBC
-    boundary = 'ref_bot ref_top'
+    boundary = 'left right'
     variable = flux2
   [../]
   [./vacuum3]
     type = VacuumConcBC
-    boundary = 'ref_bot ref_top'
+    boundary = 'left right'
     variable = flux3
   [../]  
 []
 
 [Materials]
-  [./fuel_constants]
+  [./cross_sections]
     type = GenericMoltresMaterial
     property_tables_root = 'xs3g/mhtgr_fuel_'
-    interp_type = 'none'
-    block = 'fuel'
+    interp_type = 'linear'
   [../]
-  [./brefl_constants]
-    type = GenericMoltresMaterial
-    property_tables_root = 'xs3g/mhtgr_brefl_'
-    interp_type = 'none'
-    block = 'breflector'
-  [../]
-  [./trefl_constants]
-    type = GenericMoltresMaterial
-    property_tables_root = 'xs3g/mhtgr_trefl_'
-    interp_type = 'none'
-    block = 'treflector'
-  [../]  
 []
 
 [Preconditioning]
@@ -163,7 +144,7 @@
   l_max_its = 300
 
   # eig_check_tol = 1e-09
-  # sol_check_tol = 1e-08
+  sol_check_tol = 1e-08
 
   solve_type = 'NEWTON'
   # solve_type = 'JFNK'
@@ -188,7 +169,7 @@
 [Outputs]
   perf_graph = true
   print_linear_residuals = true
-  file_base = 'input3'
+  file_base = 'input-3g-crit1'
   execute_on = timestep_end
   exodus = true
   csv = true
@@ -203,8 +184,8 @@
     type = LineValueSampler
     variable = 'flux1 flux2 flux3'
     start_point = '0 0 0'
-    end_point = '0 1073 0'
-    sort_by = y
+    end_point = '793 0 0'
+    sort_by = x
     num_points = 100
     execute_on = timestep_end
   [../]

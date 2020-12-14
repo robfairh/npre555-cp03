@@ -12,7 +12,7 @@
 [Mesh]
   type = GeneratedMesh
   dim = 1
-  xmax = 250.
+  xmax = 300.
   nx = 500
   elem_type = EDGE2
 []
@@ -121,7 +121,7 @@
 [Materials]
   [./cross_sections]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs3g/'
+    property_tables_root = 'xs3g/mhtgr_fuel_'
     interp_type = 'linear'
   [../]
 []
@@ -144,7 +144,7 @@
   l_max_its = 300
 
   # eig_check_tol = 1e-09
-  # sol_check_tol = 1e-08
+  sol_check_tol = 1e-08
 
   solve_type = 'NEWTON'
   # solve_type = 'JFNK'
@@ -184,7 +184,7 @@
     type = LineValueSampler
     variable = 'flux1 flux2 flux3'
     start_point = '0 0 0'
-    end_point = '250 0 0'
+    end_point = '300 0 0'
     sort_by = x
     num_points = 100
     execute_on = timestep_end

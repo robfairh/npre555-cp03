@@ -9,7 +9,7 @@
 [Mesh]
   type = GeneratedMesh
   dim = 1
-  xmax = 250.
+  xmax = 793
   nx = 500
   elem_type = EDGE2
 []
@@ -326,8 +326,8 @@
   # solve_type = 'NEWTON' # needs the Jacobians
   # solve_type = 'JFNK' # doesn't need the Jacobians
   solve_type = 'PJFNK' # doesn't need the Jacobians
-  petsc_options = '-snes_converged_reason -ksp_converged_reason -snes_linesearch_monitor'
 
+  petsc_options = '-snes_converged_reason -ksp_converged_reason -snes_linesearch_monitor'
   petsc_options_iname = '-pc_type -sub_pc_type'
   petsc_options_value = 'asm lu'
 
@@ -351,7 +351,7 @@
 [Outputs]
   perf_graph = true
   print_linear_residuals = true
-  file_base = 'input-3g-crit'
+  file_base = 'input-3g-crit1'
   execute_on = timestep_end
   exodus = true
   csv = true
@@ -366,7 +366,7 @@
     type = LineValueSampler
     variable = 'flux0_1 flux0_2 flux0_3 flux2_1 flux2_2 flux2_3'
     start_point = '0 0 0'
-    end_point = '250 0 0'
+    end_point = '793 0 0'
     sort_by = x
     num_points = 100
     execute_on = timestep_end
