@@ -9,20 +9,21 @@ input-1g-fixed.i:
 - xs1g
 
 input-1g-crit.i:
-- P3 kernels
+- P3moltres4 kernels
 - 1 group
 - Criticality source
 - xmax = 200
 - keff = 1.06003541e+00
 
-
-
-
 input-3g-fixed.i:
-- P3 kernels
+- P3moltres4 kernels
 - 3 group
 - Fixed source
 - xmax = 50
+
+
+
+
 
 input-3g-crit1.i:
 - P3 kernels
