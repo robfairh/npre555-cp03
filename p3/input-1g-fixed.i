@@ -1,4 +1,12 @@
 
+[GlobalParams]
+  num_groups = 1
+  num_precursor_groups = 8
+  flux0_groups = 'flux0'
+  flux2_groups = 'flux2'
+  temperature = 300
+[]
+
 [Mesh]
   type = GeneratedMesh
   dim = 1
@@ -21,21 +29,24 @@
 []
 
 [Kernels]
+  # Eq A group 1
   [./diff_flux0]
     type = P3Diffusion
     variable = flux0
-    diffcoef = 1.1204649917687304
+    group_number = 1
+    equation_number = 0
   [../]
   [./sigma_r0_flux0]
     type = P3SigmaR
     variable = flux0
-    remxs = 0.0036538102433835706
+    group_number = 1
+    equation_number = 0
   [../]
   [./sigma_r0_flux2]
     type = P3SigmaCoupled
     variable = flux0
-    second_flux = flux2
-    val = -0.007307620486767141
+    group_number = 1
+    equation_number = 0
   [../]
   [./source0]
     type = BodyForce
@@ -46,18 +57,20 @@
   [./diff_flux1]
     type = P3Diffusion
     variable = flux2
-    diffcoef = 0.8128104526665887
+    group_number = 1
+    equation_number = 1
   [../]
   [./sigma_r1_flux2]
     type = P3SigmaR
     variable = flux2
-    remxs = 0.3178407885712954
+    group_number = 1
+    equation_number = 1
   [../]
   [./sigma_r1_flux0]
     type = P3SigmaCoupled
     variable = flux2
-    second_flux = flux0
-    val = -0.0014615240973534283
+    group_number = 1
+    equation_number = 1
   [../]
   [./source1]
     type = BodyForce
@@ -83,6 +96,14 @@
     second_flux = flux0
     val1 = 0.525
     val2 = -0.075
+  [../]
+[]
+
+[Materials]
+  [./cross_sections]
+    type = GenericMoltresMaterial
+    property_tables_root = 'xs1g/mhtgr_fuel_'
+    interp_type = 'none'
   [../]
 []
 

@@ -20,21 +20,14 @@ input-3g-fixed.i:
 - Fixed source
 - xmax = 50
 
-input-3g-crit.i:
-- P3 kernels
-- 3 group
-- Criticality source
-- xmax = 250, nx = 500
-- keff = 1.0076...
-
-input2.i
+input-3g-crit1.i:
 - P3 kernels
 - 3 group
 - Criticality source
 - xmax = 793, nx = 500
 - keff = 1.064918
 
-input3.i
+input-3g-crit2.i:
 - P3 kernels
 - 3 group
 - Criticality source
