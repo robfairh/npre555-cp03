@@ -2,10 +2,11 @@ input files:
 ------------
 
 input-1g-fixed.i:
-- P3 kernels
+- P3moltres4 kernels
 - 1 group
 - Fixed source
 - xmax = 5
+- xs1g
 
 input-1g-crit.i:
 - P3 kernels

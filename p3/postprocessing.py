@@ -91,8 +91,9 @@ def plotcsv_frommoose_multi(file, save, dire='x'):
     plt.close()
 
 
-save = 'output-1g-fixedB'
-file = 'input-1g-fixedB_line_0001.csv'
+save = 'output-1g-fixed'
+file = 'input-1g-fixed_line_0001.csv'
+plotcsv_frommoose_temp(file, save, dire='x')
 
 # save = 'output-1g-crit'
 # file = 'input-1g-crit_line_0001.csv'
