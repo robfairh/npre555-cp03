@@ -9,6 +9,7 @@
 \usepackage{hyperref}
 \usepackage{subfigure}
 \usepackage{booktabs}
+\include{acros}
 \def\thesection       {\arabic{section}}
 \def\thesubsection     {\thesection.\alph{subsection}}
 
@@ -27,6 +28,31 @@
 \section{Introduction}
 
 \section{MOOSE}
+
+MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
+In a nuclear reactor, several partial differential equations describe the physical behavior.
+These equations are typically nonlinear, and they are often coupled to each other.
+\gls{MOOSE} targets such systems and solves them in a fully coupled manner.
+
+% more details about MOOSE
+\gls{MOOSE} is an open-source FEM framework.
+The framework itself relies on LibMesh \cite{kirk_libmesh_2006} and PetSc \cite{balay_petsc_2016} for solving nonlinear equations.
+MOOSE applications define weak forms of the governing equations and modularize the physics expressions into "Kernels."
+Kernels are C++ classes containing methods for computing the residual and Jacobian contributions of individual pieces of the governing equations.
+\gls{MOOSE} and LibMesh translate them into residual and Jacobian functions.
+These functions become inputs into PetSc solution routines.
+
+\gls{MOOSE} utilizes the \gls{JFNK} method \cite{knoll_jacobian-free_2004} mathematical structure \cite{gaston_moose_2009}.
+\gls{JFNK} methods are synergistic combinations of Newton-type methods for superlinearly convergence of nonlinear equations and Krylov subspace methods for solving the Newton correction equations.
+The Jacobian-vector product links the two methods.
+JFNK methods compute such products approximately without forming and storing the elements of the true Jacobian.
+The ability to perform a Newton iteration without forming the Jacobian gives JFNK methods potential for application throughout problems governed by nonlinear partial differential equations.
+
+All the software built on the MOOSE framework shares the same \gls{API}.
+The applications, by default, utilize monolithic and implicit methods \cite{lindsay_introduction_2018}.
+This feature facilitates relatively easy coupling between different phenomena and allows for great flexibility, even with a great variance in time scales \cite{novak_pronghorn_2018}.
+Additionally, the framework and its applications use \gls{MPI} for parallel communication and allow deployment on massively-parallel cluster-computing platforms.
+
 
 \section{Simplified P$_3$: Mathematical Basis}
 
@@ -124,28 +150,35 @@ Variational formulation
 By means of the Gauss theorem (?), equations \ref{eq:SP3-0e} and \ref{eq:SP3-2e} become
 
 \begin{align}
-    & \left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right> + \left< - D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> + \left< - S_{0,g}, \Psi \right> = 0 \label{eq:SP3-0e} \\
-    & \left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right> + \left< - D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> + \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} D_{2,g}, \Psi \right> + \left< \frac{2}{5} S_{0,g}, \Psi \right> = 0. \label{eq:SP3-2e}
+    & \left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right> + \left< - D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> \\ &+ \left< - \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< - \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< - Q_{0,g}, \Psi \right> = 0 \label{eq:SP3-0e} \\
+    & \left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right> + \left< - D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> + \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g}, \Psi \right> \\ &+ \left< \frac{2}{5} \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< \frac{2}{5} \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< \frac{2}{5} Q_{0,g}, \Psi \right> = 0. \label{eq:SP3-2e}
 \end{align}
 
+Vacuum BCs kernels?
+
+\begin{align}
+    & \left< - D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} = \left< -\frac{1}{2} \Phi_{0,g} + \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC} \\
+    & \left< - D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} = \left< \frac{3}{40} \Phi_{0,g} - \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC} \\
+\end{align}
 
 % \usepackage{booktabs}
 \begin{table}[htbp!]
   \centering
   \caption{.}
-  \begin{tabular}{lc}
+  \begin{tabular}{lcc}
   \toprule
-  Kernel                & Variational form  \\
+  % multicolumn Variational form
+  Kernel                & Equation A & Equation B \\
   \midrule
-  P3Diffusion           & $\left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right>$ \\
-  P3SigmaR              &  \\
-  P3SigmaCoupled        &  \\
-  P3InScatter           &  \\
-  P3FissionEigenKernel  &  \\
+  P3Diffusion           & $\left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right>$ & $\left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right>$ \\
+  P3SigmaR              & $\left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right>$ & $\left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right>$ \\
+  P3SigmaCoupled        & $\left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right>$ & $\left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g}, \Psi \right>$ \\
+  P3InScatter           & $\left< - \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ & $\left< \frac{2}{5} \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
+  P3FissionEigenKernel  & $\left< - \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ & $\left< \frac{2}{5} \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
   \midrule
-  Boundary Condition Kernel & Variational form  \\
+  Boundary Condition Kernel & Equation A & Equation B \\
   \midrule
-  -          & - \\
+  Vacuum          & $\left< -\frac{1}{2} \Phi_{0,g} + \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC}$ & $\left< \frac{3}{40} \Phi_{0,g} - \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC}$ \\
   \bottomrule
   \end{tabular}
   \label{tab:parameters}
