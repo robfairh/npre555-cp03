@@ -1,4 +1,3 @@
-
 [GlobalParams]
   num_groups = 3
   num_precursor_groups = 8
@@ -10,8 +9,8 @@
 [Mesh]
   type = GeneratedMesh
   dim = 1
-  xmax = 50.
-  nx = 100
+  xmax = 300.
+  nx = 500
   elem_type = EDGE2
 []
 
@@ -75,10 +74,11 @@
     group_number = 1
     equation_number = 0
   [../]
-  [./source0_1]
-    type = BodyForce
+  [./fission_sourceA1]
+    type = P3FissionEigenKernel
     variable = flux0_1
-    value = 1
+    group_number = 1
+    equation_number = 0
   [../]
 
   # Eq A group 2
@@ -102,6 +102,12 @@
   [../]
   [./inscatter_flux2]
     type = P3InScatter
+    variable = flux0_2
+    group_number = 2
+    equation_number = 0
+  [../]
+  [./fission_sourceA2]
+    type = P3FissionEigenKernel
     variable = flux0_2
     group_number = 2
     equation_number = 0
@@ -132,6 +138,12 @@
     group_number = 3
     equation_number = 0
   [../]
+  [./fission_sourceA3]
+    type = P3FissionEigenKernel
+    variable = flux0_3
+    group_number = 3 
+    equation_number = 0
+  [../]
 
   # Eq B group 1
   [./diff_fluxB1]
@@ -158,12 +170,14 @@
     group_number = 1
     equation_number = 1
   [../]
-  [./sourceB]
-    type = BodyForce
+  [./fission_sourceB1]
+    type = P3FissionEigenKernel
     variable = flux2_1
-    value = -0.4
+    group_number = 1
+    equation_number = 1
   [../]
 
+  # Eq B group 2
   [./diff_fluxB2]
     type = P3Diffusion
     variable = flux2_2
@@ -188,7 +202,14 @@
     group_number = 2
     equation_number = 1
   [../]
+  [./fission_sourceB2]
+    type = P3FissionEigenKernel
+    variable = flux2_2
+    group_number = 2
+    equation_number = 1
+  [../]
 
+  # Eq B group 3
   [./diff_fluxB3]
     type = P3Diffusion
     variable = flux2_3
@@ -209,6 +230,12 @@
   [../]
   [./inscatter_fluxB3]
     type = P3InScatter
+    variable = flux2_3
+    group_number = 3
+    equation_number = 1
+  [../]
+  [./fission_sourceB3]
+    type = P3FissionEigenKernel
     variable = flux2_3
     group_number = 3
     equation_number = 1
@@ -276,29 +303,55 @@
   [../]
 []
 
-# [Preconditioning]
-#   [./SMP]
-#     type = SMP
-#     full = true
-#   [../]
-# []
+[Preconditioning]
+  [./SMP]
+    type = SMP
+    full = true
+  [../]
+[]
 
 [Executioner]
-  type = Steady
-  l_max_its = 100
-  nl_abs_tol = 1e-5
-  nl_max_its = 20
+  type = InversePowerMethod
+  max_power_iterations = 150
+  xdiff = 'group1diff'
+
+  bx_norm = 'bnorm'
+  k0 = 1.4
+  pfactor = 1e-4
+  l_max_its = 300
+
+  # eig_check_tol = 1e-09
+  sol_check_tol = 1e-08
+
+  # solve_type = 'NEWTON' # needs the Jacobians
+  # solve_type = 'JFNK' # doesn't need the Jacobians
+  solve_type = 'PJFNK' # doesn't need the Jacobians
 
   petsc_options = '-snes_converged_reason -ksp_converged_reason -snes_linesearch_monitor'
-  solve_type = 'PJFNK'
   petsc_options_iname = '-pc_type -sub_pc_type'
   petsc_options_value = 'asm lu'
+
+  # petsc_options_iname = '-pc_type -sub_ksp_type -snes_linesearch_minlambda'
+  # petsc_options_value = 'lu       preonly       1e-3'
+[]
+
+[Postprocessors]
+  [./bnorm]
+    type = ElmIntegTotFissNtsPostprocessor
+    execute_on = linear
+  [../]
+  [./group1diff]
+    type = ElementL2Diff
+    variable = flux0_1
+    execute_on = 'linear timestep_end'
+    use_displaced_mesh = false
+  [../]
 []
 
 [Outputs]
   perf_graph = true
   print_linear_residuals = true
-  file_base = 'input-3g-fixed'
+  file_base = 'input-3g-crit'
   execute_on = timestep_end
   exodus = true
   csv = true
@@ -313,7 +366,7 @@
     type = LineValueSampler
     variable = 'flux0_1 flux0_2 flux0_3 flux2_1 flux2_2 flux2_3'
     start_point = '0 0 0'
-    end_point = '50 0 0'
+    end_point = '300 0 0'
     sort_by = x
     num_points = 100
     execute_on = timestep_end
