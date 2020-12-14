@@ -29,7 +29,7 @@
 []
 
 [Kernels]
-  # Eq A group 1
+  # Eq A
   [./diff_flux0]
     type = P3Diffusion
     variable = flux0
@@ -54,6 +54,7 @@
     value = 1
   [../]
 
+  # Eq B
   [./diff_flux1]
     type = P3Diffusion
     variable = flux2

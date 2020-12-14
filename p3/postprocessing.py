@@ -106,4 +106,3 @@ plotcsv_frommoose_temp(file, save, dire='x')
 
 # save = 'output3'
 # file = 'input3_line_0001.csv'
-plotcsv_frommoose_temp(file, save, dire='x')
