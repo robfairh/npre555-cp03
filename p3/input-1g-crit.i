@@ -1,4 +1,12 @@
 
+[GlobalParams]
+  num_groups = 1
+  num_precursor_groups = 8
+  flux0_groups = 'flux0'
+  flux2_groups = 'flux2'
+  temperature = 300
+[]
+
 [Mesh]
   type = GeneratedMesh
   dim = 1
@@ -21,56 +29,56 @@
 []
 
 [Kernels]
+  # Eq A group 1
   [./diff_flux0]
     type = P3Diffusion
     variable = flux0
-    diffcoef = 1.1204649917687304
+    group_number = 1
+    equation_number = 0
   [../]
   [./sigma_r0_flux0]
     type = P3SigmaR
     variable = flux0
-    remxs = 0.0036538102433835706
+    group_number = 1
+    equation_number = 0
   [../]
   [./sigma_r0_flux2]
     type = P3SigmaCoupled
     variable = flux0
-    second_flux = flux2
-    val = -0.007307620486767141
+    group_number = 1
+    equation_number = 0
   [../]
   [./fission_source0]
     type = P3FissionEigenKernel
     variable = flux0
-    second_flux = flux2
-    chit = 1.0
-    nsf = 0.004151858528265707
-    val1 = 1
-    val2 = -2
+    group_number = 1
+    equation_number = 0
   [../]
 
+  # Eq B
   [./diff_flux1]
     type = P3Diffusion
     variable = flux2
-    diffcoef = 0.8128104526665887
+    group_number = 1
+    equation_number = 1
   [../]
   [./sigma_r1_flux2]
     type = P3SigmaR
     variable = flux2
-    remxs = 0.3178407885712954
+    group_number = 1
+    equation_number = 1
   [../]
   [./sigma_r1_flux0]
     type = P3SigmaCoupled
     variable = flux2
-    second_flux = flux0
-    val = -0.0014615240973534283
+    group_number = 1
+    equation_number = 1
   [../]
   [./fission_source1]
     type = P3FissionEigenKernel
     variable = flux2
-    second_flux = flux0
-    chit = 1.0
-    nsf = 0.004151858528265707
-    val1 = 0.8
-    val2 = -0.4
+    group_number = 1
+    equation_number = 1
   [../]
 []
 
@@ -91,6 +99,14 @@
     second_flux = flux0
     val1 = 0.525
     val2 = -0.075
+  [../]
+[]
+
+[Materials]
+  [./cross_sections]
+    type = GenericMoltresMaterial
+    property_tables_root = 'xs1g/mhtgr_fuel_'
+    interp_type = 'none'
   [../]
 []
 
@@ -115,7 +131,7 @@
   sol_check_tol = 1e-08
 
   # solve_type = 'NEWTON'
-  solve_type = 'JFNK'
+  solve_type = 'PJFNK'
   petsc_options = '-snes_converged_reason -ksp_converged_reason -snes_linesearch_monitor'
   petsc_options_iname = '-pc_type -sub_pc_type'
   petsc_options_value = 'asm lu'
@@ -127,7 +143,6 @@
     execute_on = linear
     first_flux = flux0
     second_flux = flux2
-    nsf = 0.004151858528265707
   [../]
   [./group1diff]
     type = ElementL2Diff
