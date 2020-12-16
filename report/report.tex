@@ -9,6 +9,9 @@
 \usepackage{hyperref}
 \usepackage{subfigure}
 \usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[acronym,toc]{glossaries}
+
 \include{acros}
 \def\thesection       {\arabic{section}}
 \def\thesubsection     {\thesection.\alph{subsection}}
@@ -27,7 +30,16 @@
 
 \section{Introduction}
 
-\section{MOOSE}
+For this project, I have implemented kernels in a MOOSE-based application to solve the SP3 transport method equations.
+This report presents the development of those kernels as well as results of one and two-dimensional models.
+Section \ref{sec:results1d} displays the results of the one-dimensional model and compares them against the diffusion solver in Moltres \cite{lindsay_introduction_2018}.
+Section \ref{sec:results2d} presents the results of a two-dimensional model of the C5 MOX Benchmark \cite{capilla_applications_2009}.
+
+\section{Methodology}
+
+This section of the report introduces different software utilized in the development of this work.
+
+\subsection{MOOSE}
 
 MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
 In a nuclear reactor, several partial differential equations describe the physical behavior.
@@ -37,24 +49,17 @@ These equations are typically nonlinear, and they are often coupled to each othe
 % more details about MOOSE
 \gls{MOOSE} is an open-source FEM framework.
 The framework itself relies on LibMesh \cite{kirk_libmesh_2006} and PetSc \cite{balay_petsc_2016} for solving nonlinear equations.
-MOOSE applications define weak forms of the governing equations and modularize the physics expressions into "Kernels."
+MOOSE applications define weak forms of the governing equations and modularize the physics expressions into "kernels."
 Kernels are C++ classes containing methods for computing the residual and Jacobian contributions of individual pieces of the governing equations.
 \gls{MOOSE} and LibMesh translate them into residual and Jacobian functions.
 These functions become inputs into PetSc solution routines.
 
-\gls{MOOSE} utilizes the \gls{JFNK} method \cite{knoll_jacobian-free_2004} mathematical structure \cite{gaston_moose_2009}.
-\gls{JFNK} methods are synergistic combinations of Newton-type methods for superlinearly convergence of nonlinear equations and Krylov subspace methods for solving the Newton correction equations.
-The Jacobian-vector product links the two methods.
-JFNK methods compute such products approximately without forming and storing the elements of the true Jacobian.
-The ability to perform a Newton iteration without forming the Jacobian gives JFNK methods potential for application throughout problems governed by nonlinear partial differential equations.
-
 All the software built on the MOOSE framework shares the same \gls{API}.
-The applications, by default, utilize monolithic and implicit methods \cite{lindsay_introduction_2018}.
-This feature facilitates relatively easy coupling between different phenomena and allows for great flexibility, even with a great variance in time scales \cite{novak_pronghorn_2018}.
+The applications, by default, utilize implicit methods \cite{lindsay_introduction_2018}.
+This feature facilitates relatively easy coupling between different phenomena \cite{novak_pronghorn_2018}.
 Additionally, the framework and its applications use \gls{MPI} for parallel communication and allow deployment on massively-parallel cluster-computing platforms.
 
-
-\section{Simplified P$_3$: Mathematical Basis}
+\subsection{Simplified P$_3$}
 
 One dimensional P$_3$ equations
 \cite{brantley_simplifiedP3_2000}
@@ -185,53 +190,184 @@ Vacuum BCs kernels?
 \end{table}
 
 
+\subsection{Moltres}
+
+\textit{Moltres} is a MOOSE-based application initially designed for modeling fluid-fuelled \glspl{MSR}.
+Moltres inherits all the attributes from MOOSE as its application.
+Moltres solves arbitrary-group neutron diffusion, delayed neutron precursor concentration, and temperature governing equations.
+It can solve the equations in a fully-coupled way or solve each system independently, allowing for great flexibility and making it applicable to a wide range of nuclear engineering problems.
+The development of this work utilized Moltres as a stand-alone neutronics solver, which calculates the scalar flux and the multiplication factor with the following equation
+
+\begin{align}
+  % diffusion-eigenvalue calculation
+  \nabla \cdot D_g \nabla \phi_g - \Sigma_g^r \phi_g & + \sum_{g' \ne g}^G \Sigma_{g'\rightarrow g}^s \phi_{g'} +
+  \chi_g^t \sum_{g' = 1}^G \frac{1}{k_{eff}}\nu \Sigma_{g'}^f \phi_{g'} + Q_g = 0 \label{eq:diffusion-eig}
+  \intertext{where}
+  & D_g = \mbox{group $g$ diffusion coefficient } [cm] \notag \\
+  & \phi_g = \mbox{group $g$ neutron flux } [n \cdot cm^{-2} \cdot s^{-1}] \notag \\
+  & \Sigma_g^r = \mbox{group $g$ macroscopic removal cross-section } [cm^{-1}] \notag \\
+  & \Sigma_{g'\rightarrow g}^s = \mbox{group $g'$ to group $g$ macroscopic scattering cross-section } [cm^{-1}] \notag \\
+  & \chi_t^p = \mbox{group $g$ total fission spectrum } [-] \notag\\
+  & G = \mbox{number of discrete energy groups } [-] \notag \\
+  & k_{eff} = \mbox{multiplication factor } [-] \notag \\
+  & \nu = \mbox{number of neutrons produced per fission } [-] \notag \\
+  & \Sigma_g^f = \mbox{group $g$ macroscopic fission cross-section } [cm^{-1}]. \notag
+  & Q_g = \mbox{group $g$ external neutron source } [n \cdot cm^{-3} \cdot s^{-1}]. \notag
+\end{align}
 
 
-% \subsection{Numerical method}
+\subsection{C5 MOX Benchmark}
 
-% Through some algebraic manipulation of Equations \ref{eq:P1-0} and \ref{eq:P1-1}, the method obtains the following equation.
-% The solver discretizes the equation with the finite difference method.
-% Equation \ref{eq:P1-1} combined with the boundary condition equations (Sections \ref{sec:p1-marshak} and \ref{sec:p1-mark}) allow to impose the boundary conditions on the numerical solution.
+The \gls{OECD}/\gls{NEA} developed this benchmark to carry out validation of methods and identify their strengths, limitations, and accuracy, and to suggest needs for method development.
+The definition of the original benchmark can be found in \cite{oecdnea_benchmark_2003}.
+Capilla et al \cite{capilla_applications_2009} developed a simplified version of the benchmark using a two-energy group structure.
 
-% \begin{align}
-%     & -\frac{d}{dx}\left(\frac{1}{3\Sigma_1} \frac{d}{dx}\phi_0 \right) + \Sigma_0 \phi_0 = q_0
-% \end{align}
+Figures \ref{res:2d-bench-config1} and \ref{res:2d-bench-config2} display the configuration of the benchmark exercise.
+Tables \ref{tab:bench-xs-het} and \ref{tab:bench-xs-hom} present the group constants necessary to carry out the exercise.
 
-% \subsection{P$_3$ approximation Marshak boundary condition}
-% \label{sec:p3-marshak}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{../C5G2-benchmark/bench-config}
+    \caption{2-D C5 MOX benchmark configuration. Image reproduced from \cite{capilla_applications_2009}.}
+    \label{res:2d-bench-config1}
+\end{figure}
 
-% \begin{align}
-%     & \frac{1}{2}\phi_0 (x=0) + \phi_1 (x=0) + \frac{5}{8}\phi_2 (x=0) = 0   \\
-%     & -\frac{1}{8}\phi_0 (x=0) + \frac{5}{8}\phi_2 (x=0) + \phi_3 (x=0) = 0  \\
-%     & -\frac{1}{2}\phi_0 (x=L) + \phi_1 (x=L) - \frac{5}{8}\phi_2 (x=L) = 0  \\
-%     & \frac{1}{8}\phi_0 (x=L) - \frac{5}{8}\phi_2 (x=L) + \phi_3 (x=L) = 0
-% \end{align}
-% \subsection{P$_3$ approximation Mark boundary condition}
-% \label{sec:p3-mark}
-% \begin{align}
-%     & \frac{1}{2}\phi_0 (x=0) P_0(\mu_0) + \frac{3}{2}\phi_1 (x=0) P_1(\mu_0) + \frac{5}{2}\phi_2 (x=0) P_2(\mu_0) + \frac{7}{2}\phi_3 (x=0) P_3(\mu_0) = 0  \\
-%     & \frac{1}{2}\phi_0 (x=0) P_0(\mu_1) + \frac{3}{2}\phi_1 (x=0) P_1(\mu_1) + \frac{5}{2}\phi_2 (x=0) P_2(\mu_1) + \frac{7}{2}\phi_3 (x=0) P_3(\mu_1) = 0  \\
-%     & \frac{1}{2}\phi_0 (x=L) P_0(\mu_2) + \frac{3}{2}\phi_1 (x=L) P_1(\mu_2) + \frac{5}{2}\phi_2 (x=L) P_2(\mu_2) + \frac{7}{2}\phi_3 (x=L) P_3(\mu_2) = 0  \\
-%     & \frac{1}{2}\phi_0 (x=L) P_0(\mu_3) + \frac{3}{2}\phi_1 (x=L) P_1(\mu_3) + \frac{5}{2}\phi_2 (x=L) P_2(\mu_3) + \frac{7}{2}\phi_3 (x=L) P_3(\mu_3) = 0  \\
-%     \intertext{where}
-%     & P_0(\mu) = 1    \notag \\
-%     & P_1(\mu) = \mu  \notag \\
-%     & P_2(\mu) = \frac{1}{2} (3\mu^2-1)    \notag \\
-%     & P_3(\mu) = \frac{1}{2} (5\mu^3-\mu)  \notag \\
-%     & \mu_{0,1,2,3} = [ 0.86114, 0.33998, -0.33998, -0.86114 ] \notag
-% \end{align}
-% \subsection{Numerical method}
-% Through some algebraic manipulation of Equations \ref{eq:P3-0} to \ref{eq:P3-3}, the method obtains the following equations.
-% The solver discretizes the equations with the finite difference method.
-% To solution of the coupled system used an explicit solver based on the previous iteration solution, requiring an iterative solver.
-% The convergence criteria was an $L_2$-norm of the relative difference between fluxes smaller than $1 \times 10^{-6}$.
-% Equations \ref{eq:P3-1} and \ref{eq:P3-3} combined with the boundary condition equations (Sections \ref{sec:p3-marshak} and \ref{sec:p3-mark}) allow to impose the boundary conditions on the numerical solution.
-% \begin{align}
-%     & -\frac{d}{dx}\left(\frac{1}{3\Sigma_1} \frac{d}{dx}\phi_0 + \frac{2}{3\Sigma_1} \frac{d}{dx}\phi_2 \right) + \Sigma_0 \phi_0 = q_0   \\
-%     & -\frac{d}{dx}\left(\frac{2}{3\Sigma_1} \frac{d}{dx}\phi_0 + \left(\frac{4}{3\Sigma_1} + \frac{9}{7\Sigma_3} \right) \frac{d}{dx}\phi_2 \right) + 5 \Sigma_2 \phi_2 = 0
-% \end{align}
+\begin{figure}[htbp!]
+    \centering
+    \subfigure[UO$_2$ assembly.]{\includegraphics[width=0.45\textwidth]{../C5G2-benchmark/bench-config2}}
+    \subfigure[MOX assembly.]{\includegraphics[width=0.45\textwidth]{../C5G2-benchmark/bench-config3}}
+    \caption{Structure of the UO$_2$ and MOX assemblies. Images reproduced from \cite{capilla_applications_2009}.}
+    \label{res:2d-bench-config2}
+\end{figure}
+
+\begin{table}[htbp!]
+\centering
+\caption{Two-group cross-sections [$cm^{-1}$] for the heterogeneous problem.}
+\begin{tabular}{lccccc}
+\toprule
+Pin cell type & Group & $\Sigma_t$ & $\nu \Sigma_f$ & $\Sigma_{s0, 1 \rightarrow g}$ & $\Sigma_{s0, 2 \rightarrow g}$ \\
+\midrule
+4.3\% MOX       & 1     & 0.550      & 0.0075         & 0.520                         & 0.000                         \\
+                & 2     & 1.100      & 0.3000         & 0.015                         & 0.900                         \\
+
+7.0\% MOX       & 1     & 0.550      & 0.0075         & 0.520                         & 0.000                         \\
+                & 2     & 1.010      & 0.3750         & 0.015                         & 0.760                         \\
+
+8.7\% MOX       & 1     & 0.550      & 0.0075         & 0.520                         & 0.000                         \\
+                & 2     & 1.060      & 0.4500         & 0.015                         & 0.760                         \\
+
+UO$_2$          & 1     & 0.570      & 0.0050         & 0.540                         & 0.000                         \\
+                & 2     & 1.100      & 0.1250         & 0.020                         & 1.000                         \\
+
+Guide tube      & 1     & 0.586      & 0.0000         & 0.560                         & 0.000                         \\
+                & 2     & 1.220      & 0.0000         & 0.025                         & 1.200                         \\
+
+Reflector       & 1     & 0.611      & 0.0000         & 0.560                         & 0.000                         \\
+                & 2     & 2.340      & 0.0000         & 0.050                         & 2.300                         \\
+
+Fission chamber & 1     & 0.586      & $10^{-7}$      & 0.560                         & 0.000                         \\
+                & 2     & 1.220      & 3 $\times 10^{-6}$   & 0.025                   & 1.200                         \\
+\bottomrule
+\end{tabular}
+\label{tab:bench-xs-het}
+\end{table}
+
+\begin{table}[htbp!]
+\centering
+\caption{Two-group cross-sections [$cm^{-1}$] for the heterogeneous problem.}
+\begin{tabular}{lccccc}
+\toprule
+Pin cell type & Group & $\Sigma_t$ & $\nu \Sigma_f$ & $\Sigma_{s0, 1 \rightarrow g}$ & $\Sigma_{s0, 2 \rightarrow g}$ \\
+\midrule
+MOX       & 1     & 0.553087      & 0.006857     & 0.523430     & 0.000000                     \\
+          & 2     & 1.068911      & 0.340391     & 0.016089     & 0.839806                     \\
+
+UO$_2$    & 1     & 0.571360      & 0.004575     & 0.541700     & 0.000000                     \\
+          & 2     & 1.111391      & 0.113135     & 0.020475     & 1.018984                     \\
+
+\bottomrule
+\end{tabular}
+\label{tab:bench-xs-hom}
+\end{table}
+
 
 \section{Results}
+
+\subsection{1-D test case}
+\label{sec:results1d}
+
+Figure \ref{res:1d-fixed} displays the neutron flux for one and three energy groups for a fixed source case.
+Figure \ref{res:1d-crit} shows the neutron flux for one and three energy groups for an eigenvalue problem.
+Table \ref{tab:1d-keff} compares the eigenvalue obtained with the SP3 and the diffusion solvers by calculating their difference with the formula
+\begin{align}
+  & \Delta_\rho = \left| \rho_{P_3} - \rho_{Ref} \right| = \left| \frac{k_{P_3}-1}{k_{P_3}} - \frac{k_{Ref}-1}{k_{Ref}} \right| = \left| \frac{k_{P_3}-k_{Ref}}{k_{P_3} k_{Ref}} \right| \label{eq:delta-rho} \\
+  \intertext{where}
+  & k_{P_3} = \mbox{eigenvalue obtained with SP3 solver} [-] \notag \\
+  & k_{Ref} = \mbox{eigenvalue obtained with diffusion solver} [-]. \notag
+\end{align}
+
+% Fixed source
+\begin{figure}[htbp!]
+    \centering
+    \subfigure[1 group.]{\includegraphics[width=0.45\textwidth]{../output-1g-fixed}}
+    \subfigure[3 groups.]{\includegraphics[width=0.45\textwidth]{../output-3g-fixed}}
+    \caption{Comparison of the scalar flux obtained with the SP3 and diffusion solvers for the fixed source case.}
+    \label{res:1d-fixed}
+\end{figure}
+
+% Criticality source
+\begin{figure}[htbp!]
+    \centering
+    \subfigure[1 group.]{\includegraphics[width=0.45\textwidth]{../output-1g-crit}}
+    \subfigure[3 groups.]{\includegraphics[width=0.45\textwidth]{../output-3g-crit}}
+    \caption{Comparison of the scalar flux obtained with the SP3 and diffusion solvers for the eigenvalues problem.}
+    \label{res:1d-crit}
+\end{figure}
+
+% \usepackage{multirow}
+\begin{table}[htbp!]
+\centering
+\caption{Comparison between the eigenvalue obtained with the SP3 and diffusion solvers.}
+\begin{tabular}{lcccccc}
+\toprule
+ & Moltres      & \multicolumn{2}{c}{P3}          \\
+ & $k_{eff}$    & $k_{eff}$ & $\Delta_\rho$ [pcm] \\
+\midrule
+1 & 1.05278     & 1.06004   & 650 \\
+3 & 1.02878     & 1.03005   & 21  \\
+\bottomrule
+\end{tabular}
+\label{tab:1d-keff}
+\end{table}
+
+\subsection{2-D test case}
+\label{sec:results2d}
+
+Figure \ref{res:2d-bench} displays the scalar flux of the C5G2 MOX Benchmark.
+Table \ref{tab:2d-keff} compares the eigenvalue obtained with the SP3 solver ($k_{P_3}$) and the results in \cite{capilla_applications_2009} ($k_{Ref}$) by using equation \ref{eq:delta-rho}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.45\textwidth]{../C5G2-benchmark/output-2g}
+    \caption{Scalar flux on line between points (0, 10.71) and (64.26, 10.71). HOM: homogeneous case, HET: heterogeneous case.}
+    \label{res:2d-bench}
+\end{figure}
+
+% \usepackage{multirow}
+\begin{table}[htbp!]
+\centering
+\caption{Comparison between the eigenvalue obtained with the SP3 solver and the results in \cite{capilla_applications_2009}.}
+\begin{tabular}{lcccccc}
+\toprule
+ & C5G2 Benchmark      & \multicolumn{2}{c}{P3}          \\
+ & $k_{Ref}$           & $k_{eff}$ & $\Delta_\rho$ [pcm] \\
+\midrule
+Heterogeneous & 0.96969  & 0.97106  & 145  \\
+Homogeneous   & 0.96983  & 0.97761  & 821  \\
+\bottomrule
+\end{tabular}
+\label{tab:2d-keff}
+\end{table}
 
 \section{Conclusions}
 
@@ -239,29 +375,3 @@ Vacuum BCs kernels?
 \bibliographystyle{plain}
 \bibliography{bibliography}
 \end{document}
-
-% \begin{figure}[h!]
-%         \centering
-%         \includegraphics[width=8cm,height=8cm,keepaspectratio]{AnalyticalSine1.png}
-%         \caption{Analytical solution of $P(t)$ for the sinusoidal reactivity in eq. \ref{sine1rho}.}
-%         \label{AnalyticSine}
-% \end{figure}
-
-% \begin{figure}[h!]
-%         \centering
-%         \subfigure[Solved using FE.]{\includegraphics[width=8cm,height=8cm,keepaspectratio]{output6FE2b.png}}       
-%         \subfigure[Solved using BE.]{\includegraphics[width=8cm,height=8cm,keepaspectratio]{output6BE2b.png}}
-%         \caption{Power response for the sinusoidal reactivity in eq. \ref{sine2rho} for 6 Groups, $\Delta t = 1 ms$.}
-%         \label{Output6-2b}
-% \end{figure}
-
-% \begin{align}
-%     0 &= D \nabla^2 \phi - \Sigma_a \phi + \nu \Sigma_f \phi \label{eq:diffusion} \\
-%     D &\simeq \frac{1}{3 \Sigma_t}    \notag
-%     \intertext{where}
-%     D &= \mbox{Diffusion coefficient} \notag \\
-%     \Sigma_t &= \mbox{Macroscopic total cross-section} \notag \\
-%     \Sigma_a &= \mbox{Macroscopic absorption cross-section} \notag \\
-%     \Sigma_f &= \mbox{Macroscopic fission cross-section} \notag \\
-%     \nu  &= \mbox{Average number of neutrons born by fission.} \notag \\
-% \end{align}
