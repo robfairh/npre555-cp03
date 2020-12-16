@@ -35,7 +35,7 @@ def plotcsv_frommoose_1G(file, save, diff=True, fix=True, dire='x'):
         flux0 = np.array(file['flux0'].tolist())
         flux2 = np.array(file['flux2'].tolist())
         flux = flux0 - 2*flux2
-        legend = 'P3'
+        legend = 'SP3'
     
     if fix is False:
         flux /= max(flux)
@@ -78,11 +78,12 @@ def plotcsv_frommoose_multi(file, save, diff=True, fix=True, G=3, dire='x'):
             flux0 = np.array(file['flux0_'+str(g+1)].tolist())
             flux2 = np.array(file['flux2_'+str(g+1)].tolist())
             flux = flux0 - 2*flux2
-            legend = 'P3'
+            legend = 'SP3'
 
-        if fix is False and g == 0:
-            M = max(flux)
-        flux /= M
+        if fix is False:
+            if g == 0:
+                M = max(flux)
+            flux /= M
         plt.plot(d, flux, label=legend+', g='+str(g+1))
 
     plt.legend(loc='upper right')
@@ -90,34 +91,42 @@ def plotcsv_frommoose_multi(file, save, diff=True, fix=True, G=3, dire='x'):
     plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$')
 
 
-# save = 'output-1g-fixed'
-# plt.figure()
-# file = 'p3/input-1g-fixed_line_0001.csv'
-# plotcsv_frommoose_1G(file, save, diff=False, fix=True, dire='x')
-# file = 'diffusion/input-1g-fixed_line_0001.csv'
-# plotcsv_frommoose_1G(file, save, diff=True, fix=True, dire='x')
-# plt.savefig(save, dpi=300, bbox_inches="tight")
+save = 'output-1g-fixed'
+plt.figure()
+file = 'p3/input-1g-fixed_line_0001.csv'
+plotcsv_frommoose_1G(file, save, diff=False, fix=True, dire='x')
+file = 'diffusion/input-1g-fixed_line_0001.csv'
+plotcsv_frommoose_1G(file, save, diff=True, fix=True, dire='x')
+plt.savefig(save, dpi=300, bbox_inches="tight")
 
-# save = 'output-1g-crit'
-# plt.figure()
-# file = 'p3/input-1g-crit_line_0001.csv'
-# plotcsv_frommoose_1G(file, save, diff=False, fix=False, dire='x')
-# file = 'diffusion/input-1g-crit_line_0001.csv'
-# plotcsv_frommoose_1G(file, save, diff=True, fix=False, dire='x')
-# plt.savefig(save, dpi=300, bbox_inches="tight")
+save = 'output-1g-crit'
+plt.figure()
+file = 'p3/input-1g-crit_line_0001.csv'
+plotcsv_frommoose_1G(file, save, diff=False, fix=False, dire='x')
+file = 'diffusion/input-1g-crit_line_0001.csv'
+plotcsv_frommoose_1G(file, save, diff=True, fix=False, dire='x')
+plt.savefig(save, dpi=300, bbox_inches="tight")
 
-# save = 'output-3g-fixed'
-# plt.figure()
-# file = 'p3/input-3g-fixed_line_0001.csv'
-# plotcsv_frommoose_multi(file, save, diff=False, fix=True, dire='x')
-# file = 'diffusion/input-3g-fixed_line_0001.csv'
-# plotcsv_frommoose_multi(file, save, diff=True, fix=True, dire='x')
-# plt.savefig(save, dpi=300, bbox_inches="tight")
+save = 'output-3g-fixed'
+plt.figure()
+file = 'p3/input-3g-fixed_line_0001.csv'
+plotcsv_frommoose_multi(file, save, diff=False, fix=True, dire='x')
+file = 'diffusion/input-3g-fixed_line_0001.csv'
+plotcsv_frommoose_multi(file, save, diff=True, fix=True, dire='x')
+plt.savefig(save, dpi=300, bbox_inches="tight")
 
-# save = 'output-3g-crit'
-# plt.figure()
-# file = 'p3/input-3g-crit_line_0001.csv'
-# plotcsv_frommoose_multi(file, save, diff=False, fix=False, dire='x')
-# file = 'diffusion/input-3g-crit_line_0001.csv'
-# plotcsv_frommoose_multi(file, save, diff=True, fix=False, dire='x')
-# plt.savefig(save, dpi=300, bbox_inches="tight")
+save = 'output-3g-crit'
+plt.figure()
+file = 'p3/input-3g-crit_line_0001.csv'
+plotcsv_frommoose_multi(file, save, diff=False, fix=False, dire='x')
+file = 'diffusion/input-3g-crit_line_0001.csv'
+plotcsv_frommoose_multi(file, save, diff=True, fix=False, dire='x')
+plt.savefig(save, dpi=300, bbox_inches="tight")
+
+save = 'output-3g-crit2'
+plt.figure()
+file = 'p3/input-3g-crit2_line_0001.csv'
+plotcsv_frommoose_multi(file, save, diff=False, fix=False, dire='y')
+file = 'diffusion/input-3g-crit2_line_0001.csv'
+plotcsv_frommoose_multi(file, save, diff=True, fix=False, dire='y')
+plt.savefig(save, dpi=300, bbox_inches="tight")

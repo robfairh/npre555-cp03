@@ -11,8 +11,9 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage[acronym,toc]{glossaries}
-
+\hypersetup{hidelinks}
 \include{acros}
+
 \def\thesection       {\arabic{section}}
 \def\thesubsection     {\thesection.\alph{subsection}}
 
@@ -30,39 +31,44 @@
 
 \section{Introduction}
 
-For this project, I have implemented kernels in a MOOSE-based application to solve the SP3 transport method equations.
+For this project, I have implemented kernels in a \gls{MOOSE}-based application \cite{gaston_moose_2009} to solve the \gls{SP3} equations.
 This report presents the development of those kernels as well as results of one and two-dimensional models.
-Section \ref{sec:results1d} displays the results of the one-dimensional model and compares them against the diffusion solver in Moltres \cite{lindsay_introduction_2018}.
+Section \ref{sec:results1d} displays the results of the one-dimensional model and compares them against the results obtained with the diffusion solver in Moltres \cite{lindsay_introduction_2018}.
 Section \ref{sec:results2d} presents the results of a two-dimensional model of the C5 MOX Benchmark \cite{capilla_applications_2009}.
 
 \section{Methodology}
 
-This section of the report introduces different software utilized in the development of this work.
+This section of the report introduces the followed methodology in the development of this work, comprising the following sections:
+Section \ref{sec:moose} describes MOOSE framework, 
+Section \ref{sec:sp3} outlines \gls{SP3} equations and their translation into kernel form,
+Section \ref{sec:moltres} introduces Moltres and the equations it solves, 
+and Section \ref{sec:bench} presents the C5 MOX Benchmark.
 
 \subsection{MOOSE}
+\label{sec:moose}
 
-MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
+MOOSE is a computational framework that supports engineering analysis applications.
 In a nuclear reactor, several partial differential equations describe the physical behavior.
 These equations are typically nonlinear, and they are often coupled to each other.
-\gls{MOOSE} targets such systems and solves them in a fully coupled manner.
+MOOSE targets such systems and solves them in a fully coupled manner.
 
 % more details about MOOSE
-\gls{MOOSE} is an open-source FEM framework.
+MOOSE is an open-source \gls{FEM} framework.
 The framework itself relies on LibMesh \cite{kirk_libmesh_2006} and PetSc \cite{balay_petsc_2016} for solving nonlinear equations.
 MOOSE applications define weak forms of the governing equations and modularize the physics expressions into "kernels."
 Kernels are C++ classes containing methods for computing the residual and Jacobian contributions of individual pieces of the governing equations.
-\gls{MOOSE} and LibMesh translate them into residual and Jacobian functions.
+MOOSE and LibMesh translate them into residual and Jacobian functions.
 These functions become inputs into PetSc solution routines.
 
 All the software built on the MOOSE framework shares the same \gls{API}.
 The applications, by default, utilize implicit methods \cite{lindsay_introduction_2018}.
-This feature facilitates relatively easy coupling between different phenomena \cite{novak_pronghorn_2018}.
+This feature facilitates relatively easy coupling between different phenomena.
 Additionally, the framework and its applications use \gls{MPI} for parallel communication and allow deployment on massively-parallel cluster-computing platforms.
 
-\subsection{Simplified P$_3$}
+\subsection{SP$_3$}
+\label{sec:sp3}
 
-One dimensional P$_3$ equations
-\cite{brantley_simplifiedP3_2000}
+Davidson \cite{davidson_neutron_1957} first introduced the one dimensional P$_3$ equations
 
 \begin{align}
     & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} + Q_{0,g}  \label{eq:SP3-0} \\
@@ -93,7 +99,7 @@ Defining the group $g$ "removal" cross-section $\Sigma_{n,g}$, and assuming an i
     & \frac{3}{7}\frac{d}{dx}\phi_{2,g} + \Sigma_{3,g} \phi_{3,g} = 0. \label{eq:SP3-3b}
 \end{align}
 
-Reorganizing equations \ref{eq:SP3-1b} and \ref{eq:SP3-3b} allows for obtaining a expression for odd moments of the flux $\phi_{1,g}$ and $\phi_{3,g}$
+Reorganizing equations \ref{eq:SP3-1b} and \ref{eq:SP3-3b} allows for obtaining a expression for the odd moments of the flux $\phi_{1,g}$ and $\phi_{3,g}$
 
 \begin{align}
     & \phi_{1,g} = -\frac{1}{3 \Sigma_{1,g}} \frac{d}{dx} \left[ \phi_{0,g} + 2 \phi_{2,g} \right] \label{eq:SP3-1c} \\
@@ -107,7 +113,7 @@ With equations \ref{eq:SP3-1c} and \ref{eq:SP3-3c}, equations \ref{eq:SP3-0b} an
     & - \frac{2}{5} D_{0,g} \frac{d^2}{dx^2} \left( \phi_{0,g} + 2 \phi_{2,g} \right) - D_{2,g} \frac{d^2}{dx^2} \phi_{2,g} + \Sigma_{2,g} \phi_{2,g} = 0  \label{eq:SP3-2c} \\
     \intertext{where}
     & D_{0,g} = \frac{1}{3 \Sigma_{1,g}} \notag \\
-    & D_{2,g} = \frac{9}{35 \Sigma_{3,g}} \notag
+    & D_{2,g} = \frac{9}{35 \Sigma_{3,g}}. \notag
 \end{align}
 
 Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$ and reorganizing equations \ref{eq:SP3-0c} and \ref{eq:SP3-2c} yields
@@ -121,14 +127,19 @@ Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$ and reorganizing equatio
     & S_{0,g} = \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) + Q_{0,g}. \notag
 \end{align}
 
-The three-dimensional SP3 equations \cite{gelbard_spherical_1960} replace the second-derivatives in equations \ref{eq:SP3-0d} and \ref{eq:SP3-2d} by the Laplace operator $\Delta$ (See PARCS manual)
+The $P_N$ equations yield the exact transport solution as $N \rightarrow \infty$ \cite{brantley_simplifiedP3_2000}.
+In three-dimensional geometries, the number of $P_N$ equations grows like $(N+1)^2$, while in one-dimensional planar geometries, the number of equations is $(N+1)$.
+The one-dimensional planar $P_N$ equations can be reformulated to yield $(N+1)/2$ coupled equations.
+This realization lead Gelbard \cite{gelbard_spherical_1960} to propose the $SP_N$ approximation.
+This approximation replaces the second derivatives in the one-dimensional planar $P_N$ equations with three-dimensional Laplacian operators.
+This approximation yields the following equations for $N = 3$ \cite{brantley_simplifiedP3_2000}
 
 \begin{align}
     & - D_{0,g} \Delta \Phi_{0,g} + \Sigma_{0,g} \Phi_{0,g} - 2 \Sigma_{0,g} \Phi_{2,g} = S_{0,g} \label{eq:SP3-0e} \\
     & - D_{2,g} \Delta \Phi_{2,g} + \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g} - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} = -\frac{2}{5} S_{0,g}. \label{eq:SP3-2e}
 \end{align}
 
-The Marshak vacuum boundary conditions complete the system of equations
+The Marshak vacuum \glspl{BC} complete the system of equations \cite{beckert_development_2007}
 
 \begin{align}
     & \frac{1}{4} \Phi_{0,g} \pm \frac{1}{2} \hat{n} \cdot J_{0,g} - \frac{3}{16} \Phi_{2,g} = 0 \label{eq:SP3-BC1a} \\
@@ -137,60 +148,63 @@ The Marshak vacuum boundary conditions complete the system of equations
     & J_{n,g} = -D_{n,g} \nabla \Phi_{n,g}. \notag
 \end{align}
 
-Variational formulation
 
+To define MOOSE kernels, the $SP_3$ equations are translated into weak form multiplying the equations by the test function $\Psi$ and integrating over the domain \cite{inl_workshop_2020}
 \begin{align}
     & \left< \Phi, \Psi \right> = \int_V \Phi \Psi dV \\
     & \left< \Phi, \Psi \right>_{BC} = \int_S \Phi \Psi dS
     \intertext{where}
     & \Psi = \mbox{test function} \notag \\
+    & V = \mbox{domain volume} \notag \\
     & S = \mbox{boundary surface}. \notag
 \end{align}
 
+The weak form of equations \ref{eq:SP3-0e} and \ref{eq:SP3-2e} becomes
 \begin{align}
-    & \left< - D_{0,g} \Delta \Phi_{0,g}, \Psi \right> + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> + \left< - S_{0,g}, \Psi \right> = 0 \label{eq:SP3-0e} \\
-    & \left< - D_{2,g} \Delta \Phi_{2,g}, \Psi \right> + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> + \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} D_{2,g}, \Psi \right> + \left< \frac{2}{5} S_{0,g}, \Psi \right> = 0. \label{eq:SP3-2e}
+    & \left< - D_{0,g} \Delta \Phi_{0,g}, \Psi \right> + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> + \left< - S_{0,g}, \Psi \right> = 0 \label{eq:SP3-0f} \\
+    & \left< - D_{2,g} \Delta \Phi_{2,g}, \Psi \right> + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> + \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} D_{2,g}, \Psi \right> + \left< \frac{2}{5} S_{0,g}, \Psi \right> = 0. \label{eq:SP3-2f}
 \end{align}
 
-By means of the Gauss theorem (?), equations \ref{eq:SP3-0e} and \ref{eq:SP3-2e} become
-
+By means of Green's theorem, equations \ref{eq:SP3-0f} and \ref{eq:SP3-2f} become
 \begin{align}
-    & \left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right> + \left< - D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> \\ &+ \left< - \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< - \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< - Q_{0,g}, \Psi \right> = 0 \label{eq:SP3-0e} \\
-    & \left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right> + \left< - D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> + \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g}, \Psi \right> \\ &+ \left< \frac{2}{5} \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< \frac{2}{5} \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< \frac{2}{5} Q_{0,g}, \Psi \right> = 0. \label{eq:SP3-2e}
+    & \left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right> - \left< D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> \\ &+ \left< - \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< - \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< - Q_{0,g}, \Psi \right> = 0 \label{eq:SP3-0g} \\
+    & \left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right> - \left< D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> + \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g}, \Psi \right> \\ &+ \left< \frac{2}{5} \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< \frac{2}{5} \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< \frac{2}{5} Q_{0,g}, \Psi \right> = 0. \label{eq:SP3-2g}
+    \intertext{where the boundary condition terms come from the translation into weak form of equations \ref{eq:SP3-BC1a} and \ref{eq:SP3-BC2a}, giving}
+    & \left< D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} = \left< \frac{1}{2} \Phi_{0,g} - \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC} \\
+    & \left< D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} = \left< -\frac{3}{40} \Phi_{0,g} + \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC}.
 \end{align}
 
-Vacuum BCs kernels?
 
-\begin{align}
-    & \left< - D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} = \left< -\frac{1}{2} \Phi_{0,g} + \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC} \\
-    & \left< - D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} = \left< \frac{3}{40} \Phi_{0,g} - \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC} \\
-\end{align}
+Table \ref{tab:kernels} separates equations \ref{eq:SP3-0g} and \ref{eq:SP3-2g} into kernels.
+The BodyForce kernel is part of MOOSE framework.
+The rest of the kernels were developed as part of this work.
 
 % \usepackage{booktabs}
 \begin{table}[htbp!]
   \centering
-  \caption{.}
+  \caption{$SP_3$ kernels.}
   \begin{tabular}{lcc}
   \toprule
-  % multicolumn Variational form
-  Kernel                & Equation A & Equation B \\
+  Kernel                & Equation \ref{eq:SP3-0g} & Equation \ref{eq:SP3-2g} \\
   \midrule
   P3Diffusion           & $\left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right>$ & $\left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right>$ \\
   P3SigmaR              & $\left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right>$ & $\left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right>$ \\
   P3SigmaCoupled        & $\left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right>$ & $\left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g}, \Psi \right>$ \\
   P3InScatter           & $\left< - \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ & $\left< \frac{2}{5} \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
   P3FissionEigenKernel  & $\left< - \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ & $\left< \frac{2}{5} \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
+  BodyForce             & $\left< - Q_{0,g}, \Psi \right>$ & $\left< \frac{2}{5} Q_{0,g}, \Psi \right>$ \\
   \midrule
-  Boundary Condition Kernel & Equation A & Equation B \\
+  BC Kernel &  &  \\
   \midrule
-  Vacuum          & $\left< -\frac{1}{2} \Phi_{0,g} + \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC}$ & $\left< \frac{3}{40} \Phi_{0,g} - \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC}$ \\
+  Vacuum          & $\left< \frac{1}{2} \Phi_{0,g} - \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC}$ & $\left< - \frac{3}{40} \Phi_{0,g} + \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC}$ \\
   \bottomrule
   \end{tabular}
-  \label{tab:parameters}
+  \label{tab:kernels}
 \end{table}
 
 
 \subsection{Moltres}
+\label{sec:moltres}
 
 \textit{Moltres} is a MOOSE-based application initially designed for modeling fluid-fuelled \glspl{MSR}.
 Moltres inherits all the attributes from MOOSE as its application.
@@ -200,7 +214,7 @@ The development of this work utilized Moltres as a stand-alone neutronics solver
 
 \begin{align}
   % diffusion-eigenvalue calculation
-  \nabla \cdot D_g \nabla \phi_g - \Sigma_g^r \phi_g & + \sum_{g' \ne g}^G \Sigma_{g'\rightarrow g}^s \phi_{g'} +
+  & \nabla \cdot D_g \nabla \phi_g - \Sigma_g^r \phi_g + \sum_{g' \ne g}^G \Sigma_{g'\rightarrow g}^s \phi_{g'} +
   \chi_g^t \sum_{g' = 1}^G \frac{1}{k_{eff}}\nu \Sigma_{g'}^f \phi_{g'} + Q_g = 0 \label{eq:diffusion-eig}
   \intertext{where}
   & D_g = \mbox{group $g$ diffusion coefficient } [cm] \notag \\
@@ -211,24 +225,34 @@ The development of this work utilized Moltres as a stand-alone neutronics solver
   & G = \mbox{number of discrete energy groups } [-] \notag \\
   & k_{eff} = \mbox{multiplication factor } [-] \notag \\
   & \nu = \mbox{number of neutrons produced per fission } [-] \notag \\
-  & \Sigma_g^f = \mbox{group $g$ macroscopic fission cross-section } [cm^{-1}]. \notag
+  & \Sigma_g^f = \mbox{group $g$ macroscopic fission cross-section } [cm^{-1}] \notag \\
   & Q_g = \mbox{group $g$ external neutron source } [n \cdot cm^{-3} \cdot s^{-1}]. \notag
 \end{align}
 
+% vacuum bcs
+The vacuum boundary condition \cite{duderstadt_nuclear_1976} states that no neutrons penetrate the boundary in the inward direction --- the incoming current density is equal to zero
+\begin{align}
+   & J^-_g(r_s) = \frac{1}{4} \phi_g(r_s) + \frac{D}{2} \hat{n_s} \cdot \nabla \phi_g(r_s) = 0 \label{eq:vacuumbc} \\
+   \intertext{where}
+   & J^-_g(r) = \mbox{incoming current density } [n \cdot cm^{-2} \cdot s^{-1}] \notag \\
+   & r_s = \mbox{position of the boundary } [cm] \notag \\
+   & \hat{n_s} = \mbox{normal direction to the boundary } [-]. \notag
+\end{align}
 
 \subsection{C5 MOX Benchmark}
+\label{sec:bench}
 
 The \gls{OECD}/\gls{NEA} developed this benchmark to carry out validation of methods and identify their strengths, limitations, and accuracy, and to suggest needs for method development.
 The definition of the original benchmark can be found in \cite{oecdnea_benchmark_2003}.
-Capilla et al \cite{capilla_applications_2009} developed a simplified version of the benchmark using a two-energy group structure.
+Capilla et al \cite{capilla_applications_2009} developed a simplified version of the benchmark using a two-energy group structure, leading to the C5G2 MOX Benchmark.
 
 Figures \ref{res:2d-bench-config1} and \ref{res:2d-bench-config2} display the configuration of the benchmark exercise.
-Tables \ref{tab:bench-xs-het} and \ref{tab:bench-xs-hom} present the group constants necessary to carry out the exercise.
+Tables \ref{tab:bench-xs-het} and \ref{tab:bench-xs-hom} present the cross-sections necessary to carry out the exercise.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.45\textwidth]{../C5G2-benchmark/bench-config}
-    \caption{2-D C5 MOX benchmark configuration. Image reproduced from \cite{capilla_applications_2009}.}
+    \caption{2-D C5 MOX benchmark configuration. Image reproduced from \cite{capilla_applications_2009}. $R$ represents the reflectors.}
     \label{res:2d-bench-config1}
 \end{figure}
 
@@ -279,11 +303,11 @@ Fission chamber & 1     & 0.586      & $10^{-7}$      & 0.560                   
 \toprule
 Pin cell type & Group & $\Sigma_t$ & $\nu \Sigma_f$ & $\Sigma_{s0, 1 \rightarrow g}$ & $\Sigma_{s0, 2 \rightarrow g}$ \\
 \midrule
-MOX       & 1     & 0.553087      & 0.006857     & 0.523430     & 0.000000                     \\
-          & 2     & 1.068911      & 0.340391     & 0.016089     & 0.839806                     \\
+MOX       & 1     & 0.560749      & 0.006952     & 0.530682     & 0.000000                     \\
+          & 2     & 1.064663      & 0.339038     & 0.016025     & 0.836469                     \\
 
-UO$_2$    & 1     & 0.571360      & 0.004575     & 0.541700     & 0.000000                     \\
-          & 2     & 1.111391      & 0.113135     & 0.020475     & 1.018984                     \\
+UO$_2$    & 1     & 0.573135      & 0.004589     & 0.543383     & 0.000000                     \\
+          & 2     & 1.110761      & 0.113071     & 0.020463     & 1.018406                     \\
 
 \bottomrule
 \end{tabular}
@@ -293,6 +317,8 @@ UO$_2$    & 1     & 0.571360      & 0.004575     & 0.541700     & 0.000000      
 
 \section{Results}
 
+This sections presents the results for the one-dimensional (1-D) and two-dimensional (2-D) models.
+
 \subsection{1-D test case}
 \label{sec:results1d}
 
@@ -300,9 +326,9 @@ Figure \ref{res:1d-fixed} displays the neutron flux for one and three energy gro
 Figure \ref{res:1d-crit} shows the neutron flux for one and three energy groups for an eigenvalue problem.
 Table \ref{tab:1d-keff} compares the eigenvalue obtained with the SP3 and the diffusion solvers by calculating their difference with the formula
 \begin{align}
-  & \Delta_\rho = \left| \rho_{P_3} - \rho_{Ref} \right| = \left| \frac{k_{P_3}-1}{k_{P_3}} - \frac{k_{Ref}-1}{k_{Ref}} \right| = \left| \frac{k_{P_3}-k_{Ref}}{k_{P_3} k_{Ref}} \right| \label{eq:delta-rho} \\
+  & \Delta_\rho = \left| \rho_{SP_3} - \rho_{Ref} \right| = \left| \frac{k_{SP_3}-1}{k_{SP_3}} - \frac{k_{Ref}-1}{k_{Ref}} \right| = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
   \intertext{where}
-  & k_{P_3} = \mbox{eigenvalue obtained with SP3 solver} [-] \notag \\
+  & k_{SP_3} = \mbox{eigenvalue obtained with SP3 solver} [-] \notag \\
   & k_{Ref} = \mbox{eigenvalue obtained with diffusion solver} [-]. \notag
 \end{align}
 
@@ -328,13 +354,14 @@ Table \ref{tab:1d-keff} compares the eigenvalue obtained with the SP3 and the di
 \begin{table}[htbp!]
 \centering
 \caption{Comparison between the eigenvalue obtained with the SP3 and diffusion solvers.}
-\begin{tabular}{lcccccc}
+\begin{tabular}{ccccccc}
 \toprule
- & Moltres      & \multicolumn{2}{c}{P3}          \\
- & $k_{eff}$    & $k_{eff}$ & $\Delta_\rho$ [pcm] \\
+ & Moltres      & \multicolumn{2}{c}{SP3}          \\
+\midrule 
+Number of groups & $k_{Ref}$    & $k_{SP_3}$ & $\Delta_\rho$ [pcm] \\
 \midrule
 1 & 1.05278     & 1.06004   & 650 \\
-3 & 1.02878     & 1.03005   & 21  \\
+3 & 1.02878     & 1.03005   & 120 \\
 \bottomrule
 \end{tabular}
 \label{tab:1d-keff}
@@ -357,13 +384,14 @@ Table \ref{tab:2d-keff} compares the eigenvalue obtained with the SP3 solver ($k
 \begin{table}[htbp!]
 \centering
 \caption{Comparison between the eigenvalue obtained with the SP3 solver and the results in \cite{capilla_applications_2009}.}
-\begin{tabular}{lcccccc}
+\begin{tabular}{lccc}
 \toprule
- & C5G2 Benchmark      & \multicolumn{2}{c}{P3}          \\
- & $k_{Ref}$           & $k_{eff}$ & $\Delta_\rho$ [pcm] \\
+ & C5G2 Benchmark      & \multicolumn{2}{c}{SP3}          \\
+\midrule
+Case & $k_{Ref}$       & $k_{SP_3}$ & $\Delta_\rho$ [pcm] \\
 \midrule
 Heterogeneous & 0.96969  & 0.97106  & 145  \\
-Homogeneous   & 0.96983  & 0.97761  & 821  \\
+Homogeneous   & 0.96983  & 0.97061  &  83  \\
 \bottomrule
 \end{tabular}
 \label{tab:2d-keff}
@@ -371,7 +399,12 @@ Homogeneous   & 0.96983  & 0.97761  & 821  \\
 
 \section{Conclusions}
 
+Section \ref{sec:results2d} results seem to indicate that the implementation of the $SP_3$ equations in a MOOSE-based application is correct.
+On the other hand, the results from Section \ref{sec:results1d} show that the solution of the $SP_3$ equations yield very similar scalar fluxes to the diffusion equations.
+While the diffusion solver calculates the flux with only one equation for each group, the $SP_3$ equations use two.
+These characteristics would indicate that the diffusion solver is preferable over the $SP_3$ solver, yielding similar results by using less degrees of freedom to solve a problem.
+
 \clearpage
-\bibliographystyle{plain}
+\bibliographystyle{ieeetr}
 \bibliography{bibliography}
 \end{document}

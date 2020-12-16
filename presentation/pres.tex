@@ -2,7 +2,7 @@
 \documentclass[9pt]{beamer}
 \usetheme[white]{Illinois}
 
-\title[]{Implementation of the SP3 transport method in a MOOSE-based application}
+\title[]{Implementation of the SP3 equations in a MOOSE-based application}
 % \subtitle[]{}
 \author[]{\textbf{Roberto Fairhurst Agosta}}
 \date[12.16.2020]{December 16, 2020}
@@ -28,6 +28,8 @@ text width=10em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{sbblock} = [rectangle, draw, fill=illiniblue,
 text width=7em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{arrow} = [thick,->,>=stealth]
+
+\usepackage{multirow}
 
 \newcommand{\units}[1] {\:\text{#1}}%
 \newcommand{\SN}{S$_N$}%{S$_\text{N}$}%{$S_N$}%
@@ -95,8 +97,8 @@ text width=7em, text centered, rounded corners, minimum height=4em]
 \section{Results}
 \input{results}
 
-\section{Conclusions}
-\input{conclusions}
+% \section{Conclusions}
+% \input{conclusions}
 
 \begin{frame}[allowframebreaks]
   \frametitle{References}
