@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
     '''
-    Moltres output is a csv file.
-    This function plots those values.
+    Running MOOSE app produces a csv file.
+    This function plots the values in it.
     The output is a figure.
 
     Parameters:
@@ -15,9 +15,14 @@ def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
         name of the .csv file
     save: [string]
         name of the figure
+    hom: [bool]
+        True if plotting the solution of the homogeneous case
+    G: [int]
+        Number of energy groups
     dire: ['x', 'y', 'z']
         direction of the detector
     '''
+
     file = pd.read_csv(file)
 
     if dire == 'r':
@@ -48,15 +53,12 @@ def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
 
 
 if __name__ == "__main__":
+    # plots figures of the 2D test case
 
-    save = 'output-2g-het'
-    plt.figure()
-    file = 'input-2g-het_line_0001.csv'
-    plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=2, dire='x')
-    plt.savefig(save, dpi=300, bbox_inches="tight")
-
-    save = 'output-2g-hom'
+    save = 'output-2gb'
     plt.figure()
     file = 'input-2g-hom_line_0001.csv'
-    plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=2, dire='x')
+    plotcsv_frommoose_multi(file, save, hom=True, G=2, dire='x')
+    file = 'input-2g-het_line_0001.csv'
+    plotcsv_frommoose_multi(file, save, hom=False, G=2, dire='x')
     plt.savefig(save, dpi=300, bbox_inches="tight")
