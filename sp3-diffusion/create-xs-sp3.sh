@@ -17,8 +17,8 @@ echo 'fuel 9' >> universeMapping
 echo 'trefl B' >> universeMapping
 echo 'brefl T' >> universeMapping
 
-mkdir xs3g
-python extract-convert.py xs3g mhtgr tempMapping universeMapping
+mkdir xs3g-sp3
+python extract-convert.py xs3g-sp3 mhtgr tempMapping universeMapping
 
 rm fuel.coe
 rm brefl.coe

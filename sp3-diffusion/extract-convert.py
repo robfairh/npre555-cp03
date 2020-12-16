@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-# This script extracts group constants from Serpent 2. It should be
-# able to do all of the work, no need to specify how many energy
-# groups, or anything like that. Also, this could be imported into
-# other python scripts if needed, maybe for parametric studies.
+# This script is based on moltres/python/extractSerpent2GCs.py
 import os
 import numpy as np
 import argparse
@@ -104,7 +100,7 @@ def makePropertiesDir(
 
                 strData = 1./3./remxs1g
                 strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
+                    [str(dat) for dat in strData]) if isinstance(
                     strData, np.ndarray) else strData
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
@@ -114,7 +110,7 @@ def makePropertiesDir(
 
                 strData = 9./35./remxs3g
                 strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
+                    [str(dat) for dat in strData]) if isinstance(
                     strData, np.ndarray) else strData
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
@@ -124,7 +120,7 @@ def makePropertiesDir(
 
                 strData = remxs0g
                 strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
+                    [str(dat) for dat in strData]) if isinstance(
                     strData, np.ndarray) else strData
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
@@ -134,7 +130,7 @@ def makePropertiesDir(
 
                 strData = remxs2g + 4./5*remxs0g
                 strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
+                    [str(dat) for dat in strData]) if isinstance(
                     strData, np.ndarray) else strData
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
@@ -144,7 +140,7 @@ def makePropertiesDir(
 
                 strData = 2*remxs0g
                 strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
+                    [str(dat) for dat in strData]) if isinstance(
                     strData, np.ndarray) else strData
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
@@ -154,13 +150,13 @@ def makePropertiesDir(
 
                 strData = 2./5*remxs0g
                 strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
+                    [str(dat) for dat in strData]) if isinstance(
                     strData, np.ndarray) else strData
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
 
-            for coefficient in ['Chit', 'Chip', 'Chid', 'Fiss', 'Nsf', 'Sp0', 'Kappa',
-                'Invv', 'BETA_EFF', 'lambda']:
+            for coefficient in ['Chit', 'Chip', 'Chid', 'Fiss', 'Nsf', 'Sp0',
+                                'Kappa', 'Invv', 'BETA_EFF', 'lambda']:
                 with open(outdir + '/' + filebase + '_' + currentMat +
                           '_' + coefficient.upper() + '.txt', 'a') as fh:
 
@@ -177,17 +173,18 @@ def makePropertiesDir(
                         if not use8Groups:
                             strData = strData[0:6]
                     else:
-                        strData = coeList[currentMat].branches[item].universes[
-                                  uniMap[currentMat], 0, 0, None].infExp[goodMap[coefficient]]
+                        strData = coeList[currentMat].branches[
+                            item].universes[
+                                uniMap[currentMat], 0, 0, None].infExp[
+                                    goodMap[coefficient]]
 
                     strData = ' '.join(
-                    [str(dat) for dat in strData]) if isinstance(
+                        [str(dat) for dat in strData]) if isinstance(
                         strData, np.ndarray) else strData
                     fh.write(str(temp) + ' ' + strData)
                     fh.write('\n')
 
         except KeyError:
-            # print(secBranch)
             raise Exception('Check your mapping and secondary branch files.')
 
 
@@ -228,6 +225,7 @@ if __name__ == '__main__':
     mapFile = args.mapFile[0]
     unimapFile = args.universeMap[0]
 
-    makePropertiesDir(outdir, fileBase, mapFile, unimapFile, serp1=args.serp1, fromMain=True)
+    makePropertiesDir(outdir, fileBase, mapFile, unimapFile, serp1=args.serp1,
+                      fromMain=True)
 
     print("Successfully made property files in directory {}.".format(outdir))
