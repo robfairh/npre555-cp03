@@ -148,6 +148,8 @@ The Marshak vacuum \glspl{BC} complete the system of equations \cite{beckert_dev
     & J_{n,g} = -D_{n,g} \nabla \Phi_{n,g}. \notag
 \end{align}
 
+% advantages of SP3 over diffusion?
+
 
 To define MOOSE kernels, the $SP_3$ equations are translated into weak form multiplying the equations by the test function $\Psi$ and integrating over the domain \cite{inl_workshop_2020}
 \begin{align}
@@ -173,7 +175,6 @@ By means of Green's theorem, equations \ref{eq:SP3-0f} and \ref{eq:SP3-2f} becom
     & \left< D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} = \left< \frac{1}{2} \Phi_{0,g} - \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC} \\
     & \left< D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} = \left< -\frac{3}{40} \Phi_{0,g} + \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC}.
 \end{align}
-
 
 Table \ref{tab:kernels} separates equations \ref{eq:SP3-0g} and \ref{eq:SP3-2g} into kernels.
 The BodyForce kernel is part of MOOSE framework.
@@ -335,8 +336,8 @@ Table \ref{tab:1d-keff} compares the eigenvalue obtained with the SP3 and the di
 % Fixed source
 \begin{figure}[htbp!]
     \centering
-    \subfigure[1 group.]{\includegraphics[width=0.45\textwidth]{../output-1g-fixed}}
-    \subfigure[3 groups.]{\includegraphics[width=0.45\textwidth]{../output-3g-fixed}}
+    \subfigure[1 group.]{\includegraphics[width=0.45\textwidth]{../sp3-diffusion/output-1g-fixed}}
+    \subfigure[3 groups.]{\includegraphics[width=0.45\textwidth]{../sp3-diffusion/output-3g-fixed}}
     \caption{Comparison of the scalar flux obtained with the SP3 and diffusion solvers for the fixed source case.}
     \label{res:1d-fixed}
 \end{figure}
@@ -344,8 +345,8 @@ Table \ref{tab:1d-keff} compares the eigenvalue obtained with the SP3 and the di
 % Criticality source
 \begin{figure}[htbp!]
     \centering
-    \subfigure[1 group.]{\includegraphics[width=0.45\textwidth]{../output-1g-crit}}
-    \subfigure[3 groups.]{\includegraphics[width=0.45\textwidth]{../output-3g-crit}}
+    \subfigure[1 group.]{\includegraphics[width=0.45\textwidth]{../sp3-diffusion/output-1g-crit}}
+    \subfigure[3 groups.]{\includegraphics[width=0.45\textwidth]{../sp3-diffusion/output-3g-crit}}
     \caption{Comparison of the scalar flux obtained with the SP3 and diffusion solvers for the eigenvalues problem.}
     \label{res:1d-crit}
 \end{figure}

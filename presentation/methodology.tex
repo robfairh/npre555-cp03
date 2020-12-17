@@ -120,7 +120,7 @@ With the Marshak vacuum BCs \cite{beckert_development_2007}
 \frametitle{Weak form: Equation 1}
 
 \begin{align}
-    & \left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right> - \left< D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> \\ &+ \left< - \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> \\ &+ \left< - \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< - Q_{0,g}, \Psi \right> = 0 \label{eq:SP3-0g}
+    & \left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right> - \left< D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} + \left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right> \notag \\ &+ \left< - \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> \notag \\ &+ \left< - \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< - Q_{0,g}, \Psi \right> = 0 \label{eq:SP3-0g}
     \intertext{with the boundary condition}
     & \left< D_{0,g} \nabla \Phi_{0,g}, \Psi \right>_{BC} = \left< \frac{1}{2} \Phi_{0,g} - \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC}.
 \end{align}
@@ -130,7 +130,7 @@ With the Marshak vacuum BCs \cite{beckert_development_2007}
 \frametitle{Weak form: Equation 2}
 
 \begin{align}
-    & \left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right> - \left< D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> + \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g}, \Psi \right> \\ &+ \left< \frac{2}{5} \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< \frac{2}{5} \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> \\ &+ \left< \frac{2}{5} Q_{0,g}, \Psi \right> = 0. \label{eq:SP3-2g}
+    & \left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right> - \left< D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} + \left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right> \notag \\ &+ \left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g}, \Psi \right> + \left< \frac{2}{5} \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> \notag \\ &+ \left< \frac{2}{5} \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right> + \left< \frac{2}{5} Q_{0,g}, \Psi \right> = 0. \label{eq:SP3-2g}
     \intertext{with the boundary condition}
     & \left< D_{2,g} \nabla \Phi_{2,g}, \Psi \right>_{BC} = \left< -\frac{3}{40} \Phi_{0,g} + \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC}.
 \end{align}
@@ -245,4 +245,17 @@ With the Marshak vacuum BCs \cite{beckert_development_2007}
         \caption{MOX assembly. Image reproduced from \cite{capilla_applications_2009}.}
     \end{figure}
 \end{columns}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Benchmark geometry}
+
+    \begin{figure}[htbp!]
+        \begin{center}
+            \includegraphics[width=6.cm]{bench-mesh}
+        \end{center}
+        \caption{Gmsh 2D geometry.}
+    \end{figure}
+
 \end{frame}
