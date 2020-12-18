@@ -26,14 +26,18 @@ This repository contains the following files necessary for reproducing this work
 * to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to plot results run: ```python postprocessing.py```
 
-# report
+# report-555
 
 * report.tex uses images located in other locations of this repository
 * this folder contains all the rest of the necessary files for building the .pdf of the report
 * the .pdf is included in this folder
 
-# presentation
+# presentation-555
 
 * pres.tex uses images located in other locations of this repository
 * this folder contains all the rest of the necessary files for building the .pdf of the presentation
 * the .pdf is included in this folder
+
+# summary-studentconf-2021
+
+* contains the necessary files for building the .pdf of the summary
