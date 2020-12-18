@@ -1,0 +1,14 @@
+brantley_simplifiedP3_2000
+
+The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in Legendre polynomials.
+The method leads to an approximation when the expansion considers only up to order $N$ polynomials.
+
+
+If $N \rightarrow \infty$, the solution tends to the exact transport solution.
+In three-dimensional geometries, the number of $P_N$ equations grows like $(N+1)^2$.
+In one-dimensional Cartesian geometries, the number of $P_N$ equations in $(N+1)$.
+
+
+Gelbard proposed the $SP_N$ approximation by replacing the second derivatives in the one-dimensional planar $P_N$ equations with three-dimensional Laplacian operators.
+
+This approximation reduces the number of equations considerably conserving a reasonable accuracy.
