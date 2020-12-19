@@ -1,4 +1,6 @@
 import numpy as np
+import os
+from os import path
 
 
 def materials_het():
@@ -64,6 +66,17 @@ def materials_het():
                 'scxs': np.array([0.560, 0.025, 0, 1.20]),
                }
     }
+
+    for mat in materials:
+        print(materials[mat]['totxs'])
+
+    print()
+    for mat in materials:
+        print(materials[mat]['nfxs'])
+
+    print()
+    for mat in materials:
+        print(materials[mat]['scxs'])
 
     return materials
 
@@ -226,12 +239,18 @@ def create_xs(outdir, temp, materials):
 if __name__ == "__main__":
     temp = 300
 
-    # produces cross-sections for the heterogeneous case
-    outdir = 'xs2g'
-    materials = materials_het()
-    create_xs(outdir, temp, materials)
+    # # produces cross-sections for the heterogeneous case
+    # outdir = 'xs2g'
+    # if not os.path.exists(outdir):
+    #     os.mkdir(outdir)
+    # materials = materials_het()
+    # create_xs(outdir, temp, materials)
 
-    # produces cross-sections for the homogeneous case
-    outdir = 'xs2g-homo'
-    materials = materials_hom()
-    create_xs(outdir, temp, materials)
+    # # produces cross-sections for the homogeneous case
+    # outdir = 'xs2g-homo'
+    # if not os.path.exists(outdir):
+    #     os.mkdir(outdir)
+    # materials = materials_hom()
+    # create_xs(outdir, temp, materials)
+
+    materials_het()
