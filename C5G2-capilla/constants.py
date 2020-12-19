@@ -11,6 +11,14 @@ def materials_het():
     materials: [dictionary]
         dictionary that contains the materials and their respective
         cross-sections.
+        * main keys:
+        - mox1 = 8.7% MOX Fuel
+        - mox2 = 7.0% MOX Fuel
+        - mox3 = 4.3% MOX Fuel
+        - uo2 - UO2 Fuel
+        - gtub - Guide Tube
+        - reflec - Reflector
+        - fchamb - Moveable Fission Chamber
     '''
 
     materials = {

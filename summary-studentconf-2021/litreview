@@ -17,10 +17,25 @@ The disadvantages of the $SP_N$ approximation is that the solution does not usua
 
 
 
+Numerical results consistently show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation with considerably less computational expense than the discrete ordinates ($S_N$) approximation.
+
 Several studies reported an increased accuracy over the diffusion method.
 cite 6,7,8,9,10,11,12
 
 13, 14, 15
 provided the first theoretical basis for the accuracy of the SPN equations in multi-dimensional applications
 They showed that these equations are higher-order asymptotic solutions of the transport equation in a physical regime in which diffusion theory is the leading-order approximation.....
+
+Two problems:
+* pseudo-one dimensional
+* modification of the OECD/NEACRP-L-336 C5 MOX fuel benchmark \cite{cavarec_benchmark_1994}
+
+
+
+cavarec_benchmark_1994
+Original C5 MOX fuel benchmark
+
+Transport results 0.93755 +/- 0.00080
+
+When there no anisotropic component of the scattering cross section is available the 'diagonal transport correction' is used to compensate the lack of data for the scattering anisotropy (p. 37)
 
