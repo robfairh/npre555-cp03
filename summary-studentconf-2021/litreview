@@ -48,7 +48,7 @@ OECD/NEACRP-L-336 C5 MOX fuel benchmark:
 The C5 benchmark was designed to compare different techniques of fine flux prediction from coarse-mesh diffusion and transport calculations.
 
 Definition of the problem in Fig 6.
-
+Relative errors in power distribution uses the symmetry line on the diagonal.
 
 
 cavarec_benchmark_1994
