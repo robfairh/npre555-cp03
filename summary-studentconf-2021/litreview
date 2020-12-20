@@ -1,7 +1,6 @@
 brantley_simplifiedP3_2000
-
-The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in Legendre polynomials.
-The method leads to an approximation when the expansion considers only up to order $N$ polynomials.
+----------------------
+The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering only up to order $N$ polynomials.
 
 
 If $N \rightarrow \infty$, the solution tends to the exact transport solution.
@@ -16,14 +15,12 @@ The $SP_N$ approximation considerably reduces the number of equations conserving
 The disadvantages of the $SP_N$ approximation is that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
 
 
-
 Numerical results consistently show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation with considerably less computational expense than the discrete ordinates ($S_N$) approximation.
 
 Several studies reported an increased accuracy over the diffusion method.
 cite 6,7,8,9,10,11,12
 
-13, 14, 15
-provided the first theoretical basis for the accuracy of the SPN equations in multi-dimensional applications
+13, 14, 15 provided the first theoretical basis for the accuracy of the SPN equations in multi-dimensional applications.
 They showed that these equations are higher-order asymptotic solutions of the transport equation in a physical regime in which diffusion theory is the leading-order approximation.....
 
 Two problems:
@@ -31,11 +28,58 @@ Two problems:
 * modification of the OECD/NEACRP-L-336 C5 MOX fuel benchmark \cite{cavarec_benchmark_1994}
 
 
+If the multidimensional transport solution behaves in a locally one-dimensional manner at each point r in space, then the SP3 solution reduces to P3 without approximation.
 
 cavarec_benchmark_1994
+----------------------
 Original C5 MOX fuel benchmark
+
+OECD/NEACRP-L-336 C5 MOX fuel benchmark issued by the OECD/NEA Committee on Reactor Physics.
+
+
+Benchmark definition in p. 7
 
 Transport results 0.93755 +/- 0.00080
 
 When there no anisotropic component of the scattering cross section is available the 'diagonal transport correction' is used to compensate the lack of data for the scattering anisotropy (p. 37)
 
+pag 232 contains the production rate distribution
+
+
+capilla_applications_2009
+----------------------
+
+Motivation:
+The mutigroup diffusion equation does not provide good results for complex fuel assemblies or pin-by-pin mesh applications.
+
+The SP_N approximation replaces the second derivatives in the one-dimensional Cartesian geometry P_N equations by the three-dimensional Laplacian operator avoiding the complexity of the full spherical harmonics approximation.
+
+Brantley and Larsen \cite{brantley_simplifiedP3_2000} provided a theoretical basis for the accuracy of the SPN equations.
+% not sure this is entirely true, see brantley_simplifiedP3_2000
+
+This approximation is cheap from the computational point of view and it has been succesfully used to improve the diffusion solution in MOX reactors \cite{beckert_development_2007}.
+
+Nevertheless, the best solution from the theoretical point of view, is obtained from the P L approximation.
+They seem to be solving P3, and not SP3 ...
+Apparently, Fletcher. The Solution of the Multigroup Neutron Transport Equation Using Spherical Harmonics. 1982. is a good paper about P_L methods.
+
+Two cases:
+* C5 MOX benchmark presented in Cavarec et al. 1994.
+
+* MOX/UO2 benchmark reactor geometry defined by Brantley and Larsen \cite{brantley_simplifiedP3_2000}
+
+C5 MOX Benchmark:
+
+dimensions of each assembly: 21.42 x 21.42 cm
+17 x 17 assembly: squared pin cells 1.26 cm
+
+Keff: heterogeneous and homogeneous system
+Also core power distribution.
+
+The results were obtained using the cross-sections and corrective factors from Table 2 (what I did seems correct).
+
+Comparison between P3 and SP3 results within 40 pcm.
+
+
+beckert_development_2007
+------------------------
