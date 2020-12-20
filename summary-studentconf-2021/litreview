@@ -30,6 +30,23 @@ Two problems:
 
 If the multidimensional transport solution behaves in a locally one-dimensional manner at each point r in space, then the SP3 solution reduces to P3 without approximation.
 
+
+SP3 boundary conditions:
+We assume that the outer and internal boundary surfaces are nearly one-dimensional in the sense that tangential derivatives of the auxiliary functions on these surfaces are O(\delta) quantities.
+This assumption is true at an outer vaccuum boundary if the boundary is smooth with small curvature.
+It is also often true at a nearly-planar interior boundary between two regions with strongly differing material properties.
+This assumption may not be valid at a geometrically complicated interior material interface of at an interior interface between teo regions with weakly differing material properties.
+
+
+Literature on the computation efficiency of SP_N calculations versus diffusion, P_N, and S_N calculations.
+7,8,10 - 15,22,24
+
+The results show that otaining the SPN solutions takes 2 or 3 times as compared with diffusion calculations, and a fraction of the time required by S_N or P_N calculations.
+
+
+
+
+
 cavarec_benchmark_1994
 ----------------------
 Original C5 MOX fuel benchmark
@@ -83,3 +100,4 @@ Comparison between P3 and SP3 results within 40 pcm.
 
 beckert_development_2007
 ------------------------
+
