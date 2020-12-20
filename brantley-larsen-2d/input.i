@@ -81,7 +81,7 @@
 [BCs]
   [./vacuum_flux0]
     type = P3VacuumBC
-    boundary = 'left right'
+    boundary = 'outer'
     variable = flux0
     second_flux = flux2
     val1 = 0.5
@@ -90,7 +90,7 @@
 
   [./vacuum_flux2]
     type = P3VacuumBC
-    boundary = 'left right'
+    boundary = 'outer'
     variable = flux2
     second_flux = flux0
     val1 = 0.525
@@ -144,8 +144,6 @@
   [./bnorm]
     type = ElmIntegTotFissNtsPostprocessor
     execute_on = linear
-    first_flux = flux0
-    second_flux = flux2
   [../]
   [./group1diff]
     type = ElementL2Diff

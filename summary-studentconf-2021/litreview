@@ -44,6 +44,10 @@ Literature on the computation efficiency of SP_N calculations versus diffusion, 
 The results show that otaining the SPN solutions takes 2 or 3 times as compared with diffusion calculations, and a fraction of the time required by S_N or P_N calculations.
 
 
+OECD/NEACRP-L-336 C5 MOX fuel benchmark:
+The C5 benchmark was designed to compare different techniques of fine flux prediction from coarse-mesh diffusion and transport calculations.
+
+Definition of the problem in Fig 6.
 
 
 
