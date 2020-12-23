@@ -142,6 +142,18 @@ DYN3D:
 * keff is closer and also the assembly power distribution
 
 
+thompson_advanced_2014
+----------------------
+The theoretical underpinnings of the method were not fully understood until work done by Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen \cite{brantley_simplifiedP3_2000}.
+
+Currently, different software use the SP3 approximation to solve the neutron transport equation, such as SIMULATE-5 \cite{bahadir_studsviks_2009}, SCOPE2 \cite{tatsumi_object-oriented_2002}, DYN3D \cite{beckert_development_2007}, and PARCS \cite{downar_parcs_2004}.
+
+
+oecdnea_benchmark_2003
+----------------------
+
+
+
 Notes:
 ------
 * not sure if using the removal cross-section is better or not than the transport cross-section.
