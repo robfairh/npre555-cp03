@@ -1,5 +1,5 @@
 brantley_simplifiedP3_2000
-----------------------
+--------------------------
 The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering only up to order $N$ polynomials.
 
 
@@ -104,4 +104,46 @@ Comparison between P3 and SP3 results within 40 pcm.
 
 beckert_development_2007
 ------------------------
+DYN3D:
+* 3D steady state and transients
+* Square or hexagonal fuel assemblies
+* Based on nodal methods
+* Two-group neutron diffusion equation
 
+* pinwise calculations of the steady-state of the OECD/NEA and US NRC PWR MOX/UO2 Core Transient Benchmark.
+* 16-group cross section library for DORT with homogenized pin cells.
+* Using the transport croo-section for the calculation of the diffusion coefficient gives much better results that those obtained with the removal cross-section.
+* Results compared with the DORT and a reference solution for the heterogeneous problem obtained with DeCART.
+* DORT = Discrete Ordinates transport code
+* DeCART = Method of Characteristics
+
+* Motivation: UO2/MOX reactors require more accurate methods
+	- more energy groups
+	- transport approximations superior to diffusion theory
+	- consider more heterogenous models
+
+* the SP3 method can be calculated from the removal cross-section or from the transport cross-section
+* diffusion approximaiton makes \Sigma_1 = \Sigma_0 * mu_ave
+* then, D1 = 1/3/(\sigma_t - \Sigma_0 * mu_ave)
+
+* Diffusion approximation:
+	- Stamm'ler and Abbate (1983): it is a good approximation if there is weak absorption
+	- Not accurate for situations involving large energy transfer and anisotropic scattering
+
+* US NRC PWR MOX/UO_2 Core Transient Benchmark:
+	- core height = 367.76 cm
+	- MOX: 4., 4.3, Pu-fissile
+	- UO2: 4.2% and 4.5%
+	- HZP = 560 K
+	- coolant density = 752.06 kg/m3
+	- boron: 1000 ppm
+
+* The results indicate that using the transport cross-section yields better results than using the removal cross-section.
+* keff is closer and also the assembly power distribution
+
+
+Notes:
+------
+* not sure if using the removal cross-section is better or not than the transport cross-section.
+* C5 MOX Benchmark indicates that it should use the transport cross-section if I don't have the information of the higher scattering moments.
+* Maybe carry out C5 MOX Benchmark in Serpent ?
