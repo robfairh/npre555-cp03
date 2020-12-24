@@ -128,3 +128,83 @@
 	year = {2003},
 	file = {OECDNEA - 2013 - Benchmark on Deterministic Transport Calculations .pdf:/home/roberto/Zotero/storage/2EJYFDDU/OECDNEA - 2013 - Benchmark on Deterministic Transport Calculations .pdf:application/pdf},
 }
+
+@inproceedings{fliscounakis_potential_2012,
+	address = {Chicago, USA},
+	title = {Potential of pin-by-pin {SPN} calculations as an industrial reference},
+	abstract = {This paper aims at analysing the potential of pin-by-pin SP n calculations to compute the neutronic flux in PWR cores as an alternative to the diffusion approximation. As far as pin-by-pin calculations are concerned, a SPH equivalence is used to preserve the reactions rates. The use of SPH equivalence is a common pratice in core diffusion calculations. In this paper, a methodology to generalize the equivalence procedure in the SP n equations context is presented. In order to verify and validate the equivalence procedure, SP n calculations are compared to 2D transport reference results obtained with the APOLL02 code. The validation cases consist in 3x3 analytical assembly colorsets involving burn-up heterogeneities, UOX/MOX interfaces, and control rods. Considering various energy discretizations (up to 26 groups) and flux development orders (up to 7) for the SP n equations, results show that 26-group SP 3 calculations are very close to the transport reference (with pin production rates discrepancies {\textless} 1\%). This proves the high interest of pin-by-pin SP n calculations as an industrial reference when relying on 26 energy groups combined with SP 3 flux development order. Additionally, the SP n results are compared to diffusion pin-by-pin calculations, in order to evaluate the potential benefit of using a SP n solver as an alternative to diffusion. Discrepancies on pin-production rates are less than 1.6\% for 6-group SP 3 calculations against 3.2\% for 2-group diffusion calculations. This shows that SP n solvers may be considered as an alternative to multigroup diffusion.},
+	author = {Fliscounakis, M. and Girardi, E. and Courau, T. and Couyras, D.},
+	month = jun,
+	year = {2012},
+}
+
+@article{ryu_finite_2013,
+	title = {Finite element method solution of the simplified {P3} equations for general geometry applications},
+	volume = {56},
+	issn = {03064549},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S030645491300025X},
+	doi = {10.1016/j.anucene.2013.01.008},
+	abstract = {The method and performance of a ﬁnite element method based simpliﬁed P3 code developed for generalized geometry applications are presented. The code takes the mesh data produced by an external generalpurpose mesh generator. The weighted residual method with Galerkin weighting is directly applied to the two SP3 equations which were slightly modiﬁed to attain symmetry. The linear system for the global problem involving two unknown ﬂux moments per node is obtained by summing up the elementwise weighted residual equations. The solution accuracy is examined for a suite of benchmark problems consisting of typical thermal and fast reactor problems together with the comparisons against the corresponding diffusion theory solutions. The effectiveness of the quadratic basis function is assessed as well against the linear function. It is demonstrated that the SP3 formulation is particularly beneﬁcial for fast neutron systems.},
+	language = {en},
+	urldate = {2020-12-24},
+	journal = {Annals of Nuclear Energy},
+	author = {Ryu, Eun Hyun and Joo, Han Gyu},
+	month = jun,
+	year = {2013},
+	pages = {194--207},
+	file = {Ryu and Joo - 2013 - Finite element method solution of the simplified P.pdf:/home/roberto/Zotero/storage/QQVCG9GM/Ryu and Joo - 2013 - Finite element method solution of the simplified P.pdf:application/pdf},
+}
+
+@mastersthesis{litskevich_development_2017,
+	address = {Aachen, Germany},
+	title = {Development of an advanced neutron transport solver for zooming in {DYN3D}},
+	school = {Rheinisch-Westfalischen Technischen Hochschule Aachen},
+	author = {Litskevich, D.},
+	month = jul,
+	year = {2017},
+	file = {Litskevich - 2017 - Development of an advanced neutron transport solve.pdf:/home/roberto/Zotero/storage/ZC848KP7/Litskevich - 2017 - Development of an advanced neutron transport solve.pdf:application/pdf},
+}
+
+@article{khosravi_mirzaee_reactor_2019,
+	title = {Reactor core analysis through the {SP3}-{ACMFD} approach. {Part} {I}: {Static} solution},
+	volume = {52},
+	issn = {17385733},
+	shorttitle = {Reactor core analysis through the {SP3}-{ACMFD} approach. {Part} {I}},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S1738573318309471},
+	doi = {10.1016/j.net.2019.07.022},
+	abstract = {The present work proposes a solution to the static Boltzmann transport equation approximated by the simpliﬁed P3 (SP3) on angular, and the analytic coarse mesh ﬁnite difference (ACMFD) for spatial variables. Multi-group SP3-ACMFD equations in 3D rectangular geometry are solved using the GMRES solution technique. As the core time dependent analysis necessitates the solution of an eigenvalue problem for an initial condition, this work is hence devoted to development and veriﬁcation of the proposed static SP3-ACMFD solver. A 3D multi-group static diffusion solver is also developed as a byproduct of this work to assess the improvement achieved using the SP3 technique. Static results are then compared against transport benchmarks to assess the proximity of SP3-ACMFD solutions to their full transport peers. Results prove that the approach can be considered as an acceptable interim approximation with outputs superior to the diffusion method, close to the transport results, and with the computational costs less than the full transport approach. The work would be further generalized to time dependent solutions in Part II.},
+	language = {en},
+	number = {2},
+	urldate = {2020-12-24},
+	journal = {Nuclear Engineering and Technology},
+	author = {Khosravi Mirzaee, Morteza and Zolfaghari, A. and Minuchehr, A.},
+	month = jul,
+	year = {2019},
+	pages = {223--229},
+	file = {Khosravi Mirzaee et al. - 2020 - Reactor core analysis through the SP3-ACMFD approa.pdf:/home/roberto/Zotero/storage/6F3C9JTR/Khosravi Mirzaee et al. - 2020 - Reactor core analysis through the SP3-ACMFD approa.pdf:application/pdf},
+}
+
+@article{avvakumov_numerical_2019,
+	title = {Numerical modeling of neutron transport in {SP3} approximation by finite element method},
+	abstract = {The SP3 approximation of the neutron transport equation allows improving the accuracy for both static and transient simulations for reactor core analysis compared with the neutron diffusion theory. Besides, the SP3 calculation costs are much less than higher order transport methods (SN or PN). Another advantage of the SP3 approximation is a similar structure of equations that is used in the diffusion method. Therefore, there is no difficulty to implement the SP
+3 solution option to the multi-group neutron diffusion codes. In this work, the application of the SP3 methodology based on solution of the λ- and α-spectral problems has been tested for the IAEA-2D and PWR reactor benchmark tests.
+The FEM is chosen to achieve the 3D geometrical generality, using GMSH as a generic mesh generator. The results calculated with the diffusion and SP3 methods are compared with the reference transport calculation results. It was found for the HWR reactor test that some eigenvalues are complex when calculating using both diffusion and SP3 options.},
+	journal = {arXiv.org},
+	author = {Avvakumov, A. and Strizhov, V. and Vabishchevich, P. and Vasilev, A.},
+	month = mar,
+	year = {2019},
+	pages = {34},
+	file = {Avvakumov et al. - 2019 - Numerical modeling of neutron transport in SP3 app.pdf:/home/roberto/Zotero/storage/E9N3FU4K/Avvakumov et al. - 2019 - Numerical modeling of neutron transport in SP3 app.pdf:application/pdf},
+}
+
+@inproceedings{mui_modified_1987,
+	address = {Los Angeles, CA, USA},
+	title = {Modified {P3} transport improvements for reactor diffusion calculations},
+	volume = {55},
+	abstract = {An important reactor physics analysis technique involves use of a cell-spectrum code to generate few-group parameters for a diffusion theory code that is then used to compute power distributions. In this technique, strong local absorbers are dealt with by using effective few-group parameters. There remain, however, transport effects that are not accurately treated by the diffusion theory. The diffusion calculations are usually applied in two space dimensions, and here ray effects make it difficult to supplement the diffusion calculations by discrete ordinates. P/sub N/ methods, particularly when certain terms are ignored, appear to be more promising. In particular, simplified P3 (SP3) methods have been successfully applied to nodal calculations and to the fast energy group of the widely used diffusions codes PDQ and Exterminator. Here the authors examine the accuracy and efficiency of various numerical implementations of the P3 and simplified P3 methods (keeping certain terms) in supplementing diffusion calculations. The Rensselaer Polytechnic Institute (RPI) diffusion code DIFXYRZ has been modified to provide these P3 calculations as well as the normal diffusion calculations. The DIFXYRZ code is mesh-point centered, as in PDQ, and the added P3 terms use the same differencing technique. Results are described for a typical reactor and for well-known transport test problems. These calculations were run on IBM-3081D, VAX-11/750, and Leading Edge D-PC computers.},
+	publisher = {Transactions of the American Nuclear Society},
+	author = {Mui, A.M. and Kim, Y.L. and Harris, D.R.},
+	month = nov,
+	year = {1987},
+	pages = {584--586},
+}

@@ -68,7 +68,7 @@ pag 232 contains the production rate distribution
 
 
 capilla_applications_2009
-----------------------
+-------------------------
 
 Motivation:
 The mutigroup diffusion equation does not provide good results for complex fuel assemblies or pin-by-pin mesh applications.
@@ -154,6 +154,31 @@ oecdnea_benchmark_2003
 
 Table 26. Eigenvalue solutions.
 Table 28. Assembly power distribution.
+
+
+litskevich_development_2017
+---------------------------
+
+Anne-Marie Baudron and Jean-Jacques Lautard
+MINOS: a simplified P N solver for core calculation
+In: Nuclear Science and Engineering 155.2 (2007)
+
+
+ryu_finite_2013
+---------------
+
+Codes using a nodal method: PARCS, DYN3D, and (Kim et al, 2009).
+Codes using a finite element method: COCAGNE \cite{fliscounakis_potential_2012}, 
+
+SHAFE \cite{ryu_finite_2013}
+
+
+
+
+khosravi_mirzaee_reactor_2019
+-----------------------------
+
+
 
 
 Notes:

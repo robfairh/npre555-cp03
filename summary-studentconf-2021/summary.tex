@@ -56,19 +56,41 @@ ref3@illinois.edu
 
 \section{Introduction}
 
+% what am I doing
+
+
+% lit - review: the SPN approximation
+The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
+If $N \rightarrow \infty$, the solution of the $P_N$ equations tends to the exact transport solution.
+In three-dimensional geometries, the number of $P_N$ equations is proportional to $(N+1)^2$, whereas, in one-dimensional planar geometries, the number of $P_N$ equations is $(N+1)$.
+Gelbard \cite{gelbard_spherical_1960} proposed the $SP_N$ approximation by replacing the second derivatives in the one-dimensional planar $P_N$ equations with three-dimensional Laplacian operators.
+This approximation considerably reduces the number of equations conserving a reasonable accuracy.
+
+
+Although Gelbard proposed the $SP_N$ approximation in the 60s, the method did not have a strong theoretical basis until the 90s with Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution.
+
+
+The disadvantage of the $SP_N$ approximation is that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
+
+However, several results \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation with considerably less computational expense than the discrete ordinates ($S_N$) method.
+
+
+
+% lit - review: software using the SPN approximation
+Currently, different software uses the SP3 approximation to solve the neutron transport equation, such as SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
+
+
+% something about MOOSE
 
 
 \section{Methodology}
 
-
-\subsection{MOOSE}
-
-
-\subsection{C5 MOX Benchmark}
-
+% equations
 
 
 \section{Results}
+
+\subsection{C5 MOX Benchmark}
 
 
 
