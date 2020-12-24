@@ -173,10 +173,32 @@ Codes using a finite element method: COCAGNE \cite{fliscounakis_potential_2012},
 SHAFE \cite{ryu_finite_2013}
 
 
+PARCS:
+------
+
+It should be noted that the general SP N equations are asymptotic corrections to the P 1 theory.
+For planar geometry problems, these corrections exactly reduce to the P N equations.
+In practice, the SP N equations are most accurate for problems that are reasonably close to being diffusive in nature or for problems that have strong transport regions in which the solution behaves nearly one-dimensionally and has weak tangential derivatives at material interfaces.
+However, for problems that have strong multidimensional transport effects, such as voids, streaming regions, or geometically complex spatial inhomogeneous, the SP N solutions are less accurate 
+
+\cite{brantley_simplifiedP3_2000}
+
 
 
 khosravi_mirzaee_reactor_2019
 -----------------------------
+
+Chao \cite{chao_new_2017} proposed a generalized SPN formulation including a generic case of multi-group anisotropic neutron source with improved boundary conditions.
+
+Analytic coarse mesh finite difference first introduced by Chao (find reference)
+This paper uses the ACMFD methology for the solution of static SP3 equations.
+Solver called SIMANOD.
+They developed as well a diffusion solver based on the ACMFD method (DIFANOD) to compare their accuracies.
+
+Part II will extend to transient problems.
+
+Equations use the transport cross-section.
+Equations taken from PARCS.
 
 
 
