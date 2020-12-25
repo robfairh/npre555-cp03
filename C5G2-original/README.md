@@ -18,5 +18,6 @@ Cavarec, Perron, Verwaerde, West. Benchmark Calculations of Power Distribution w
 # Geometry files:
 
 * mesh1.geo: 2D geometry of the benchmark
+* mesh1B.geo: 2D full geometry of the benchmark
 * mesh2.geo: UO2 fuel assembly
 * mesh3.geo: MOX fuel assembly
