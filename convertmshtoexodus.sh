@@ -2,7 +2,7 @@
 # converts a gmsh .msh file into paraview-viewable exodus II mesh
 # do: bash convertmshtoexodus.sh <gmshfile>.msh
 
-mymoose="$HOME/projects/moose/test/moose_test-opt"
+mymoose="$MOLTRES/moltres-opt"
 
 # make a fake input file
 myFileBase0=$1
