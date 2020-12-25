@@ -10,6 +10,7 @@ Brantley and Larsen. The Simplified P_3 Approximation. 2000
 
 # Results
 
-* reference k_eff : 0.99962
+* reference k_eff : 0.99962 (from Capilla)
 * my SP3 k_eff : 1.0003621950
 * delta_rho : 74 pcm
+

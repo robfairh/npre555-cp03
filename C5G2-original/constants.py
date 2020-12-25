@@ -223,7 +223,9 @@ def materials_het_diag():
         sa = data[mat]['SA']
         ss = data[mat]['SS']
         mu = np.array([0.5, 0.3])
-        materials[mat]['trxs'] = sa + (1-mu)*ss
+        
+        # materials[mat]['trxs'] = sa + (1-mu)*ss
+        materials[mat]['trxs'] = 1./3./data[mat]['D']
 
         # scatt xs: SP0
         ss = data[mat]['SS']

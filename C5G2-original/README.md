@@ -21,3 +21,7 @@ Cavarec, Perron, Verwaerde, West. Benchmark Calculations of Power Distribution w
 * mesh1B.geo: 2D full geometry of the benchmark
 * mesh2.geo: UO2 fuel assembly
 * mesh3.geo: MOX fuel assembly
+
+# Reproducing the results
+
+* to create the cross-sections: run ```python constants.py```
