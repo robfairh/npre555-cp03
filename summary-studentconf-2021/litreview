@@ -51,6 +51,15 @@ Definition of the problem in Fig 6.
 Relative errors in power distribution uses the symmetry line on the diagonal.
 
 
+We next consider the application of the diffusion, simplified P3 approximations to problems with mixed-oxide fuels.
+
+Mixed-oxide fuel assemblies possess significantly different neutronic properties than UO 2 fuel assemblies.
+Namely, the thermal absorption and fission cross sections in MOX assemblies are much higher than in UO 2 assemblies.
+As a result, the thermal flux is much lower in the MOX assemblies as compared with the UO 2 assemblies, but the power production is much higher.
+The stronger absorption in MOX assemblies and the large cross-section discontinuities at MOX-UO2 assembly interfaces can be challenging for the
+diffusion approximation.
+
+
 cavarec_benchmark_1994
 ----------------------
 Original C5 MOX fuel benchmark
@@ -200,7 +209,10 @@ Part II will extend to transient problems.
 Equations use the transport cross-section.
 Equations taken from PARCS.
 
-
+* Test case 1: Cube, comparison against MCNP and DIFANOD.
+* Test case 2: C5G2, comparison against MCNP and DIFANOD.
+* Test case 3: IAEA-3D, comparison against DANTSYS(S16) and DIFANOD.
+* Test case 4: Takeda's small fast breeder reactor, comparison against McCARD (values from ryu_finite_2013) and DIFANOD.
 
 
 Notes:
