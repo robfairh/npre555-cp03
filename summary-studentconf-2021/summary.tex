@@ -49,10 +49,11 @@ ref3@illinois.edu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Abstract}
+% \textit{
 
-\textit{
+% abstract goes here
 
-}
+% }
 
 \section{Introduction}
 
@@ -87,12 +88,56 @@ However, several results \cite{mui_modified_1987} \cite{beckert_development_2007
 Currently, different software uses the SP3 approximation to solve the neutron transport equation, such as SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
 
 
-% something about MOOSE
+% something about MOOSE - maybe move it up so I have a better motivation
 
 
 \section{Methodology}
 
-% equations
+% Equations P3
+Davidson \cite{davidson_neutron_1957} defined the one dimensional multi-group P$_3$ equations 
+
+\begin{align}
+    & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} \notag \\ & \quad \quad \quad \quad \quad \quad \quad + Q_{0,g}  \label{eq:P3-0} \\
+    & \frac{1}{3} \frac{d}{dx} \phi_{0,g} + \frac{2}{3}\frac{d}{dx}\phi_{2,g} + \Sigma_{t,g} \phi_{1,g} = \sum_{g'=1}^G \Sigma_{s1,g' \rightarrow g} \phi_{1,g'} + Q_{1,g} \label{eq:P3-1} \\
+    & \frac{2}{5} \frac{d}{dx}\phi_{1,g} + \frac{3}{5}\frac{d}{dx}\phi_{3,g} + \Sigma_{t,g} \phi_{2,g} = \sum_{g'=1}^G \Sigma_{s2,g' \rightarrow g} \phi_{2,g'} + Q_{2,g} \label{eq:P3-2} \\
+    & \frac{3}{7}\frac{d}{dx}\phi_{2,g} + \Sigma_{t,g} \phi_{3,g} = \sum_{g'=1}^G \Sigma_{s3,g' \rightarrow g} \phi_{3,g'} + Q_{3,g} \label{eq:P3-3} \\
+    \intertext{where}
+    & \phi_{n,g} = \mbox{$n^{th}$ moment of group $g$ neutron flux}  \notag \\ %  } [n \cdot cm^{-2} \cdot s^{-1}]
+    & \Sigma_{t,g} = \mbox{group $g$ macroscopic total cross-section}  \notag \\ %  } [cm^{-1}]
+	& \Sigma_{sn,g' \rightarrow g} = \mbox{$n^{th}$ moment of the group $g'$ to group $g$} \notag \\
+	& \mbox{macroscopic scattering cross-section}  \notag \\ %  } [cm^{-1}]
+	& \nu\Sigma_{f,g} = \mbox{group $g$ macroscopic production cross-section}  \notag \\ %  } [cm^{-1}]
+	& \chi_{g} = \mbox{group $g$ fission spectrum}  \notag \\ %  } [cm^{-1}]
+	& k_{eff} = \mbox{multiplication factor}  \notag \\ %  } [-]
+	& Q_{n,g} = \mbox{$n^{th}$ moment of group $g$ external neutron source}  \notag \\  % } [n \cdot cm^{-3} \cdot s^{-1}]
+	& G = \mbox{number of energy groups}.  \notag % } [-]
+\end{align}
+
+Assuming an isotropic external source and a negligible anisotropic group-to-group scattering \cite{brantley_simplifiedP3_2000}
+\begin{align}
+	& Q_{n,g} = 0, \quad n > 0 \notag \\
+	& \Sigma_{sn,g' \rightarrow g} = 0, \quad g' \ne g, \quad n > 0 \notag
+\end{align}
+
+\noindent
+simplifies equations \ref{eq:P3-1} and \ref{eq:P3-3}, allowing to express the odd moments of the flux $\phi_{1,g}$ and $\phi_{3,g}$ as functions of the even moments $\phi_{0,g}$ and $\phi_{2,g}$.
+Introducing $\phi_{1,g}$ and $\phi_{3,g}$ into equations \ref{eq:P3-0} and \ref{eq:P3-2} reduces the system of equations from four to two equations.
+Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$, reorganizing the equations, and replacing the second derivatives by Laplacian operators \cite{gelbard_spherical_1960} yields the SP$_3$ equations
+
+% Equations SP3
+\begin{align}
+    & - D_{0,g} \Delta \Phi_{0,g} + \Sigma_{0,g} \Phi_{0,g} - 2 \Sigma_{0,g} \Phi_{2,g} = S_{0,g} \label{eq:SP3-0e} \\
+    & - D_{2,g} \Delta \Phi_{2,g} + \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g} - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} = -\frac{2}{5} S_{0,g}. \label{eq:SP3-2e}
+    \intertext{where}
+	& \Sigma_{n,g} = \Sigma_{t,g} - \Sigma_{sn,g' \rightarrow g} \notag \\
+    & \Phi_{0,g} = \phi_{0,g} + 2 \phi_{2,g} \notag \\
+    & \Phi_{2,g} = \phi_{2,g} \notag \\
+    & D_{0,g} = \frac{1}{3 \Sigma_{1,g}} \notag \\
+    & D_{2,g} = \frac{9}{35 \Sigma_{3,g}} \notag \\
+    & S_{0,g} = \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) \notag \\
+    & \quad \quad + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) + Q_{0,g}. \notag
+\end{align}
+
 
 
 \section{Results}
