@@ -219,17 +219,25 @@ Gmsh
 Normal \cite{capilla_applications_2009}
 Diagonal transport correction \cite{cavarec_benchmark_1994}
 
+Table \ref{tab:keff} compares between the eigenvalue obtained with the SP3 solver and the reference
+\begin{align}
+  & \Delta_\rho = \left| \rho_{SP_3} - \rho_{Ref} \right| = \left| \frac{k_{SP_3}-1}{k_{SP_3}} - \frac{k_{Ref}-1}{k_{Ref}} \right| = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
+  \intertext{where}
+  & k_{SP_3} = \mbox{eigenvalue obtained with SP3 solver} \notag \\
+  & k_{Ref} = \mbox{ reference eigenvalue.} \notag
+\end{align}
+
 % \usepackage{booktabs}
 \begin{table}[]
 	\centering
-	\caption{\gls{GGE}, \gls{DGE}, and CO$_2$ produced.}
-	\label{tab:meth}
+	\caption{.}
+	\label{tab:keff}
 	\begin{tabular}{llll}
 	\toprule
-							& Reference & MOOSE & $\Delta_{\rho}$ 	\\
+							& Reference & MOOSE 	& $\Delta_{\rho}$	\\
 	\midrule
-	Normal 					&			&		&					\\
-	Transport correction 	&			&		&					\\
+	Normal 					& 0.96969	& 0.97106	& 145				\\
+	Transport correction 	& 0.93755	& 0.93792	& 43				\\
 	\bottomrule
 	\end{tabular}
 \end{table}
