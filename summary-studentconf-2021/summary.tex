@@ -60,6 +60,24 @@ ref3@illinois.edu
 % what am I doing
 
 
+% MOOSE
+MOOSE\cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
+In a nuclear reactor, several partial differential equations describe the physical behavior.
+These equations are typically nonlinear, and they are often coupled to each other.
+MOOSE targets such systems and solves them in a fully coupled manner.
+
+MOOSE is an open-source \gls{FEM} framework.
+The framework itself relies on LibMesh\cite{kirk_libmesh_2006} and PetSc\cite{balay_petsc_2016} for solving nonlinear equations.
+MOOSE applications define weak forms of the governing equations and modularize the physics expressions into "kernels."
+Kernels are C++ classes containing methods for computing the residual and Jacobian contributions of individual pieces of the governing equations.
+MOOSE and LibMesh translate them into residual and Jacobian functions.
+These functions become inputs into PetSc solution routines.
+
+All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
+Additionally, the framework and its applications use \gls{MPI} for parallel communication and allow deployment on massively-parallel cluster-computing platforms.
+
+
+
 % lit - review: the SPN approximation
 The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
 If $N \rightarrow \infty$, the solution of the $P_N$ equations tends to the exact transport solution.
@@ -88,7 +106,6 @@ However, several results \cite{mui_modified_1987} \cite{beckert_development_2007
 Currently, different software uses the SP3 approximation to solve the neutron transport equation, such as SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
 
 
-% something about MOOSE - maybe move it up so I have a better motivation
 
 
 \section{Methodology}
@@ -138,24 +155,42 @@ Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$, reorganizing the equati
     & \quad \quad + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) + Q_{0,g}. \notag
 \end{align}
 
+% BCs
+The Marshak-like vacuum \glspl{BC} complete the system of equations \cite{beckert_development_2007}
 
+\begin{align}
+    & \frac{1}{4} \Phi_{0,g} \pm \frac{1}{2} \hat{n} \cdot J_{0,g} - \frac{3}{16} \Phi_{2,g} = 0 \label{eq:SP3-BC1a} \\
+    - & \frac{3}{80} \Phi_{0,g} \pm \frac{1}{2} \hat{n} \cdot J_{2,g} + \frac{21}{80} \Phi_{2,g} = 0 \label{eq:SP3-BC2a}
+    \intertext{where}
+    & J_{n,g} = -D_{n,g} \nabla \Phi_{n,g}. \notag
+\end{align}
 
 \section{Results}
 
 \subsection{C5 MOX Benchmark}
 
+% intro to the benchmark
 OECD/NEACRP-L-336 C5 MOX fuel benchmark \cite{cavarec_benchmark_1994}
+
+The \gls{OECD}/\gls{NEA} developed this benchmark to carry out validation of methods and identify their strengths, limitations, and accuracy, and to suggest needs for method development.
+
+The definition of the original benchmark can be found in .
 
 % why is SP3 preferred over diffusion: maybe move to intro ??
 MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies.
 Consequently, the thermal flux is lower while the power production higher.
 Modeling these characteristics of reactors using MOX fuel using the diffusion approximation may be challenging.
 
-% benchmark specification ?
+% benchmark specification
+Two types of fuel assembly (MOX and UO$_2$) and a reflector comprise the core, shown in Figure \ref{fig:bench1}.
+Due to the problem's symmetry, the model included only a quarter of the core.
+Each fuel assembly consists of a 17 $\times$ 17 array of squared pin cells, as displayed in Figures \ref{fig:bench2} and \ref{fig:bench3}.
+The dimensions of each pin cell are 1.26 $\times$ 1.26 cm, being 21.42 $\times$ 21.42 cm the length of each assembly, and 128.52 $\times$ 128.52 cm.
 
-Figure \ref{fig:bench1}
+The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which have a two-energy group structure.
 
-Figures \ref{fig:bench2} and \ref{fig:bench3} display the geometry of each type of fuel assembly.
+% add reference
+Gmsh
 
 \begin{figure}[htbp!] %or H 
     \centering
@@ -181,21 +216,28 @@ Figures \ref{fig:bench2} and \ref{fig:bench3} display the geometry of each type 
     \label{fig:bench3}
 \end{figure}
 
-% % \usepackage{booktabs}
-% \begin{table}[]
-% 	\centering
-%     \caption{\gls{GGE}, \gls{DGE}, and CO$_2$ produced.}
-%     \label{tab:meth}
-% 	\begin{tabular}{l|lll}
-% 	\toprule
-% 	                 & Hydrogen & Gasoline    & Diesel      \\
-% 	\midrule
-% 	GGE              & 1 kg     & 1 gallon    & 0.88 gallon \\
-% 	DGE              & 1.13 kg  & 1.13 gallon & 1 gallon    \\
-%     CO$_2$ produced  & -        & 19.64 lbs   & 22.38 lbs   \\
-%     \bottomrule
-% 	\end{tabular}
-% \end{table}
+Normal \cite{capilla_applications_2009}
+Diagonal transport correction \cite{cavarec_benchmark_1994}
+
+% \usepackage{booktabs}
+\begin{table}[]
+	\centering
+	\caption{\gls{GGE}, \gls{DGE}, and CO$_2$ produced.}
+	\label{tab:meth}
+	\begin{tabular}{llll}
+	\toprule
+							& Reference & MOOSE & $\Delta_{\rho}$ 	\\
+	\midrule
+	Normal 					&			&		&					\\
+	Transport correction 	&			&		&					\\
+	\bottomrule
+	\end{tabular}
+\end{table}
+
+% Discussion ?
+
+Diagonal transport correction:
+C5 MOX Benchmark \cite{cavarec_benchmark_1994}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
 \section{Conclusions}
 
