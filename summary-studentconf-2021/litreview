@@ -56,8 +56,7 @@ We next consider the application of the diffusion, simplified P3 approximations 
 Mixed-oxide fuel assemblies possess significantly different neutronic properties than UO 2 fuel assemblies.
 Namely, the thermal absorption and fission cross sections in MOX assemblies are much higher than in UO 2 assemblies.
 As a result, the thermal flux is much lower in the MOX assemblies as compared with the UO 2 assemblies, but the power production is much higher.
-The stronger absorption in MOX assemblies and the large cross-section discontinuities at MOX-UO2 assembly interfaces can be challenging for the
-diffusion approximation.
+The stronger absorption in MOX assemblies and the large cross-section discontinuities at MOX-UO2 assembly interfaces can be challenging for the diffusion approximation.
 
 
 cavarec_benchmark_1994
@@ -71,7 +70,7 @@ Benchmark definition in p. 7
 
 Transport results 0.93755 +/- 0.00080
 
-When there no anisotropic component of the scattering cross section is available the 'diagonal transport correction' is used to compensate the lack of data for the scattering anisotropy (p. 37)
+When no anisotropic component of the scattering cross section is available the 'diagonal transport correction' is used to compensate the lack of data for the scattering anisotropy (p. 37)
 
 pag 232 contains the production rate distribution
 

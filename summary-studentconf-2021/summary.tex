@@ -14,6 +14,7 @@ ref3@illinois.edu
 \usepackage{microtype} % improves typography for PDF
 \usepackage{xspace}
 \usepackage{tabularx}
+\usepackage{caption}
 \usepackage{floatrow}
 \usepackage{subcaption}
 \usepackage{enumitem}
@@ -84,22 +85,26 @@ If $N \rightarrow \infty$, the solution of the $P_N$ equations tends to the exac
 In three-dimensional geometries, the number of $P_N$ equations is proportional to $(N+1)^2$, whereas, in one-dimensional planar geometries, the number of $P_N$ equations is $(N+1)$.
 Gelbard \cite{gelbard_spherical_1960} proposed the $SP_N$ approximation by replacing the second derivatives in the one-dimensional planar $P_N$ equations with three-dimensional Laplacian operators.
 This approximation considerably reduces the number of equations conserving a reasonable accuracy.
+Capilla et al. \cite{capilla_applications_2009} conducted an extension of the C5 MOX Benchmark introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000}, comparing the $P_3$ and $SP_3$ methods, the difference between results being less than 40 pcm.
 
 
 Although Gelbard proposed the $SP_N$ approximation in the 60s, the method did not have a strong theoretical basis until the 90s with Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution.
-
 
 The disadvantage of the $SP_N$ approximation is that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
 
 The $SP_N$ equations yield asymptotic solutions of the transport equation in a physical regime in which diffusion theory is the leading-order approximation.
 
+In practice, the $SP_N$ equations are most accurate for diffusive problems or for problems in which the solution behaves nearly one-dimensionally and has weak tangential derivatives at material interfaces.
+For problems that have strong multidimensional transport effects, such as voids, streaming regions, or geometrically complex regions, the $SP_N$ solutions are less accurate \cite{downar_parcs_2004}.
+
+However, several results show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
 
 
-However, several results \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation with considerably less computational expense than the discrete ordinates ($S_N$) method.
-
-
-% why is SP3 preferred over diffusion
-
+% when I mention that I am solving this benchmark exercise
+% why is SP3 preferred over diffusion: maybe move to intro ??
+MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies.
+Consequently, the thermal flux is lower while the power production higher.
+Modeling these characteristics of reactors using MOX fuel using the diffusion approximation may be challenging \cite{brantley_simplifiedP3_2000} \cite{capilla_applications_2009}.
 
 
 % lit - review: software using the SPN approximation
@@ -181,11 +186,12 @@ Figure \ref{fig:2D}
 \end{figure}
 
 % \usepackage{booktabs}
-\begin{table}[]
+\begin{table}[htbp!]
 	\centering
-	\caption{Cross-sections. Values expressed in $cm^{-1}$.}
-	\label{tab:keff}
-	\begin{tabular}{ccccc}
+	% \caption{Cross-sections. Values expressed in $cm^{-1}$.}
+	\caption{Cross-sections.}
+	\label{tab:cross-sections}
+	\begin{tabular}{l l l l}
 	\toprule
 	Material	& $\Sigma_t$ & $\Sigma_{s0}$ & $\nu\Sigma_f$ \\
 	\midrule
@@ -195,7 +201,7 @@ Figure \ref{fig:2D}
 	\end{tabular}
 \end{table}
 
-\begin{table}[]
+\begin{table}[htbp!]
 	\centering
 	\caption{.}
 	\label{tab:keff}
@@ -204,7 +210,6 @@ Figure \ref{fig:2D}
 							& Reference & MOOSE 	& $\Delta_{\rho}$ [pcm]	\\
 	\midrule
 	Normal 					& 0.79862	& 0.79854	& 12					\\
-
 	\bottomrule
 	\end{tabular}
 \end{table}
@@ -216,12 +221,7 @@ OECD/NEACRP-L-336 C5 MOX fuel benchmark \cite{cavarec_benchmark_1994}
 
 The \gls{OECD}/\gls{NEA} developed this benchmark to carry out validation of methods and identify their strengths, limitations, and accuracy, and to suggest needs for method development.
 
-The definition of the original benchmark can be found in .
-
-% why is SP3 preferred over diffusion: maybe move to intro ??
-MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies.
-Consequently, the thermal flux is lower while the power production higher.
-Modeling these characteristics of reactors using MOX fuel using the diffusion approximation may be challenging.
+The definition of the original benchmark can be found in \cite{cavarec_benchmark_1994}.
 
 % benchmark specification
 Two types of fuel assembly (MOX and UO$_2$) and a reflector comprise the core, shown in Figure \ref{fig:bench1}.
@@ -232,7 +232,17 @@ The dimensions of each pin cell are 1.26 $\times$ 1.26 cm, being 21.42 $\times$ 
 The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which have a two-energy group structure.
 
 % add reference
-Gmsh
+Gmsh \cite{geuzaine_gmsh_2009}
+
+%
+Diagonal transport correction - i.e. use the transport cross-section to calculate the diffusion coefficient
+\begin{align}
+  & D = \frac{1}{3 \Sigma_{tr}} \\
+  & \Sigma_{tr} = \Sigma_t - \bar{\mu} \Sigma_{s0}
+  \intertext{where}
+  & \Sigma_{tr} = \mbox{transport cross-section} \notag \\
+  & \bar{\mu} = \mbox{average cosine deviation angle.} \notag
+\end{align}
 
 \begin{figure}[htbp!] %or H 
     \centering
@@ -260,6 +270,7 @@ Gmsh
 
 Normal \cite{capilla_applications_2009}
 Diagonal transport correction \cite{cavarec_benchmark_1994}
+When no anisotropic component of the scattering cross section is available the 'diagonal transport correction' is used to compensate the lack of data for the scattering anisotropy \cite{cavarec_benchmark_1994}
 
 Table \ref{tab:keff} compares between the eigenvalue obtained with the SP3 solver and the reference
 \begin{align}
@@ -283,6 +294,17 @@ Table \ref{tab:keff} compares between the eigenvalue obtained with the SP3 solve
 	\bottomrule
 	\end{tabular}
 \end{table}
+
+The benchmark specifies the power distribution pin-by-pin.
+To simplify the display of the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly.
+
+\begin{figure}[htbp!] %or H 
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/distrib.png}
+    \hfill
+    \caption{Power distribution in the different assemblies. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
+    \label{fig:power-distrib}
+\end{figure}
 
 % Discussion ?
 
