@@ -167,6 +167,48 @@ The Marshak-like vacuum \glspl{BC} complete the system of equations \cite{becker
 
 \section{Results}
 
+\subsection{One group two-dimensional problem}
+
+Problem defined by \cite{brantley_simplifiedP3_2000}
+Figure \ref{fig:2D}
+
+\begin{figure}[htbp!] %or H 
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/brantley-larsen.png}
+    \hfill
+    \caption{Image reproduced from \cite{brantley_simplifiedP3_2000}.}
+    \label{fig:2D}
+\end{figure}
+
+% \usepackage{booktabs}
+\begin{table}[]
+	\centering
+	\caption{Cross-sections. Values expressed in $cm^{-1}$.}
+	\label{tab:keff}
+	\begin{tabular}{ccccc}
+	\toprule
+	Material	& $\Sigma_t$ & $\Sigma_{s0}$ & $\nu\Sigma_f$ \\
+	\midrule
+	M 			& 1.00		& 0.93			& 0.00			\\
+	F 			& 1.50		& 1.35			& 0.24			\\
+	\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}[]
+	\centering
+	\caption{.}
+	\label{tab:keff}
+	\begin{tabular}{llll}
+	\toprule
+							& Reference & MOOSE 	& $\Delta_{\rho}$ [pcm]	\\
+	\midrule
+	Normal 					& 0.79862	& 0.79854	& 12					\\
+
+	\bottomrule
+	\end{tabular}
+\end{table}
+
 \subsection{C5 MOX Benchmark}
 
 % intro to the benchmark
@@ -234,10 +276,10 @@ Table \ref{tab:keff} compares between the eigenvalue obtained with the SP3 solve
 	\label{tab:keff}
 	\begin{tabular}{llll}
 	\toprule
-							& Reference & MOOSE 	& $\Delta_{\rho}$	\\
+							& Reference & MOOSE 	& $\Delta_{\rho}$ [pcm]	\\
 	\midrule
-	Normal 					& 0.96969	& 0.97106	& 145				\\
-	Transport correction 	& 0.93755	& 0.93792	& 43				\\
+	Normal 					& 0.96969	& 0.97106	& 145					\\
+	Transport correction 	& 0.93755	& 0.93792	& 43					\\
 	\bottomrule
 	\end{tabular}
 \end{table}

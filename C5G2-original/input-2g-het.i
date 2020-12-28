@@ -288,6 +288,37 @@
     execute_on = 'linear timestep_end'
     use_displaced_mesh = false
   [../]
+
+  [./total_fission_heat]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a gtubea fchambera uo2b gtubeb fchamberb mox1a mox2a mox3a gtubec fchamberc mox1b mox2b mox3b gtubed fchamberd'
+  [../]
+  [./uo2a_fission_heat]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a gtubea fchambera'
+  [../]
+  [./uo2b_fission_heat]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2b gtubeb fchamberb'
+  [../]
+  [./moxa_fission_heat]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'mox1a mox2a mox3a gtubec fchamberc'
+  [../]
+  [./moxb_fission_heat]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'mox1b mox2b mox3b gtubed fchamberd'
+  [../]
 []
 
 [Outputs]

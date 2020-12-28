@@ -15,4 +15,3 @@ This study is based on:
 * Reference = 0.798617
 * My SP3 = 0.7985389665
 * delta_rho = 12 pcm
-

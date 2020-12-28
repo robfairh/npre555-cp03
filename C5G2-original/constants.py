@@ -375,7 +375,27 @@ def create_xs(outdir, temp, materials):
             fh.write(str(temp) + ' ' + strData)
             fh.write('\n')
 
-        for coeff in ['CHIT', 'CHIP', 'CHID', 'FISS', 'KAPPA', 'INVV']:
+        with open(outdir + '/' + currentMat +
+                  '_FISS.txt', 'a') as fh:
+
+            strData = materials[currentMat]['nfxs']/2.4
+            strData = ' '.join(
+                [str(dat) for dat in strData]) if isinstance(
+                strData, np.ndarray) else strData
+            fh.write(str(temp) + ' ' + strData)
+            fh.write('\n')
+
+        with open(outdir + '/' + currentMat +
+                  '_KAPPA.txt', 'a') as fh:
+
+            strData = np.array([200, 200])
+            strData = ' '.join(
+                [str(dat) for dat in strData]) if isinstance(
+                strData, np.ndarray) else strData
+            fh.write(str(temp) + ' ' + strData)
+            fh.write('\n')
+
+        for coeff in ['CHIT', 'CHIP', 'CHID', 'INVV']:
             with open(outdir + '/' + currentMat +
                       '_' + coeff + '.txt', 'a') as fh:
 
@@ -490,7 +510,27 @@ def create_xs_diag(outdir, temp, materials):
             fh.write(str(temp) + ' ' + strData)
             fh.write('\n')
 
-        for coeff in ['CHIT', 'CHIP', 'CHID', 'FISS', 'KAPPA', 'INVV']:
+        with open(outdir + '/' + currentMat +
+                  '_FISS.txt', 'a') as fh:
+
+            strData = materials[currentMat]['nfxs']/2.4
+            strData = ' '.join(
+                [str(dat) for dat in strData]) if isinstance(
+                strData, np.ndarray) else strData
+            fh.write(str(temp) + ' ' + strData)
+            fh.write('\n')
+
+        with open(outdir + '/' + currentMat +
+                  '_KAPPA.txt', 'a') as fh:
+
+            strData = np.array([200, 200])
+            strData = ' '.join(
+                [str(dat) for dat in strData]) if isinstance(
+                strData, np.ndarray) else strData
+            fh.write(str(temp) + ' ' + strData)
+            fh.write('\n')
+
+        for coeff in ['CHIT', 'CHIP', 'CHID', 'INVV']:
             with open(outdir + '/' + currentMat +
                       '_' + coeff + '.txt', 'a') as fh:
 
