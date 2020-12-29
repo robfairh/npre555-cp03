@@ -95,18 +95,20 @@ In practice, the $SP_N$ equations are most accurate for diffusive problems or fo
 For problems that have strong multidimensional transport effects, such as voids, streaming regions, or geometrically complex regions, the $SP_N$ solutions are less accurate \cite{downar_parcs_2004}.
 However, several results show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
 % why is SP3 preferred over diffusion
-For example, the $SP_3$ approximation is preferable over the diffusion approximation for modeling reactors using MOX/$UO_2$ fuel assemblies.
+For example, the $SP_3$ approximation is preferable over the diffusion approximation for modeling reactors using MOX/UO$_2$ fuel assemblies.
 MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies, and consequently, their thermal flux is lower while their power production higher.
 Modeling these characteristics using the diffusion approximation may be challenging \cite{brantley_simplifiedP3_2000} \cite{capilla_applications_2009}.
 
 % lit - review: software using the SPN approximation
-The $SP_3$ approximation gained popularity and currently, different software uses it to solve the neutron transport equation. Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
+The $SP_3$ approximation gained popularity throughout the last couple of decades and currently, different software uses it to solve the neutron transport equation. Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
 
 
 \section{Methodology}
 
+This section describes the methodology followed for solving the equations.
 % Equations P3
-Davidson \cite{davidson_neutron_1957} defined the one dimensional multi-group P$_3$ equations 
+Davidson \cite{davidson_neutron_1957} defined the one dimensional multi-group P$_N$ equations.
+For $N=3$, the equations become
 
 \begin{align}
     & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} \notag \\ & \quad \quad \quad \quad \quad \quad \quad + Q_{0,g}  \label{eq:P3-0} \\
@@ -134,12 +136,12 @@ Assuming an isotropic external source and a negligible anisotropic group-to-grou
 \noindent
 simplifies equations \ref{eq:P3-1} and \ref{eq:P3-3}, allowing to express the odd moments of the flux $\phi_{1,g}$ and $\phi_{3,g}$ as functions of the even moments $\phi_{0,g}$ and $\phi_{2,g}$.
 Introducing $\phi_{1,g}$ and $\phi_{3,g}$ into equations \ref{eq:P3-0} and \ref{eq:P3-2} reduces the system of equations from four to two equations.
-Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$, reorganizing the equations, and replacing the second derivatives by Laplacian operators \cite{gelbard_spherical_1960} yields the SP$_3$ equations
+Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$, reorganizing the equations, and replacing the second derivatives by Laplacian operators \cite{gelbard_spherical_1960} yields the SP$_3$ equations \cite{beckert_development_2007}
 
 % Equations SP3
 \begin{align}
     & - D_{0,g} \Delta \Phi_{0,g} + \Sigma_{0,g} \Phi_{0,g} - 2 \Sigma_{0,g} \Phi_{2,g} = S_{0,g} \label{eq:SP3-0e} \\
-    & - D_{2,g} \Delta \Phi_{2,g} + \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g} - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} = -\frac{2}{5} S_{0,g}. \label{eq:SP3-2e}
+    & - D_{2,g} \Delta \Phi_{2,g} + \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g} - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} = -\frac{2}{5} S_{0,g} \label{eq:SP3-2e}
     \intertext{where}
 	& \Sigma_{n,g} = \Sigma_{t,g} - \Sigma_{sn,g' \rightarrow g} \notag \\
     & \Phi_{0,g} = \phi_{0,g} + 2 \phi_{2,g} \notag \\
@@ -159,6 +161,11 @@ The Marshak-like vacuum \glspl{BC} complete the system of equations \cite{becker
     \intertext{where}
     & J_{n,g} = -D_{n,g} \nabla \Phi_{n,g}. \notag
 \end{align}
+
+Finally, multiplying equations \ref{eq:SP3-0e} and \ref{eq:SP3-2e} by a test function and integrating over the domain allows for obtaining the weak form of the equations that we modularized into kernels in the MOOSE-based application.
+For brevity, we will not display the derivation of the kernels here.
+Such procedure is standard in weighted residual methods and can be found in \cite{ryu_finite_2013} and any finite elements book \cite{quarteroni_numerical_1994}.
+
 
 \section{Results}
 
