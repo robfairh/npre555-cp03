@@ -59,25 +59,23 @@ ref3@illinois.edu
 \section{Introduction}
 
 % what am I doing
-
-
+This work presents the implementation of the $SP_3$ equations \cite{gelbard_spherical_1960} in a \gls{MOOSE}-based application.
 % MOOSE
-MOOSE\cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
-In a nuclear reactor, several partial differential equations describe the physical behavior.
+MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
+In a nuclear reactor, several partial differential equations describe its physical behavior.
 These equations are typically nonlinear, and they are often coupled to each other.
-MOOSE targets such systems and solves them in a fully coupled manner.
+MOOSE targets such systems solving them in a fully coupled manner.
 
 MOOSE is an open-source \gls{FEM} framework.
-The framework itself relies on LibMesh\cite{kirk_libmesh_2006} and PetSc\cite{balay_petsc_2016} for solving nonlinear equations.
-MOOSE applications define weak forms of the governing equations and modularize the physics expressions into "kernels."
+The framework itself relies on LibMesh \cite{kirk_libmesh_2006} and PetSc \cite{balay_petsc_2016} for solving nonlinear equations.
+MOOSE-based applications define weak forms of the governing equations and modularize the physics expressions into "kernels."
 Kernels are C++ classes containing methods for computing the residual and Jacobian contributions of individual pieces of the governing equations.
 MOOSE and LibMesh translate them into residual and Jacobian functions.
 These functions become inputs into PetSc solution routines.
 
 All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
+While the $SP_3$ equations solve the neutronics in a nuclear reactor, other applications may solve the thermal-fluids and given they share the same API, their integration is straightforward.
 Additionally, the framework and its applications use \gls{MPI} for parallel communication and allow deployment on massively-parallel cluster-computing platforms.
-
-
 
 % lit - review: the SPN approximation
 The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
@@ -85,32 +83,24 @@ If $N \rightarrow \infty$, the solution of the $P_N$ equations tends to the exac
 In three-dimensional geometries, the number of $P_N$ equations is proportional to $(N+1)^2$, whereas, in one-dimensional planar geometries, the number of $P_N$ equations is $(N+1)$.
 Gelbard \cite{gelbard_spherical_1960} proposed the $SP_N$ approximation by replacing the second derivatives in the one-dimensional planar $P_N$ equations with three-dimensional Laplacian operators.
 This approximation considerably reduces the number of equations conserving a reasonable accuracy.
-Capilla et al. \cite{capilla_applications_2009} conducted an extension of the C5 MOX Benchmark introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000}, comparing the $P_3$ and $SP_3$ methods, the difference between results being less than 40 pcm.
+Capilla et al. \cite{capilla_applications_2009} conducted an extension of the C5 \gls{MOX} fuel Benchmark \cite{cavarec_benchmark_1994} introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000} comparing the $P_3$ and $SP_3$ methods, the difference between results being less than 40 pcm.
 
-
-Although Gelbard proposed the $SP_N$ approximation in the 60s, the method did not have a strong theoretical basis until the 90s with Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution.
-
-The disadvantage of the $SP_N$ approximation is that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
-
-The $SP_N$ equations yield asymptotic solutions of the transport equation in a physical regime in which diffusion theory is the leading-order approximation.
+The $SP_N$ approximation has the disadvantage that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
+Additionally, the theoretical basis of the formulation of $SP_N$ approximation was weak.
+For these reasons, the method did not gain widespread use until the 2000s, when thanks to Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution, the method gained a stronger theoretical basis.
+% Although Gelbard proposed the $SP_N$ approximation in the 60s, the method did not have a strong theoretical basis until the 90s with Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution.
+% Additionally, the $SP_N$ approximation has the disadvantage that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
 
 In practice, the $SP_N$ equations are most accurate for diffusive problems or for problems in which the solution behaves nearly one-dimensionally and has weak tangential derivatives at material interfaces.
 For problems that have strong multidimensional transport effects, such as voids, streaming regions, or geometrically complex regions, the $SP_N$ solutions are less accurate \cite{downar_parcs_2004}.
-
 However, several results show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
-
-
-% when I mention that I am solving this benchmark exercise
-% why is SP3 preferred over diffusion: maybe move to intro ??
-MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies.
-Consequently, the thermal flux is lower while the power production higher.
-Modeling these characteristics of reactors using MOX fuel using the diffusion approximation may be challenging \cite{brantley_simplifiedP3_2000} \cite{capilla_applications_2009}.
-
+% why is SP3 preferred over diffusion
+For example, the $SP_3$ approximation is preferable over the diffusion approximation for modeling reactors using MOX/$UO_2$ fuel assemblies.
+MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies, and consequently, their thermal flux is lower while their power production higher.
+Modeling these characteristics using the diffusion approximation may be challenging \cite{brantley_simplifiedP3_2000} \cite{capilla_applications_2009}.
 
 % lit - review: software using the SPN approximation
-Currently, different software uses the SP3 approximation to solve the neutron transport equation, such as SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
-
-
+The $SP_3$ approximation gained popularity and currently, different software uses it to solve the neutron transport equation. Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
 
 
 \section{Methodology}
@@ -191,7 +181,7 @@ Figure \ref{fig:2D}
 	% \caption{Cross-sections. Values expressed in $cm^{-1}$.}
 	\caption{Cross-sections.}
 	\label{tab:cross-sections}
-	\begin{tabular}{l l l l}
+	\begin{tabular}{llll}
 	\toprule
 	Material	& $\Sigma_t$ & $\Sigma_{s0}$ & $\nu\Sigma_f$ \\
 	\midrule
