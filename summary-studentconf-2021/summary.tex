@@ -143,7 +143,7 @@ Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$, reorganizing the equati
 	& \Sigma_{n,g} = \Sigma_{t,g} - \Sigma_{sn,g' \rightarrow g} \notag \\
     & \Phi_{0,g} = \phi_{0,g} + 2 \phi_{2,g} \notag \\
     & \Phi_{2,g} = \phi_{2,g} \notag \\
-    & D_{0,g} = \frac{1}{3 \Sigma_{1,g}} \notag \\
+    & D_{0,g} = \frac{1}{3 \Sigma_{1,g}} \label{eq:diff-rem} \\
     & D_{2,g} = \frac{9}{35 \Sigma_{3,g}} \notag \\
     & S_{0,g} = \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) \notag \\
     & \quad \quad + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) + Q_{0,g}. \notag
@@ -266,45 +266,39 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
 \end{figure}
 
 
+When no anisotropic component of the scattering cross-section is available, the benchmark recommends applying the diagonal transport correction
+\begin{align}
+  & D_{0,g} = \frac{1}{3 \Sigma_{tr,g}} \label{eq:diff-tr} \\
+  & \Sigma_{tr} = \Sigma_{t,g} - \bar{\mu}_{g} \Sigma_{s0,g}
+  \intertext{where}
+  & \Sigma_{tr, g} = \mbox{group $g$ transport cross-section} \notag \\
+  & \bar{\mu}_{g} = \mbox{group $g$ average cosine deviation angle.} \notag
+\end{align}
+
+For the sake of comparison, we conducted the exercise using the normal scheme and using the transport correction, calculating $D_{0,g}$ with equations \ref{eq:diff-rem} and \ref{eq:diff-tr}.
 Due to the problem's symmetry, the model included only a quarter of the core.
 The mesh had 2.4 $\times 10^{4}$ elements.
 The simulation convergence criteria was 10 $\times ^{-8}$ for the neutron flux.
 
-
-% left here
-
-Normal \cite{capilla_applications_2009}
-Diagonal transport correction \cite{cavarec_benchmark_1994}
-When no anisotropic component of the scattering cross section is available the 'diagonal transport correction' is used to compensate the lack of data for the scattering anisotropy \cite{cavarec_benchmark_1994}
-
-Diagonal transport correction:
-C5 MOX Benchmark \cite{cavarec_benchmark_1994}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
-
-Diagonal transport correction - i.e. use the transport cross-section to calculate the diffusion coefficient
-\begin{align}
-  & D = \frac{1}{3 \Sigma_{tr}} \\
-  & \Sigma_{tr} = \Sigma_t - \bar{\mu} \Sigma_{s0}
-  \intertext{where}
-  & \Sigma_{tr} = \mbox{transport cross-section} \notag \\
-  & \bar{\mu} = \mbox{average cosine deviation angle.} \notag
-\end{align}
-
-
-Table \ref{tab:keff} compares between the eigenvalue obtained with the SP3 solver and the reference
+Table \ref{tab:keff-2nd} compares between the eigenvalues obtained with the SP3 solver and the references.
+For the normal scheme, we use a reference value from Capilla et al. \cite{capilla_applications_2009}.
+For the transport correction, we use the reference value from the benchmark \cite{cavarec_benchmark_1994}.
 % \usepackage{booktabs}
 \begin{table}[]
 	\centering
 	\caption{.}
-	\label{tab:keff}
+	\label{tab:keff-2nd}
 	\begin{tabular}{llll}
 	\toprule
-							& Reference & MOOSE 	& $\Delta_{\rho}$ [pcm]	\\
+												& Reference & MOOSE 	& $\Delta_{\rho}$ [pcm]	\\
 	\midrule
-	Normal scheme			& 0.96969	& 0.97106	& 145					\\
-	Transport correction 	& 0.93755	& 0.93792	& 43					\\
+	Normal scheme (eq. \ref{eq:diff-rem})		& 0.96969	& 0.97106	& 145					\\
+	Transport correction (eq. \ref{eq:diff-tr})	& 0.93755	& 0.93792	& 43					\\
 	\bottomrule
 	\end{tabular}
 \end{table}
+
+% left here ??
 
 The benchmark specifies the power distribution pin-by-pin.
 To simplify the display of the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly and the relative difference to the reference.
@@ -318,6 +312,8 @@ To simplify the display of the results, Figure \ref{fig:power-distrib} presents 
 \end{figure}
 
 % Discussion
+Diagonal transport correction:
+C5 MOX Benchmark \cite{cavarec_benchmark_1994}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
 
 
