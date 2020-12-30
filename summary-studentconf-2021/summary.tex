@@ -174,11 +174,12 @@ Section \ref{sec:results-2nd} shows the results of the C5 MOX Benchmark \cite{ca
 \label{sec:results-1st}
 
 This section describes the a one group, isotropic-scattering eigenvalue problem introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000}.
+This section also presents the result obtained with the $SP_3$ solver an compares it against the reference value.
 Figure \ref{fig:2D} shows the problem's geometry and Table \ref{tab:cross-sections} specifies its cross-sections.
 
 % left here
 We created the mesh using the software Gmsh \cite{geuzaine_gmsh_2009}.
-The mesh had 6044 triangles.
+The mesh had 6 $\times 10^{3}$ elements.
 The simulation convergence criteria was 10 $\times ^{-8}$ for the neutron flux.
 
 \begin{figure}[htbp!] %or H 
@@ -226,35 +227,19 @@ Table \ref{tab:keff-1st} compares between the eigenvalue obtained with the $SP_3
 	\end{tabular}
 \end{table}
 
+
 \subsection{C5 MOX Benchmark}
 \label{sec:results-2nd}
 
+This section introduces the C5 MOX Benchmark \cite{cavarec_benchmark_1994} and presents the results obtained with the $SP_3$ solver.
+
 % intro to the benchmark
-OECD/NEACRP-L-336 C5 MOX fuel benchmark \cite{cavarec_benchmark_1994}
-
 The \gls{OECD}/\gls{NEA} developed this benchmark to carry out validation of methods and identify their strengths, limitations, and accuracy, and to suggest needs for method development.
-
-The definition of the original benchmark can be found in \cite{cavarec_benchmark_1994}.
-
 % benchmark specification
 Two types of fuel assembly (MOX and UO$_2$) and a reflector comprise the core, shown in Figure \ref{fig:bench1}.
-Due to the problem's symmetry, the model included only a quarter of the core.
 Each fuel assembly consists of a 17 $\times$ 17 array of squared pin cells, as displayed in Figures \ref{fig:bench2} and \ref{fig:bench3}.
-The dimensions of each pin cell are 1.26 $\times$ 1.26 cm, being 21.42 $\times$ 21.42 cm the length of each assembly, and 128.52 $\times$ 128.52 cm.
-
+The dimensions of each pin cell are 1.26 $\times$ 1.26 cm, being 21.42 $\times$ 21.42 cm the dimensions of each assembly, and 128.52 $\times$ 128.52 cm of the whole core.
 The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which have a two-energy group structure.
-
-
-
-%
-Diagonal transport correction - i.e. use the transport cross-section to calculate the diffusion coefficient
-\begin{align}
-  & D = \frac{1}{3 \Sigma_{tr}} \\
-  & \Sigma_{tr} = \Sigma_t - \bar{\mu} \Sigma_{s0}
-  \intertext{where}
-  & \Sigma_{tr} = \mbox{transport cross-section} \notag \\
-  & \bar{\mu} = \mbox{average cosine deviation angle.} \notag
-\end{align}
 
 \begin{figure}[htbp!] %or H 
     \centering
@@ -280,18 +265,32 @@ Diagonal transport correction - i.e. use the transport cross-section to calculat
     \label{fig:bench3}
 \end{figure}
 
+
+Due to the problem's symmetry, the model included only a quarter of the core.
+The mesh had 2.4 $\times 10^{4}$ elements.
+The simulation convergence criteria was 10 $\times ^{-8}$ for the neutron flux.
+
+
+% left here
+
 Normal \cite{capilla_applications_2009}
 Diagonal transport correction \cite{cavarec_benchmark_1994}
 When no anisotropic component of the scattering cross section is available the 'diagonal transport correction' is used to compensate the lack of data for the scattering anisotropy \cite{cavarec_benchmark_1994}
 
-Table \ref{tab:keff} compares between the eigenvalue obtained with the SP3 solver and the reference
+Diagonal transport correction:
+C5 MOX Benchmark \cite{cavarec_benchmark_1994}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
+
+Diagonal transport correction - i.e. use the transport cross-section to calculate the diffusion coefficient
 \begin{align}
-  & \Delta_\rho = \left| \rho_{SP_3} - \rho_{Ref} \right| = \left| \frac{k_{SP_3}-1}{k_{SP_3}} - \frac{k_{Ref}-1}{k_{Ref}} \right| = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
+  & D = \frac{1}{3 \Sigma_{tr}} \\
+  & \Sigma_{tr} = \Sigma_t - \bar{\mu} \Sigma_{s0}
   \intertext{where}
-  & k_{SP_3} = \mbox{eigenvalue obtained with SP3 solver} \notag \\
-  & k_{Ref} = \mbox{ reference eigenvalue.} \notag
+  & \Sigma_{tr} = \mbox{transport cross-section} \notag \\
+  & \bar{\mu} = \mbox{average cosine deviation angle.} \notag
 \end{align}
 
+
+Table \ref{tab:keff} compares between the eigenvalue obtained with the SP3 solver and the reference
 % \usepackage{booktabs}
 \begin{table}[]
 	\centering
@@ -301,14 +300,14 @@ Table \ref{tab:keff} compares between the eigenvalue obtained with the SP3 solve
 	\toprule
 							& Reference & MOOSE 	& $\Delta_{\rho}$ [pcm]	\\
 	\midrule
-	Normal 					& 0.96969	& 0.97106	& 145					\\
+	Normal scheme			& 0.96969	& 0.97106	& 145					\\
 	Transport correction 	& 0.93755	& 0.93792	& 43					\\
 	\bottomrule
 	\end{tabular}
 \end{table}
 
 The benchmark specifies the power distribution pin-by-pin.
-To simplify the display of the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly.
+To simplify the display of the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly and the relative difference to the reference.
 
 \begin{figure}[htbp!] %or H 
     \centering
@@ -318,10 +317,9 @@ To simplify the display of the results, Figure \ref{fig:power-distrib} presents 
     \label{fig:power-distrib}
 \end{figure}
 
-% Discussion ?
+% Discussion
 
-Diagonal transport correction:
-C5 MOX Benchmark \cite{cavarec_benchmark_1994}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
+
 
 \section{Conclusions}
 
