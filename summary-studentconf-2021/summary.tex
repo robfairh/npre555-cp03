@@ -179,12 +179,12 @@ Figure \ref{fig:2D} shows the problem's geometry and Table \ref{tab:cross-sectio
 
 % left here
 We created the mesh using the software Gmsh \cite{geuzaine_gmsh_2009}.
-The mesh had 6 $\times 10^{3}$ elements.
-The simulation convergence criteria was 10 $\times ^{-8}$ for the neutron flux.
+The mesh had $6 \times 10^{3}$ elements.
+The simulation convergence criteria was $10^{-8}$ for the neutron flux.
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[width=0.95\linewidth]{figures/brantley-larsen.png}
+    \includegraphics[width=0.9\linewidth]{figures/brantley-larsen.png}
     \hfill
     \caption{Geometry of the one group eigenvalue problem. Image reproduced from \cite{brantley_simplifiedP3_2000}.}
     \label{fig:2D}
@@ -210,6 +210,7 @@ Table \ref{tab:keff-1st} compares between the eigenvalue obtained with the $SP_3
   % & \Delta_\rho = \left| \rho_{SP_3} - \rho_{Ref} \right| = \left| \frac{k_{SP_3}-1}{k_{SP_3}} - \frac{k_{Ref}-1}{k_{Ref}} \right| = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
   & \Delta_\rho = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
   \intertext{where}
+  & \Delta_\rho = \mbox{reactivity difference } [pcm] \notag \\
   & k_{SP_3} = \mbox{eigenvalue obtained with SP3 solver} \notag \\
   & k_{Ref} = \mbox{reference eigenvalue.} \notag
 \end{align}
@@ -220,9 +221,9 @@ Table \ref{tab:keff-1st} compares between the eigenvalue obtained with the $SP_3
 	\label{tab:keff-1st}
 	\begin{tabular}{lll}
 	\toprule
-		$k_{Ref}$	& $k_{SP_3}$ 	& $\Delta_{\rho}$ [pcm]	\\
+		$k_{Ref}$	& $k_{SP_3}$ 	& $\Delta_{\rho}$	\\
 	\midrule
-	 	0.79862		& 0.79854		& 12					\\
+	 	0.79862		& 0.79854		& 12				\\
 	\bottomrule
 	\end{tabular}
 \end{table}
@@ -232,7 +233,6 @@ Table \ref{tab:keff-1st} compares between the eigenvalue obtained with the $SP_3
 \label{sec:results-2nd}
 
 This section introduces the C5 MOX Benchmark \cite{cavarec_benchmark_1994} and presents the results obtained with the $SP_3$ solver.
-
 % intro to the benchmark
 The \gls{OECD}/\gls{NEA} developed this benchmark to carry out validation of methods and identify their strengths, limitations, and accuracy, and to suggest needs for method development.
 % benchmark specification
@@ -251,15 +251,17 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[width=0.95\linewidth]{figures/bench-config2.png}
+    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.95\linewidth]{figures/bench-config2.png}
     \hfill
     \caption{Structure of the UO$_2$ assembly. Image reproduced from \cite{capilla_applications_2009}.}
     \label{fig:bench2}
 \end{figure}
 
-\begin{figure}[htbp!] %or H 
+% \begin{figure}[htbp!] %or H 
+\begin{figure}[h] %or H 
     \centering
-    \includegraphics[width=0.95\linewidth]{figures/bench-config3.png}
+    % \includegraphics[width=0.95\linewidth]{figures/bench-config3.png}
+    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.95\linewidth]{figures/bench-config3.png}
     \hfill
     \caption{Structure of the MOX assembly. Image reproduced from \cite{capilla_applications_2009}.}
     \label{fig:bench3}
@@ -269,7 +271,7 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
 When no anisotropic component of the scattering cross-section is available, the benchmark recommends applying the diagonal transport correction
 \begin{align}
   & D_{0,g} = \frac{1}{3 \Sigma_{tr,g}} \label{eq:diff-tr} \\
-  & \Sigma_{tr} = \Sigma_{t,g} - \bar{\mu}_{g} \Sigma_{s0,g}
+  & \Sigma_{tr} = \Sigma_{t,g} - \bar{\mu}_{g} \Sigma_{s0,g} \notag
   \intertext{where}
   & \Sigma_{tr, g} = \mbox{group $g$ transport cross-section} \notag \\
   & \bar{\mu}_{g} = \mbox{group $g$ average cosine deviation angle.} \notag
@@ -277,31 +279,37 @@ When no anisotropic component of the scattering cross-section is available, the 
 
 For the sake of comparison, we conducted the exercise using the normal scheme and using the transport correction, calculating $D_{0,g}$ with equations \ref{eq:diff-rem} and \ref{eq:diff-tr}.
 Due to the problem's symmetry, the model included only a quarter of the core.
-The mesh had 2.4 $\times 10^{4}$ elements.
-The simulation convergence criteria was 10 $\times ^{-8}$ for the neutron flux.
+The mesh had $2.4 \times 10^{4}$ elements.
+The simulation convergence criteria was $10^{-8}$ for the neutron flux.
 
 Table \ref{tab:keff-2nd} compares between the eigenvalues obtained with the SP3 solver and the references.
 For the normal scheme, we use a reference value from Capilla et al. \cite{capilla_applications_2009}.
 For the transport correction, we use the reference value from the benchmark \cite{cavarec_benchmark_1994}.
 % \usepackage{booktabs}
-\begin{table}[]
+\begin{table}[htbp!]
 	\centering
-	\caption{.}
+	\caption{Comparison between the results obtained with the $SP_3$ solver using the normal scheme (equation \ref{eq:diff-rem}) and the transport correction (equation \ref{eq:diff-tr}) and the reference results for the C5 MOX Benchmark.}
 	\label{tab:keff-2nd}
-	\begin{tabular}{llll}
+	\begin{tabular}{lrrr}
 	\toprule
-												& Reference & MOOSE 	& $\Delta_{\rho}$ [pcm]	\\
+							& $k_{Ref}$ & $k_{SP_3}$	& $\Delta_{\rho}$	\\
 	\midrule
-	Normal scheme (eq. \ref{eq:diff-rem})		& 0.96969	& 0.97106	& 145					\\
-	Transport correction (eq. \ref{eq:diff-tr})	& 0.93755	& 0.93792	& 43					\\
+	Normal scheme			& 0.96969	& 0.97106		& 145				\\
+	Transport correction	& 0.93755	& 0.93792		& 43				\\
 	\bottomrule
 	\end{tabular}
 \end{table}
 
-% left here ??
+% discussion about the transport correction
+The results obtained with the $SP_3$ solver are within the 145 pcm to the reference values.
+However, the difference between the reference values of the different schemes is of 3535 pcm, suggesting that the use of the transport correction is necessary.
+% examples of codes using the diagonal transport correction PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
-The benchmark specifies the power distribution pin-by-pin.
-To simplify the display of the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly and the relative difference to the reference.
+Figure \ref{fig:power-distrib} presents the power distribution and the relative difference to the reference provided by the benchmark \cite{cavarec_benchmark_1994}.
+For brevity, we only calculated the power distribution using the transport correction.
+The benchmark specifies the power distribution pin-by-pin, but to simplify the display of the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly.
+% discuss results
+The results of the power distribution are within the 1\% difference.
 
 \begin{figure}[htbp!] %or H 
     \centering
@@ -310,11 +318,6 @@ To simplify the display of the results, Figure \ref{fig:power-distrib} presents 
     \caption{Power distribution in the C5 MOX Benchmark. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
     \label{fig:power-distrib}
 \end{figure}
-
-% Discussion
-Diagonal transport correction:
-C5 MOX Benchmark \cite{cavarec_benchmark_1994}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
-
 
 
 \section{Conclusions}
