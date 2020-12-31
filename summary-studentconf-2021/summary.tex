@@ -51,12 +51,16 @@ ref3@illinois.edu
 
 \section{Abstract}
 
-\textit{abstract goes here}
+\textit{
+    The Multi-physics Object-Oriented Simulation Environment is a framework that supports the development of applications for solving nonlinear systems of differential equations.
+    This work presents the implementation of an application in that framework for solving the Simplified $P_3$ equations.
+    We conducted two exercises with results as low as 12 pcm and as high as 145 pcm from the reference results, successfully validating the proposed application.
+}
 
 \section{Introduction}
 
 % what am I doing
-This work presents the implementation of the simplified $P_3$ ($SP_3$) equations \cite{gelbard_spherical_1960} in a \gls{MOOSE}-based application.
+This work presents the implementation of the Simplified $P_3$ ($SP_3$) equations \cite{gelbard_spherical_1960} in a \gls{MOOSE}-based application.
 % MOOSE
 MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
 In a nuclear reactor, several partial differential equations describe its physical behavior.
@@ -184,14 +188,15 @@ The simulation convergence criteria was $10^{-8}$ for the neutron flux.
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/brantley-larsen.png}
+    \includegraphics[width=0.85\linewidth]{figures/brantley-larsen.png}
     \hfill
     \caption{Geometry of the one group eigenvalue problem. Image reproduced from \cite{brantley_simplifiedP3_2000}.}
     \label{fig:2D}
 \end{figure}
 
 % \usepackage{booktabs}
-\begin{table}[htbp!]
+% \begin{table}[htbp!]
+\begin{table}[h]
 	\centering
 	\caption{Cross-sections of the one group eigenvalue problem \cite{brantley_simplifiedP3_2000}. Values expressed in $cm^{-1}$.}
 	\label{tab:cross-sections}
@@ -243,7 +248,7 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[width=0.95\linewidth]{figures/bench-config.png}
+    \includegraphics[width=0.9\linewidth]{figures/bench-config.png}
     \hfill
     \caption{C5 MOX benchmark configuration. \textit{R} correponds to the reflector region. Image reproduced from \cite{capilla_applications_2009}.}
     \label{fig:bench1}
@@ -251,7 +256,7 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.95\linewidth]{figures/bench-config2.png}
+    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.9\linewidth]{figures/bench-config2.png}
     \hfill
     \caption{Structure of the UO$_2$ assembly. Image reproduced from \cite{capilla_applications_2009}.}
     \label{fig:bench2}
@@ -261,7 +266,7 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
 \begin{figure}[h] %or H 
     \centering
     % \includegraphics[width=0.95\linewidth]{figures/bench-config3.png}
-    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.95\linewidth]{figures/bench-config3.png}
+    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.9\linewidth]{figures/bench-config3.png}
     \hfill
     \caption{Structure of the MOX assembly. Image reproduced from \cite{capilla_applications_2009}.}
     \label{fig:bench3}
@@ -322,7 +327,7 @@ The results of the power distribution are within the 1\% difference.
 
 \section{Conclusions}
 
-MOOSE is a computational framework that solves nonlinear systems of differential equations.
+MOOSE is a computational framework that solves systems of nonlinear differential equations.
 As part of this work, we implemented the kernels to solve the steady-state $SP_3$ equations in a MOOSE-based application.
 Additionally, we carried out two exercises whose reference results were known.
 The first exercise solved a one-group eigenvalue problem with a simple geometry, with a result within the 12 pcm.
