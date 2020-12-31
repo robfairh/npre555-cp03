@@ -56,7 +56,7 @@ ref3@illinois.edu
 \section{Introduction}
 
 % what am I doing
-This work presents the implementation of the $SP_3$ equations \cite{gelbard_spherical_1960} in a \gls{MOOSE}-based application.
+This work presents the implementation of the simplified $P_3$ ($SP_3$) equations \cite{gelbard_spherical_1960} in a \gls{MOOSE}-based application.
 % MOOSE
 MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
 In a nuclear reactor, several partial differential equations describe its physical behavior.
@@ -105,7 +105,7 @@ The $SP_3$ approximation gained popularity throughout the last couple of decades
 This section describes the methodology followed for solving the equations.
 % Equations P3
 Davidson \cite{davidson_neutron_1957} defined the one dimensional multi-group P$_N$ equations.
-For $N=3$, the equations become
+For $N=3$ and steady-state, the equations become
 
 \begin{align}
     & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} \notag \\ & \quad \quad \quad \quad \quad \quad \quad + Q_{0,g}  \label{eq:P3-0} \\
@@ -322,6 +322,15 @@ The results of the power distribution are within the 1\% difference.
 
 \section{Conclusions}
 
+MOOSE is a computational framework that solves nonlinear systems of differential equations.
+As part of this work, we implemented the kernels to solve the steady-state $SP_3$ equations in a MOOSE-based application.
+Additionally, we carried out two exercises whose reference results were known.
+The first exercise solved a one-group eigenvalue problem with a simple geometry, with a result within the 12 pcm.
+The second exercise studied the C5 MOX Benchmark, solving it using different approaches and obtaining results within the 145 pcm.
+The calculated power distribution values were within the 1\% error from the reference.
+
+While the $SP_3$ equations solve the neutronics in a nuclear reactor, future work may develop other applications for solving the thermal-fluids or integrate this application to already existing applications.
+MOOSE-based applications share the same API and their integration is straightforward.
 
 
 \section{Acknowledgements}
