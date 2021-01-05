@@ -300,7 +300,7 @@ Plane Surface(34) = {34};
 
 Curve Loop(35) = {103, 69, -104, -35};
 Curve Loop(36) = {1};
-Plane Surface(35) = {35};
+Plane Surface(35) = {35, 36};
 Curve Loop(37) = {36, 105, -70, -104};
 Curve Loop(38) = {2};
 Plane Surface(36) = {37, 38};
@@ -398,3 +398,28 @@ Plane Surface(67) = {97, 98};
 Curve Loop(99) = {68, 137, -102, -136};
 Curve Loop(100) = {34};
 Plane Surface(68) = {99, 100};
+
+surfaces[] = {1};
+For yindex In {1:15}
+new_surface = Translate {0, yindex*pt, 0} {
+  Duplicata {
+  	Surface{ 1}; Surface{ 2}; Surface{ 3}; Surface{ 4}; Surface{ 5};
+  	Surface{ 6}; Surface{ 7}; Surface{ 8}; Surface{ 9}; Surface{10};
+  	Surface{11}; Surface{12}; Surface{13}; Surface{14}; Surface{15};
+  	Surface{16}; Surface{17}; Surface{18}; Surface{19}; Surface{20};
+  	Surface{21}; Surface{22}; Surface{23}; Surface{24}; Surface{25};
+  	Surface{26}; Surface{27}; Surface{28}; Surface{29}; Surface{30};
+  	Surface{31}; Surface{32}; Surface{33}; Surface{34}; Surface{35};
+  	Surface{36}; Surface{37}; Surface{38}; Surface{39}; Surface{40};
+  	Surface{41}; Surface{42}; Surface{43}; Surface{44}; Surface{45};
+  	Surface{46}; Surface{47}; Surface{48}; Surface{49}; Surface{50};
+  	Surface{51}; Surface{52}; Surface{53}; Surface{54}; Surface{55};
+  	Surface{56}; Surface{57}; Surface{58}; Surface{59}; Surface{60};
+  	Surface{61}; Surface{62}; Surface{63}; Surface{64}; Surface{65};
+  	Surface{66}; Surface{67}; Surface{68};
+  }
+};
+surfaces += new_surface;
+EndFor
+
+// Hacer uno de 17 x 17 a mano y despues duplicar eso
