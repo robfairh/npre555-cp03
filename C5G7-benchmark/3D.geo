@@ -9862,3 +9862,29 @@ Line(3540) = {2384, 1191};
 
 Curve Loop(2313) = {3537, 3538, 3539, 3540, 2312, 2313, 2314, 2315, 2316, 2317, 2318, 2319, 2320, 2321, 2322, 2323, 2324, 2325, 2326, 2327, 2328, 2329, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, 2340, 2341, 2342, 2343, 2344, 2345, -2380, -2311, -2242, -2173, -2104, -2035, -1966, -1897, -1828, -1759, -1690, -1621, -1552, -1483, -1414, -1345, -1276, -1207, -1138, -1069, -1000, -931, -862, -793, -724, -655, -586, -517, -448, -379, -310, -241, -172, -103};
 Plane Surface(2313) = {2313};
+
+
+Extrude {0, 0, 10} {
+  Surface{1}; Surface{2}; Surface{3}; Surface{4}; Surface{5};
+  Surface{6}; Surface{7}; Surface{8}; Surface{9}; Surface{10};
+  Surface{11}; Surface{12}; Surface{13}; Surface{14}; Surface{15};
+  Surface{16}; Surface{17}; Surface{18}; Surface{19}; Surface{20};
+  Surface{21}; Surface{22}; Surface{23}; Surface{24}; Surface{25};
+  Surface{26}; Surface{27}; Surface{28}; Surface{29}; Surface{30};
+  Surface{31}; Surface{32}; Surface{33}; Surface{34}; Surface{35};
+  Surface{36}; Surface{37}; Surface{38}; Surface{39}; Surface{40};
+  Surface{41}; Surface{42}; Surface{43}; Surface{44}; Surface{45};
+  Surface{46}; Surface{47}; Surface{48}; Surface{49}; Surface{50};
+  Surface{51}; Surface{52}; Surface{53}; Surface{54}; Surface{55};
+  Surface{56}; Surface{57}; Surface{58}; Surface{59}; Surface{60};
+  Surface{61}; Surface{62}; Surface{63}; Surface{64}; Surface{65};
+  Surface{66}; Surface{67}; Surface{68}; Surface{69}; Surface{70};
+  Surface{71}; Surface{72}; Surface{73}; Surface{74}; Surface{75};
+  Surface{76}; Surface{77}; Surface{78}; Surface{79}; Surface{80};
+  Surface{81}; Surface{82}; Surface{83}; Surface{84}; Surface{85};
+  Surface{86}; Surface{87}; Surface{88}; Surface{89}; Surface{90};
+  Surface{91}; Surface{92}; Surface{93}; Surface{94}; Surface{95};
+  Surface{96}; Surface{97}; Surface{98}; Surface{99}; Surface{100};
+
+  Layers{5}; Recombine;
+}
