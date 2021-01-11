@@ -43,10 +43,18 @@ for phvol in ['UO2Afuel', 'MOXAfuel', 'MOXBfuel', 'UO2Bfuel']:
     f = open(phvol+'.txt', 'w')
     X = globals()['phvol']
     for vol in eval(X):
-        if ((vol-1)%10 == 0 or (vol-1)%34 == 0) and (vol-1)!= 0:
+        if (vol-1)%10 == 0 or (vol-1)%34 == 0:
             f.write('\n')
         f.write(str(vol))
         f.write(', ')
     f.close()
 
-# for phvol in ['UO2Afuel', 'UO2Amod', 'MOXAfuel', 'MOXAmod']:
+for phvol in ['UO2Amod', 'MOXAmod', 'MOXBmod', 'UO2Bmod']:
+    f = open(phvol+'.txt', 'w')
+    X = globals()['phvol']
+    for vol in eval(X):
+        f.write(str(vol))
+        f.write(', ')
+        if (vol)%10 == 0 or vol%34 == 0:
+            f.write('\n')
+    f.close()
