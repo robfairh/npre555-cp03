@@ -75,8 +75,8 @@ MOOSE is an open-source \gls{FEM} framework that supports the development of app
 % MOOSE and LibMesh translate them into residual and Jacobian functions.
 % These functions become inputs into PetSc solution routines.
 
-% All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
-% While the $SP_3$ equations solve the neutronics in a nuclear reactor, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
+All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
+While the $SP_3$ equations solve the neutronics in a nuclear reactor, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
 % Additionally, the framework and its applications use \gls{MPI} for parallel communication allowing for deployment on massively-parallel cluster-computing platforms.
 
 % lit - review: the SPN approximation
@@ -104,7 +104,7 @@ Modeling these characteristics using the diffusion approximation may be challeng
 % lit - review: software using the SPN approximation
 The $SP_3$ approximation gained usage throughout the last couple of decades and currently, different software uses it to solve the neutron transport equation.
 % Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
-Some of those software are PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
+Some of those software are PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, and COCAGNE \cite{fliscounakis_potential_2012}.
 
 \section{Methodology}
 
@@ -125,7 +125,7 @@ For $N=3$ and steady-state, the equations become
 	& \mbox{macroscopic scattering cross-section}  \notag \\ %  } [cm^{-1}]
 	& \nu\Sigma_{f,g} = \mbox{group $g$ macroscopic production cross-section}  \notag \\ %  } [cm^{-1}]
 	& \chi_{g} = \mbox{group $g$ fission spectrum}  \notag \\ %  } [cm^{-1}]
-	& k_{eff} = \mbox{multiplication factor}  \notag \\ %  } [-]
+	& k_{eff} = \mbox{eigenvalue}  \notag \\ %  } [-]
 	& Q_{n,g} = \mbox{$n^{th}$ moment of group $g$ external neutron source}  \notag \\  % } [n \cdot cm^{-3} \cdot s^{-1}]
 	& G = \mbox{number of energy groups}.  \notag % } [-]
 \end{align}
@@ -178,8 +178,9 @@ The following sections discuss the results of a one group exercise presented in 
 \subsection{One group two-dimensional problem}
 
 This section describes a one group, isotropic-scattering eigenvalue problem introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000}.
-This section also presents the result obtained with the $SP_3$ solver and compares it against the reference value.
+This section also presents the eigenvalue obtained with the $SP_3$ solver and compares it against the reference value.
 Figure \ref{fig:2D} shows the problem's geometry, and Table \ref{tab:cross-sections} specifies its cross-sections.
+Due to the problem's symmetry, the model included only a quarter of the core.
 We created the mesh using the \textit{Gmsh} \cite{geuzaine_gmsh_2009} meshing tool.
 The mesh had $6 \times 10^{3}$ elements.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
@@ -284,8 +285,8 @@ The mesh had $2.4 \times 10^{4}$ elements.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 
 Table \ref{tab:keff-2nd} compares the eigenvalues obtained with the $SP_3$ solver and the references.
-For the method without correction, we use a reference value of the multiplication factor from Capilla et al. \cite{capilla_applications_2009} as they conducted the exercise without correction.
-For the method with transport correction, we use the reference value from the benchmark \cite{cavarec_benchmark_1994}.
+For the method without correction, we used an eigenvalue reference value from Capilla et al. \cite{capilla_applications_2009} as they conducted the exercise without correction.
+For the method with transport correction, we used the reference value from the benchmark \cite{cavarec_benchmark_1994}.
 % \usepackage{booktabs}
 \begin{table}[htbp!]
 	\centering
@@ -307,7 +308,7 @@ However, the difference between the reference values of the different schemes is
 % examples of codes using the diagonal transport correction PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
 Figure \ref{fig:power-distrib} presents the power distribution and the relative difference to the reference provided by the benchmark \cite{cavarec_benchmark_1994}.
-For brevity, we only calculated the power distribution using the transport correction.
+For conciseness, we only calculated the power distribution using the transport correction.
 The benchmark specifies the power distribution pin-by-pin, but to simplify displaying the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly.
 % discuss results
 The results of the power distribution are within the 1\% difference.
@@ -336,7 +337,7 @@ MOOSE-based applications share the same API making their integration straightfor
 
 \section{Acknowledgements}
 
-This research is being performed using funding received from the DOE Office of Nuclear Energy's Nuclear Energy University Program (Project 20-19693, DE-NE0008972) 'Evaluation of micro-reactor requirements and performance in an existing well-characterized micro-grid'.
+This research is being performed using funding received from the DOE Office of Nuclear Energy's University Program (Project 20-19693, DE-NE0008972) 'Evaluation of micro-reactor requirements and performance in an existing well-characterized micro-grid'.
 Prof. Huff is also supported by the Nuclear Regulatory Commission Faculty Development Program (award NRC-HQ-84-14-G-0054 Program B), the Blue Waters sustained-petascale computing project supported by the National Science Foundation (awards OCI-0725070 and ACI-1238993) and the state of Illinois, the DOE ARPA-E MEITNER Program (award DE-AR0000983), and the DOE H2@Scale Program (Award Number: DE-EE0008832).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
