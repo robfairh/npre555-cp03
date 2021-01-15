@@ -59,24 +59,25 @@ ref3@illinois.edu
 
 \section{Introduction}
 
-% what am I doing
+% what I am doing
 This work presents the implementation of the Simplified $P_3$ ($SP_3$) equations \cite{gelbard_spherical_1960} in a \gls{MOOSE}-based application.
 % MOOSE
 MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
 In a nuclear reactor, several partial differential equations describe its physical behavior.
 These equations are typically nonlinear, and they are often coupled to each other.
-MOOSE supports the development of applications for solving such systems.
+MOOSE is an open-source \gls{FEM} framework that supports the development of applications for solving such systems.
 
-MOOSE is an open-source \gls{FEM} framework.
-The framework itself relies on LibMesh \cite{kirk_libmesh_2006} and PetSc \cite{balay_petsc_2016} for solving nonlinear equations.
-MOOSE-based applications define weak forms of the governing equations and modularize the physics expressions into "kernels."
-Kernels are C++ classes containing methods for computing the residual and Jacobian contributions of individual pieces of the governing equations.
-MOOSE and LibMesh translate them into residual and Jacobian functions.
-These functions become inputs into PetSc solution routines.
+% MOOSE supports the development of applications for solving such systems.
+% MOOSE is an open-source \gls{FEM} framework.
+% The framework itself relies on LibMesh \cite{kirk_libmesh_2006} and PetSc \cite{balay_petsc_2016} for solving nonlinear equations.
+% MOOSE-based applications define weak forms of the governing equations and modularize the physics expressions into "kernels."
+% Kernels are C++ classes containing methods for computing the residual and Jacobian contributions of individual pieces of the governing equations.
+% MOOSE and LibMesh translate them into residual and Jacobian functions.
+% These functions become inputs into PetSc solution routines.
 
-All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
-While the $SP_3$ equations solve the neutronics in a nuclear reactor, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
-Additionally, the framework and its applications use \gls{MPI} for parallel communication allowing for deployment on massively-parallel cluster-computing platforms.
+% All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
+% While the $SP_3$ equations solve the neutronics in a nuclear reactor, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
+% Additionally, the framework and its applications use \gls{MPI} for parallel communication allowing for deployment on massively-parallel cluster-computing platforms.
 
 % lit - review: the SPN approximation
 The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
@@ -101,8 +102,9 @@ MOX fuel assemblies have higher thermal absorption and fission cross-sections th
 Modeling these characteristics using the diffusion approximation may be challenging \cite{brantley_simplifiedP3_2000} \cite{capilla_applications_2009}.
 
 % lit - review: software using the SPN approximation
-The $SP_3$ approximation gained usage throughout the last couple of decades and currently, different software uses it to solve the neutron transport equation. Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
-
+The $SP_3$ approximation gained usage throughout the last couple of decades and currently, different software uses it to solve the neutron transport equation.
+% Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
+Some of those software are PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
 
 \section{Methodology}
 
@@ -190,7 +192,7 @@ The simulation convergence criterion was $10^{-8}$ for the neutron flux.
     \centering
     \includegraphics[width=0.8\linewidth]{figures/mesh2.png}
     \hfill
-    \caption{Geometry of the one group eigenvalue problem.}
+    \caption{Geometry of the one group eigenvalue problem. Fuel in red. Moderator in gray.}
     \label{fig:2D}
 \end{figure}
 
