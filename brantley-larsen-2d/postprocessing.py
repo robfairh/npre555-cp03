@@ -1,6 +1,48 @@
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from matplotlib.cbook import get_sample_data
+import matplotlib.ticker as ticker
+
+
+def add_legend():
+    '''
+    Adds legend to image of the geometry.
+    '''
+
+    matrix = mpatches.Patch(color=(0.85, 0.85, 0.85), label='Moderator')
+    block = mpatches.Patch(color=(1., 0., 0.), label='Fuel')
+
+    cwd = os.getcwd()
+    fname = get_sample_data('%s/mesh.png' % (cwd))
+    image = plt.imread(fname)
+    fig, ax = plt.subplots()
+    ax.imshow(image)
+
+    xlength = 10
+    scalex = xlength/567
+    ticks_x = ticker.FuncFormatter(lambda x, pos: '{0:g}'.format(x*scalex))
+    ax.xaxis.set_major_formatter(ticks_x)
+    xticks = np.arange(0, np.floor(xlength)+1)/scalex
+    ax.set_xticks(xticks)
+    ax.tick_params(axis="x", labelsize=12)
+
+    ylength = 10
+    scaley = ylength/567
+    ticks_y = ticker.FuncFormatter(lambda x, pos: '{0:g}'.format(x*scaley))
+    ax.yaxis.set_major_formatter(ticks_y)
+    yticks = np.arange(0, np.floor(ylength)+1)/scaley
+    ax.set_yticks(yticks)
+    ax.tick_params(axis="y", labelsize=12)
+
+    ax.set_xlabel('x [m]', fontsize=12)
+    ax.set_ylabel('y [m]', fontsize=12)
+    # plt.legend(handles=[matrix, block], loc="lower right",
+    #            bbox_to_anchor=(1.0, 1.0),  fontsize=12)
+    plt.savefig("mesh2", dpi=300, bbox_inches="tight")
+    plt.close()
 
 
 def plotcsv_frommoose_1G(file, save, diff=True, fix=True, dire='x'):
@@ -104,12 +146,11 @@ def plotcsv_frommoose_multi(file, save, diff=True, fix=True, G=3, dire='x'):
 
 
 if __name__ == "__main__":
-    # plots figures of all the 1D test cases
 
-    save = 'output'
-    plt.figure()
-    file = 'input_line_0001.csv' 
-    plotcsv_frommoose_1G(file, save, diff=False, fix=False, dire='x')
-    plt.savefig(save, dpi=300, bbox_inches="tight")
+    add_legend()
 
-
+    # save = 'output'
+    # plt.figure()
+    # file = 'input_line_0001.csv' 
+    # plotcsv_frommoose_1G(file, save, diff=False, fix=False, dire='x')
+    # plt.savefig(save, dpi=300, bbox_inches="tight")
