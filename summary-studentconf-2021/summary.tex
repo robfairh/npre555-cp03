@@ -173,22 +173,18 @@ Such procedure is standard in weighted residual methods and can be found in \cit
 \section{Results}
 
 This section presents several numerical results that validate the calculation scheme.
-Section \ref{sec:results-1st} discusses the results of a one group exercise presented in \cite{brantley_simplifiedP3_2000}.
-Section \ref{sec:results-2nd} describes the results of the C5 MOX Benchmark \cite{cavarec_benchmark_1994}.
+The following sections discuss the results of a one group exercise presented in \cite{brantley_simplifiedP3_2000} and describe the results of the C5 MOX Benchmark \cite{cavarec_benchmark_1994}.
 
 \subsection{One group two-dimensional problem}
-\label{sec:results-1st}
 
 This section describes a one group, isotropic-scattering eigenvalue problem introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000}.
 This section also presents the result obtained with the $SP_3$ solver and compares it against the reference value.
 Figure \ref{fig:2D} shows the problem's geometry, and Table \ref{tab:cross-sections} specifies its cross-sections.
-
-% left here
 We created the mesh using the \textit{Gmsh} \cite{geuzaine_gmsh_2009} meshing tool.
 The mesh had $6 \times 10^{3}$ elements.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 
-\begin{figure}[htbp!] %or H 
+\begin{figure}[H] %or H 
     \centering
     \includegraphics[width=0.8\linewidth]{figures/mesh2.png}
     \hfill
@@ -237,7 +233,6 @@ Table \ref{tab:keff-1st} compares the eigenvalue obtained with the $SP_3$ solver
 
 
 \subsection{C5 MOX Benchmark}
-\label{sec:results-2nd}
 
 This section introduces the C5 MOX Benchmark \cite{cavarec_benchmark_1994} and presents the $SP_3$ solver results.
 % intro to the benchmark
@@ -264,6 +259,15 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
     \label{fig:bench2}
 \end{figure}
 
+When no anisotropic component of the scattering cross-section is available, the benchmark recommends applying the diagonal transport correction
+\begin{align}
+  & D_{0,g} = \frac{1}{3 \Sigma_{tr,g}} \label{eq:diff-tr} \\
+  & \Sigma_{tr} = \Sigma_{t,g} - \bar{\mu}_{g} \Sigma_{s0,g} \notag
+  \intertext{where}
+  & \Sigma_{tr, g} = \mbox{group $g$ transport cross-section} \notag \\
+  & \bar{\mu}_{g} = \mbox{group $g$ average cosine deviation angle.} \notag
+\end{align}
+
 % \begin{figure}[htbp!] %or H 
 \begin{figure}[h] %or H 
     \centering
@@ -274,41 +278,31 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
     \label{fig:bench3}
 \end{figure}
 
-
-When no anisotropic component of the scattering cross-section is available, the benchmark recommends applying the diagonal transport correction
-\begin{align}
-  & D_{0,g} = \frac{1}{3 \Sigma_{tr,g}} \label{eq:diff-tr} \\
-  & \Sigma_{tr} = \Sigma_{t,g} - \bar{\mu}_{g} \Sigma_{s0,g} \notag
-  \intertext{where}
-  & \Sigma_{tr, g} = \mbox{group $g$ transport cross-section} \notag \\
-  & \bar{\mu}_{g} = \mbox{group $g$ average cosine deviation angle.} \notag
-\end{align}
-
-For the sake of comparison, we conducted the exercise using the normal scheme and using the transport correction for calculating $D_{0,g}$ with equations \ref{eq:diff-rem} and \ref{eq:diff-tr}, respectively.
+For the sake of comparison, we conducted the exercise with and without the transport correction for calculating $D_{0,g}$ with equations \ref{eq:diff-tr} and \ref{eq:diff-rem}, respectively.
 Due to the problem's symmetry, the model included only a quarter of the core.
 The mesh had $2.4 \times 10^{4}$ elements.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 
 Table \ref{tab:keff-2nd} compares the eigenvalues obtained with the $SP_3$ solver and the references.
-For the normal scheme, we use a reference value from Capilla et al. \cite{capilla_applications_2009}.
-For the transport correction, we use the reference value from the benchmark \cite{cavarec_benchmark_1994}.
+For the method without correction, we use a reference value of the multiplication factor from Capilla et al. \cite{capilla_applications_2009} as they conducted the exercise without correction.
+For the method with transport correction, we use the reference value from the benchmark \cite{cavarec_benchmark_1994}.
 % \usepackage{booktabs}
 \begin{table}[htbp!]
 	\centering
-	\caption{Comparison between the results obtained with the $SP_3$ solver using the normal scheme (equation \ref{eq:diff-rem}) and the transport correction (equation \ref{eq:diff-tr}) and the reference results for the C5 MOX Benchmark.}
+	\caption{Comparison between the results obtained with the $SP_3$ solver using no correction (equation \ref{eq:diff-rem}), the transport correction (equation \ref{eq:diff-tr}), and the reference results for the C5 MOX Benchmark.}
 	\label{tab:keff-2nd}
 	\begin{tabular}{lrrr}
 	\toprule
 							& $k_{Ref}$ & $k_{SP_3}$	& $\Delta_{\rho}$	\\
 	\midrule
-	Normal scheme			& 0.96969	& 0.97106		& 145				\\
+	No correction			& 0.96969	& 0.97106		& 145				\\
 	Transport correction	& 0.93755	& 0.93792		& 43				\\
 	\bottomrule
 	\end{tabular}
 \end{table}
 
 % discussion about the transport correction
-The results obtained with the $SP_3$ solver are within the 145 pcm to the reference values.
+The results obtained with the $SP_3$ solver are within 145 pcm of the reference values.
 However, the difference between the reference values of the different schemes is 3535 pcm, suggesting that the use of the transport correction is necessary.
 % examples of codes using the diagonal transport correction PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
@@ -342,9 +336,8 @@ MOOSE-based applications share the same API making their integration straightfor
 
 \section{Acknowledgements}
 
-% Not sure about this
-Roberto E. Fairhurst Agosta and Prof. Huff are supported by the \gls{NRC} Faculty Development Program (award NRC-HQ-84-14-G-0054 Program B).
-Prof. Huff is also supported by the Blue Waters sustained-petascale computing project supported by the National Science Foundation (awards OCI-0725070 and ACI-1238993) and the state of Illinois, the DOE ARPA-E MEITNER Program (award DE-AR0000983), the DOE H2@Scale Program (award), and the International Institute for Carbon Neutral Energy Research (WPI-I2CNER), sponsored by the Japanese Ministry of Education, Culture, Sports, Science and Technology.
+This research is being performed using funding received from the DOE Office of Nuclear Energy's Nuclear Energy University Program (Project 20-19693, DE-NE0008972) 'Evaluation of micro-reactor requirements and performance in an existing well-characterized micro-grid'.
+Prof. Huff is also supported by the Nuclear Regulatory Commission Faculty Development Program (award NRC-HQ-84-14-G-0054 Program B), the Blue Waters sustained-petascale computing project supported by the National Science Foundation (awards OCI-0725070 and ACI-1238993) and the state of Illinois, the DOE ARPA-E MEITNER Program (award DE-AR0000983), and the DOE H2@Scale Program (Award Number: DE-EE0008832).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{ans}
