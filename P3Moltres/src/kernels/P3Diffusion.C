@@ -31,9 +31,11 @@ P3Diffusion::computeQpResidual()
   Real res = 0;
 
   if (_equation == 0)
-      res = _diffcoefA[_qp][_group] * _grad_test[_i][_qp] * _grad_u[_qp];
+      res = _diffcoefA[_qp][_group]; 
   else
-      res = _diffcoefB[_qp][_group] * _grad_test[_i][_qp] * _grad_u[_qp];
+      res = _diffcoefB[_qp][_group];
+
+  res *= _grad_test[_i][_qp] * _grad_u[_qp];
 
   return res;
 }
@@ -44,9 +46,11 @@ P3Diffusion::computeQpJacobian()
     Real jac = 0;
 
     if (_equation == 0)
-        jac = _diffcoefA[_qp][_group] * _grad_test[_i][_qp] * _grad_phi[_j][_qp];
+        jac = _diffcoefA[_qp][_group];
     else
-        jac = _diffcoefB[_qp][_group] * _grad_test[_i][_qp] * _grad_phi[_j][_qp];
+        jac = _diffcoefB[_qp][_group];
+
+    jac *=  _grad_test[_i][_qp] * _grad_phi[_j][_qp];
 
     return jac;
 }

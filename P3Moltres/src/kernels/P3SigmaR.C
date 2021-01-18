@@ -28,9 +28,11 @@ P3SigmaR::computeQpResidual()
   Real res = 0;
 
   if (_equation == 0)
-      res = _test[_i][_qp] * _remxsA[_qp][_group] * _u[_qp];
+      res = _remxsA[_qp][_group];
   else
-      res = _test[_i][_qp] * _remxsB[_qp][_group] * _u[_qp];
+      res = _remxsB[_qp][_group];
+
+  res *= _test[_i][_qp] * _u[_qp];
 
   return res;
 }
@@ -41,9 +43,17 @@ P3SigmaR::computeQpJacobian()
   Real jac = 0;
 
   if (_equation == 0)
-      jac = _test[_i][_qp] * _remxsA[_qp][_group] * _phi[_j][_qp];
+      jac = _remxsA[_qp][_group];
   else
-      jac = _test[_i][_qp] * _remxsB[_qp][_group] * _phi[_j][_qp];
+      jac = _remxsB[_qp][_group];
   
+  jac *= _test[_i][_qp] * _phi[_j][_qp];
+
   return jac;
+}
+
+Real
+P3SigmaR::computeQpOffDiagJacobian()
+{
+  return 0;
 }

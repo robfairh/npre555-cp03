@@ -16,6 +16,7 @@ public:
 protected:
   virtual Real computeQpResidual();
   virtual Real computeQpJacobian();
+  virtual Real computeQpOffDiagJacobian();
 
   unsigned int _equation;
   unsigned int _group;

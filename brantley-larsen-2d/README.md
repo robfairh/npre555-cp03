@@ -15,3 +15,9 @@ This study is based on:
 * Reference = 0.798617
 * My SP3 = 0.7985389665
 * delta_rho = 12 pcm
+
+
+# To reproduce the results
+
+* open in gmsh ``` bl-2d-simple.geo``` and make 2D mesh.
+* make cross-section files by running ```python constants.py```

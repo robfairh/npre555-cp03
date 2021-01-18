@@ -50,7 +50,7 @@ P3FissionEigenKernel::P3FissionEigenKernel(const InputParameters & parameters)
 Real
 P3FissionEigenKernel::computeQpResidual()
 {
-  Real r = 0, _val1 = 0, _val2 = 0;
+  Real res = 0, _val1 = 0, _val2 = 0;
 
   if (_equation == 0)
   {
@@ -64,9 +64,9 @@ P3FissionEigenKernel::computeQpResidual()
   }  
 
   for (unsigned int i = 0; i < _num_groups; ++i)
-    r += _nsf[_qp][i] * (_val1 * (*_flux0_groups[i])[_qp] + _val2 * (*_flux2_groups[i])[_qp]);
+    res += _nsf[_qp][i] * (_val1 * (*_flux0_groups[i])[_qp] + _val2 * (*_flux2_groups[i])[_qp]);
 
-  return -_test[_i][_qp] * _chi_t[_qp][_group] * r;
+  return -_test[_i][_qp] * _chi_t[_qp][_group] * res;
 }
 
 Real
@@ -75,13 +75,41 @@ P3FissionEigenKernel::computeQpJacobian()
   Real _val1 = 0;
 
   if (_equation == 0)
-  {
     _val1 = 1;
-  }
   else
-  {
     _val1 = 0.8;
-  }  
 
-  return -_test[_i][_qp] * _chi_t[_qp][_group] * _nsf[_qp][_i] * _val1 * _phi[_j][_qp];
+  return -_test[_i][_qp] * _chi_t[_qp][_group] * _nsf[_qp][_group] * _val1 * _phi[_j][_qp];
+}
+
+Real
+P3FissionEigenKernel::computeQpOffDiagJacobian(unsigned int jvar)
+{
+  Real jac = 0, _val1 = 0;
+
+  for (unsigned int i = 0; i < _num_groups; ++i)
+  {
+    if (_equation == 0)
+    {
+      _val1 = 1;
+      if (jvar == _flux0_ids[i])
+      {
+        jac = _nsf[_qp][i];
+        break;
+      }
+    }
+    else
+    {
+       _val1 = 0.8;
+      if (jvar == _flux2_ids[i])
+      {
+        jac =  _nsf[_qp][i];
+        break;
+      }
+    }
+  }
+
+  jac *= -_test[_i][_qp] * _chi_t[_qp][_group] * _val1 * _phi[_j][_qp];
+
+  return jac;
 }

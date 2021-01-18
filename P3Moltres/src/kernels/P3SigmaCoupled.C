@@ -52,9 +52,11 @@ P3SigmaCoupled::computeQpResidual()
   Real res = 0;
 
   if (_equation == 0)
-      res = -_test[_i][_qp] * _couplexsA[_qp][_group] * (*_flux2_groups[_group])[_qp];
+      res = _couplexsA[_qp][_group] * (*_flux2_groups[_group])[_qp];
   else
-      res = -_test[_i][_qp] * _couplexsB[_qp][_group] * (*_flux0_groups[_group])[_qp];
+      res = _couplexsB[_qp][_group] * (*_flux0_groups[_group])[_qp];
+
+  res *= -_test[_i][_qp];
 
   return res;
 }
@@ -63,4 +65,19 @@ Real
 P3SigmaCoupled::computeQpJacobian()
 {
   return 0.;
+}
+
+Real
+P3SigmaCoupled::computeQpOffDiagJacobian()
+{
+  Real jac = 0;
+
+  if (_equation == 0)
+      jac = _couplexsA[_qp][_group];
+  else
+      jac = _couplexsB[_qp][_group];
+  
+  jac *= -_test[_i][_qp] * _phi[_j][_qp];
+
+  return jac;
 }
