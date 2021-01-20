@@ -264,7 +264,7 @@ def prepare_xs(mat):
     mat2['REMXSA'] = remxs
     mat2['REMXSB'] = mat['totxs'] + 4./5 * remxs
     mat2['COUPLEXSA'] = 2 * remxs
-    mat2['COUPLEXSA'] = 2./5 * remxs
+    mat2['COUPLEXSB'] = 2./5 * remxs
     mat2['SP0'] = mat['scxs']
 
     try:
@@ -302,7 +302,7 @@ def create_xs(outdir, temp, materials):
         for data in materials[currentMat].keys():
 
             with open(outdir + '/' + currentMat +
-                      '_' + data + ' .txt', 'a') as fh:
+                      '_' + data + '.txt', 'a') as fh:
 
                 strData = materials[currentMat][data]
                 strData = ' '.join(

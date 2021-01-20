@@ -2,5 +2,5 @@
 
 #pragma once
 
-#define P3MOLTRES_REVISION "git commit 31618c3 on 2021-01-18"
-#define P3MOLTRES_VERSION "31618c3"
+#define P3MOLTRES_REVISION "git commit 2556d5c on 2021-01-20"
+#define P3MOLTRES_VERSION "2556d5c"
