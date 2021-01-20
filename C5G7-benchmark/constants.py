@@ -5,6 +5,8 @@ import shutil
 
 
 def update_dict(dictio, key, value):
+    ''' updates dictionary by adding a key with an associated value
+    '''
     dictio[key] = value
     return dictio
 
@@ -41,7 +43,9 @@ def uo2_properties():
                      [0.0, 0.0, 0.0, 0.0, 1.2968e-3, 2.65802e-1, 1.6809e-2],
                      [0.0, 0.0, 0.0, 0.0, 0.0, 8.5458e-3, 2.7308e-1]])
     mat = update_dict(mat, 'scxs', value)
-    return mat
+
+    mat2 = prepare_xs(mat)
+    return mat2
 
 
 def mox1_properties():
@@ -76,7 +80,9 @@ def mox1_properties():
                      [0.0, 0.0, 0.0, 0.0, 2.3916e-3, 2.47614e-1, 1.2322e-2],
                      [0.0, 0.0, 0.0, 0.0, 0.0, 8.9681e-3, 2.56093e-1]])
     mat = update_dict(mat, 'scxs', value)
-    return mat
+
+    mat2 = prepare_xs(mat)
+    return mat2
 
 
 def mox2_properties():
@@ -111,7 +117,9 @@ def mox2_properties():
                      [0.0, 0.0, 0.0, 0.0, 2.276e-3, 2.49751e-1, 1.3114e-2],
                      [0.0, 0.0, 0.0, 0.0, 0.0, 8.8645e-3, 2.59529e-1]])
     mat = update_dict(mat, 'scxs', value)
-    return mat
+
+    mat2 = prepare_xs(mat)
+    return mat2
 
 
 def mox3_properties():
@@ -146,7 +154,9 @@ def mox3_properties():
                      [0.0, 0.0, 0.0, 0.0, 2.0051e-3, 2.52962e-1, 1.485e-2],
                      [0.0, 0.0, 0.0, 0.0, 0.0, 8.4948e-3, 2.65007e-1]])
     mat = update_dict(mat, 'scxs', value)
-    return mat
+
+    mat2 = prepare_xs(mat)
+    return mat2
 
 
 def fission_properties():
@@ -182,7 +192,9 @@ def fission_properties():
                      [0.0, 0.0, 0.0, 0.0, 9.1742e-4, 3.16774e-1, 2.3876e-1],
                      [0.0, 0.0, 0.0, 0.0, 0.0, 4.9793e-2, 1.0991]])
     mat = update_dict(mat, 'scxs', value)
-    return mat
+
+    mat2 = prepare_xs(mat)
+    return mat2
 
 
 def guide_properties():
@@ -207,7 +219,9 @@ def guide_properties():
                      [0.0, 0.0, 0.0, 0.0, 9.1726e-4, 3.16765e-1, 2.3877e-1],
                      [0.0, 0.0, 0.0, 0.0, 0.0, 4.9792e-2, 1.09912]])
     mat = update_dict(mat, 'scxs', value)
-    return mat
+
+    mat2 = prepare_xs(mat)
+    return mat2
 
 
 def moderator_properties():
@@ -232,7 +246,50 @@ def moderator_properties():
                      [0.0, 0.0, 0.0, 0.0, 2.2157e-3, 6.99913e-1, 5.3732e-1],
                      [0.0, 0.0, 0.0, 0.0, 0.0, 1.32440e-1, 2.4807]])
     mat = update_dict(mat, 'scxs', value)
-    return mat
+
+    mat2 = prepare_xs(mat)
+    return mat2
+
+
+def prepare_xs(mat):
+    mat2 = {}
+
+    G = len(mat['totxs'])
+    remxs = mat['totxs'] - mat['scxs'].reshape((G, G)).diagonal()
+
+    mat2['DIFFCOEFA'] = 1./3./mat['totxs']
+    # mat2['DIFFCOEFA'] = 1./3./mat1['trxs']
+
+    mat2['DIFFCOEFB'] = 9./35./mat['totxs']
+    mat2['REMXSA'] = remxs
+    mat2['REMXSB'] = mat['totxs'] + 4./5 * remxs
+    mat2['COUPLEXSA'] = 2 * remxs
+    mat2['COUPLEXSA'] = 2./5 * remxs
+    mat2['SP0'] = mat['scxs']
+
+    try:
+        mat2['NSF'] = mat['nu'] * mat['fisxs']
+    except KeyError:
+        mat2['NSF'] = np.zeros(G)
+
+    try:
+        mat2['CHIT'] = mat['chi']
+    except KeyError:
+        mat2['CHIT'] = np.zeros(G)
+
+    try:
+        mat2['FISS'] = mat['fisxs']
+    except KeyError:
+        mat2['FISS'] = np.zeros(G)
+
+    mat2['KAPPA'] = np.ones(G) * 200
+    mat2['CHIP'] = np.zeros(G)
+    mat2['CHID'] = np.zeros(G)
+    mat2['INVV'] = np.zeros(G)
+    mat2['BETA_EFF'] = np.zeros(8)
+    mat2['LAMBDA'] = np.zeros(8)
+
+    return mat2
 
 
 def create_xs(outdir, temp, materials):
@@ -241,120 +298,13 @@ def create_xs(outdir, temp, materials):
     into the SP3 App readable format.
 
     '''
-
     for currentMat in materials.keys():
+        for data in materials[currentMat].keys():
 
-        remxs = materials[currentMat]['totxs'] - \
-            materials[currentMat]['scxs'].reshape((7, 7)).diagonal()
-
-        with open(outdir + '/' + currentMat +
-                  '_DIFFCOEFA.txt', 'a') as fh:
-
-            strData = 1./3./materials[currentMat]['totxs']
-            # strData = 1./3./materials[currentMat]['trxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_DIFFCOEFB.txt', 'a') as fh:
-
-            strData = 9./35./materials[currentMat]['totxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_REMXSA.txt', 'a') as fh:
-
-            strData = remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_REMXSB.txt', 'a') as fh:
-
-            strData = materials[currentMat]['totxs'] + 4./5 * remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_COUPLEXSA.txt', 'a') as fh:
-
-            strData = 2 * remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_COUPLEXSB.txt', 'a') as fh:
-
-            strData = 2./5 * remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_NSF.txt', 'a') as fh:
-
-            strData = materials[currentMat]['nu'] * \
-                materials[currentMat]['fisxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_SP0.txt', 'a') as fh:
-
-            strData = materials[currentMat]['scxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_CHIT.txt', 'a') as fh:
-
-            strData = materials[currentMat]['chi']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        for coeff in ['CHIP', 'CHID', 'FISS', 'KAPPA', 'INVV']:
             with open(outdir + '/' + currentMat +
-                      '_' + coeff + '.txt', 'a') as fh:
+                      '_' + data + ' .txt', 'a') as fh:
 
-                strData = np.array([1, 0, 0, 0, 0, 0, 0])
-                strData = ' '.join(
-                    [str(dat) for dat in strData]) if isinstance(
-                    strData, np.ndarray) else strData
-                fh.write(str(temp) + ' ' + strData)
-                fh.write('\n')
-
-        for coefficient in ['BETA_EFF', 'lambda']:
-            with open(outdir + '/' + currentMat +
-                      '_' + coefficient.upper() + '.txt', 'a') as fh:
-
-                strData = np.array([0, 0, 0, 0, 0, 0, 0, 0])
+                strData = materials[currentMat][data]
                 strData = ' '.join(
                     [str(dat) for dat in strData]) if isinstance(
                     strData, np.ndarray) else strData
@@ -369,7 +319,10 @@ if __name__ == "__main__":
     materials['mox1'] = mox1_properties()
     materials['mox2'] = mox2_properties()
     materials['mox3'] = mox3_properties()
-    # print(materials)
+    materials['fisc'] = fission_properties()
+    materials['gtube'] = guide_properties()
+    materials['moder'] = moderator_properties()
+    materials['reflec'] = moderator_properties()
 
     temp = 300
     outdir = 'xs7g'
