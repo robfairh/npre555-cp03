@@ -67,16 +67,16 @@ def materials_het():
                }
     }
 
-    for mat in materials:
-        print(materials[mat]['totxs'])
+    # for mat in materials:
+    #     print(materials[mat]['totxs'])
 
-    print()
-    for mat in materials:
-        print(materials[mat]['nfxs'])
+    # print()
+    # for mat in materials:
+    #     print(materials[mat]['nfxs'])
 
-    print()
-    for mat in materials:
-        print(materials[mat]['scxs'])
+    # print()
+    # for mat in materials:
+    #     print(materials[mat]['scxs'])
 
     return materials
 
@@ -246,11 +246,9 @@ if __name__ == "__main__":
     # materials = materials_het()
     # create_xs(outdir, temp, materials)
 
-    # # produces cross-sections for the homogeneous case
-    # outdir = 'xs2g-homo'
-    # if not os.path.exists(outdir):
-    #     os.mkdir(outdir)
-    # materials = materials_hom()
-    # create_xs(outdir, temp, materials)
-
-    materials_het()
+    # produces cross-sections for the homogeneous case
+    outdir = 'xs2g-homo'
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
+    materials = materials_hom()
+    create_xs(outdir, temp, materials)

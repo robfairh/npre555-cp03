@@ -35,7 +35,7 @@ P3Diffusion::computeQpResidual()
   else
       res = _diffcoefB[_qp][_group];
 
-  res *= _grad_test[_i][_qp] * _grad_u[_qp];
+  res *= _grad_u[_qp] * _grad_test[_i][_qp];
 
   return res;
 }
@@ -50,7 +50,7 @@ P3Diffusion::computeQpJacobian()
     else
         jac = _diffcoefB[_qp][_group];
 
-    jac *=  _grad_test[_i][_qp] * _grad_phi[_j][_qp];
+    jac *= _grad_phi[_j][_qp] * _grad_test[_i][_qp];
 
     return jac;
 }

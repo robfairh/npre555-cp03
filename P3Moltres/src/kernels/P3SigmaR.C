@@ -32,7 +32,7 @@ P3SigmaR::computeQpResidual()
   else
       res = _remxsB[_qp][_group];
 
-  res *= _test[_i][_qp] * _u[_qp];
+  res *= _u[_qp] * _test[_i][_qp];
 
   return res;
 }
@@ -47,7 +47,7 @@ P3SigmaR::computeQpJacobian()
   else
       jac = _remxsB[_qp][_group];
   
-  jac *= _test[_i][_qp] * _phi[_j][_qp];
+  jac *= _phi[_j][_qp] * _test[_i][_qp];
 
   return jac;
 }

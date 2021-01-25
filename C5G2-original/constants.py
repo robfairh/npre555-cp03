@@ -570,5 +570,3 @@ if __name__ == "__main__":
     # outdir = 'xs2g-homo'
     # materials = materials_hom()
     # create_xs(outdir, temp, materials)
-
-    # materials_het()

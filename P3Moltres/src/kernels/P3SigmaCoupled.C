@@ -77,7 +77,7 @@ P3SigmaCoupled::computeQpOffDiagJacobian()
   else
       jac = _couplexsB[_qp][_group];
   
-  jac *= -_test[_i][_qp] * _phi[_j][_qp];
+  jac *= -_phi[_j][_qp] * _test[_i][_qp];
 
   return jac;
 }
