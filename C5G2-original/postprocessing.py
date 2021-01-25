@@ -9,21 +9,21 @@ from matplotlib.pyplot import gca
 def bench_power():
     ''' This function contains the pin-by-pin power distribution of the C5 MOX
     Benchmark. Values from Cavarec, Perron, Verwaerde, West. Benchmark
-    Calculations of Power Distribution within Assemblies. 1994.
+    Calculations of Power Distribution within Assemblies. 1994. p. 233.
 
-    Reactor configuration:
+    C5 MOX Benchmark configuration:
     _________________________
-    |   R   |   R   |   R   |
-    |  mox  | uo2_B |   R   |
     | uo2_A |  mox  |   R   |
+    |  mox  | uo2_B |   R   |
+    |   R   |   R   |   R   |
 
     Returns:
     --------
-    uo2a: [17x17 array of float]
+    uo2a: [17 x 17 array of float]
         power distribution of assembly uo2_A
-    uo2b: [17x17 array of float]
+    uo2b: [17 x 17 array of float]
         power distribution of assembly uo2_B
-    mox: [17x17 array of float]
+    mox: [17 x 17 array of float]
         power distribution of assembly mox
     tot: [float]
         total power of the reactor

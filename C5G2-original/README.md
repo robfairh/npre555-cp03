@@ -21,3 +21,5 @@ Cavarec, Perron, Verwaerde, West. Benchmark Calculations of Power Distribution w
 # Reproducing the results
 
 * to create the cross-sections: run ```python constants.py```
+* open ```2D.geo``` with ```gmsh``` and create .msh file
+* run ```python postprocessing.py```
