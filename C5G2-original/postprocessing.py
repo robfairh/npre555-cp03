@@ -261,8 +261,14 @@ def plot_radial_power_distribution(power, rel=False):
 
 if __name__ == "__main__":
 
-    power, power_rel = power_distrib('input-2g-het.csv')
+    # power, power_rel = power_distrib('input-2g-het.csv')
+    # plot_radial_power_distribution(power)
+    # plot_radial_power_distribution(power_rel, rel=True)
+    # plt.savefig('distrib', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    power, power_rel = power_distrib('input-2g-power.csv')
     plot_radial_power_distribution(power)
     plot_radial_power_distribution(power_rel, rel=True)
-    plt.savefig('distrib', dpi=300, bbox_inches="tight")
+    plt.savefig('distrib-pin-by-pin', dpi=300, bbox_inches="tight")
     plt.close()
