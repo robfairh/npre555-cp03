@@ -976,12 +976,6 @@
     outputs = 'csv console'
     block = 'uo2a_6_11'
   [../]
-  [./uo2a_6_12]
-    type = ElmIntegTotFissHeatPostprocessor
-    execute_on = timestep_end
-    outputs = 'csv console'
-    block = 'uo2a_6_12'
-  [../]
   [./uo2a_6_13]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
@@ -1257,12 +1251,6 @@
     execute_on = timestep_end
     outputs = 'csv console'
     block = 'uo2a_9_11'
-  [../]
-  [./uo2a_9_12]
-    type = ElmIntegTotFissHeatPostprocessor
-    execute_on = timestep_end
-    outputs = 'csv console'
-    block = 'uo2a_9_12'
   [../]
   [./uo2a_9_13]
     type = ElmIntegTotFissHeatPostprocessor
