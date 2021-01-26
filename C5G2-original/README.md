@@ -14,7 +14,6 @@ Cavarec, Perron, Verwaerde, West. Benchmark Calculations of Power Distribution w
 0.9379242898
 0.9379242898
 
-
 # Geometry files:
 
 * mesh1.geo: 2D geometry of the benchmark
