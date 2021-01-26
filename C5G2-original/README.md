@@ -11,6 +11,10 @@ Cavarec, Perron, Verwaerde, West. Benchmark Calculations of Power Distribution w
 * Applying diagonal transport correction result: (in input-2g-hetB.csv) keff = 0.9380140803, delta_rho = 53 pcm.
 * using diffusion coefficient specified in Cavarec: keff = 0.9379242898, delta_rho = 43 pcm.
 
+0.9379242898
+0.9379242898
+
+
 # Geometry files:
 
 * mesh1.geo: 2D geometry of the benchmark
