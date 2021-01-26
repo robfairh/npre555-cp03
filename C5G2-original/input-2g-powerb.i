@@ -400,6 +400,31 @@
   # petsc_options_value = 'lu       preonly       1e-3'
 []
 
+[Outputs]
+  perf_graph = true
+  print_linear_residuals = true
+  file_base = 'input-2g-power'
+  execute_on = timestep_end
+  exodus = true
+  csv = true
+[]
+
+[Debug]
+  show_var_residual_norms = true
+[]
+
+[VectorPostprocessors]
+  [./line]
+    type = LineValueSampler
+    variable = 'flux0_1 flux0_2 flux2_1 flux2_2'
+    start_point = '0 10.71 0'
+    end_point = '64.26 10.71 0'
+    sort_by = x
+    num_points = 400
+    execute_on = timestep_end
+  [../]
+[]
+
 [Postprocessors]
   [./bnorm]
     type = ElmIntegTotFissNtsPostprocessor
@@ -417,29 +442,1607 @@
     execute_on = timestep_end
     outputs = 'csv console'
   [../]
-  [./uo2a_fission_heat]
+  [./uo2a_fchamber]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'
-    block = 'fchambera
-    uo2a_1_1 uo2a_1_2 uo2a_1_3 uo2a_1_4 uo2a_1_5 uo2a_1_6 uo2a_1_7 uo2a_1_8 uo2a_1_9 uo2a_1_10 uo2a_1_11 uo2a_1_12 uo2a_1_13 uo2a_1_14 uo2a_1_15 uo2a_1_16 uo2a_1_17
-    uo2a_2_1 uo2a_2_2 uo2a_2_3 uo2a_2_4 uo2a_2_5 uo2a_2_6 uo2a_2_7 uo2a_2_8 uo2a_2_9 uo2a_2_10 uo2a_2_11 uo2a_2_12 uo2a_2_13 uo2a_2_14 uo2a_2_15 uo2a_2_16 uo2a_2_17
-    uo2a_3_1 uo2a_3_2 uo2a_3_3 uo2a_3_4 uo2a_3_5 uo2a_3_7 uo2a_3_8 uo2a_3_10 uo2a_3_11 uo2a_3_13 uo2a_3_14 uo2a_3_15 uo2a_3_16 uo2a_3_17
-    uo2a_4_1 uo2a_4_2 uo2a_4_3 uo2a_4_5 uo2a_4_6 uo2a_4_7 uo2a_4_8 uo2a_4_9 uo2a_4_10 uo2a_4_11 uo2a_4_12 uo2a_4_13 uo2a_4_15 uo2a_4_16 uo2a_4_17
-    uo2a_5_1 uo2a_5_2 uo2a_5_3 uo2a_5_4 uo2a_5_5 uo2a_5_6 uo2a_5_7 uo2a_5_8 uo2a_5_9 uo2a_5_10 uo2a_5_11 uo2a_5_12 uo2a_5_13 uo2a_5_14 uo2a_5_15 uo2a_5_16 uo2a_5_17
-    uo2a_6_1 uo2a_6_2 uo2a_6_4 uo2a_6_5 uo2a_6_7 uo2a_6_8 uo2a_6_10 uo2a_6_11 uo2a_6_13 uo2a_6_14 uo2a_6_16 uo2a_6_17
-    uo2a_7_1 uo2a_7_2 uo2a_7_3 uo2a_7_4 uo2a_7_5 uo2a_7_6 uo2a_7_7 uo2a_7_8 uo2a_7_9 uo2a_7_10 uo2a_7_11 uo2a_7_12 uo2a_7_13 uo2a_7_14 uo2a_7_15 uo2a_7_16 uo2a_7_17
-    uo2a_8_1 uo2a_8_2 uo2a_8_3 uo2a_8_4 uo2a_8_5 uo2a_8_6 uo2a_8_7 uo2a_8_8 uo2a_8_9 uo2a_8_10 uo2a_8_11 uo2a_8_12 uo2a_8_13 uo2a_8_14 uo2a_8_15 uo2a_8_16 uo2a_8_17
-    uo2a_9_1 uo2a_9_2 uo2a_9_4 uo2a_9_5 uo2a_9_7 uo2a_9_8 uo2a_9_10 uo2a_9_11 uo2a_9_13 uo2a_9_14 uo2a_9_16 uo2a_9_17
-    uo2a_10_1 uo2a_10_2 uo2a_10_3 uo2a_10_4 uo2a_10_5 uo2a_10_6 uo2a_10_7 uo2a_10_8 uo2a_10_9 uo2a_10_10 uo2a_10_11 uo2a_10_12 uo2a_10_13 uo2a_10_14 uo2a_10_15 uo2a_10_16 uo2a_10_17
-    uo2a_11_1 uo2a_11_2 uo2a_11_3 uo2a_11_4 uo2a_11_5 uo2a_11_6 uo2a_11_7 uo2a_11_8 uo2a_11_9 uo2a_11_10 uo2a_11_11 uo2a_11_12 uo2a_11_13 uo2a_11_14 uo2a_11_15 uo2a_11_16 uo2a_11_17
-    uo2a_12_1 uo2a_12_2 uo2a_12_4 uo2a_12_5 uo2a_12_7 uo2a_12_8 uo2a_12_10 uo2a_12_11 uo2a_12_13 uo2a_12_14 uo2a_12_16 uo2a_12_17
-    uo2a_13_1 uo2a_13_2 uo2a_13_3 uo2a_13_4 uo2a_13_5 uo2a_13_6 uo2a_13_7 uo2a_13_8 uo2a_13_9 uo2a_13_10 uo2a_13_11 uo2a_13_12 uo2a_13_13 uo2a_13_14 uo2a_13_15 uo2a_13_16 uo2a_13_17
-    uo2a_14_1 uo2a_14_2 uo2a_14_3 uo2a_14_5 uo2a_14_6 uo2a_14_7 uo2a_14_8 uo2a_14_9 uo2a_14_10 uo2a_14_11 uo2a_14_12 uo2a_14_13 uo2a_14_15 uo2a_14_16 uo2a_14_17
-    uo2a_15_1 uo2a_15_2 uo2a_15_3 uo2a_15_4 uo2a_15_5 uo2a_15_7 uo2a_15_8 uo2a_15_10 uo2a_15_11 uo2a_15_13 uo2a_15_14 uo2a_15_15 uo2a_15_16 uo2a_15_17
-    uo2a_16_1 uo2a_16_2 uo2a_16_3 uo2a_16_4 uo2a_16_5 uo2a_16_6 uo2a_16_7 uo2a_16_8 uo2a_16_9 uo2a_16_10 uo2a_16_11 uo2a_16_12 uo2a_16_13 uo2a_16_14 uo2a_16_15 uo2a_16_16 uo2a_16_17
-    uo2a_17_1 uo2a_17_2 uo2a_17_3 uo2a_17_4 uo2a_17_5 uo2a_17_6 uo2a_17_7 uo2a_17_8 uo2a_17_9 uo2a_17_10 uo2a_17_11 uo2a_17_12 uo2a_17_13 uo2a_17_14 uo2a_17_15 uo2a_17_16 uo2a_17_17
-    '
+    block = 'fchambera'
+  [../]
+  [./uo2a_1_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_1'
+  [../]
+  [./uo2a_1_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_2'
+  [../]
+  [./uo2a_1_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_3'
+  [../]
+  [./uo2a_1_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_4'
+  [../]
+  [./uo2a_1_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_1'
+  [../]
+  [./uo2a_1_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_6'
+  [../]
+  [./uo2a_1_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_7'
+  [../]
+  [./uo2a_1_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_8'
+  [../]
+  [./uo2a_1_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_9'
+  [../]
+  [./uo2a_1_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_10'
+  [../]
+  [./uo2a_1_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_11'
+  [../]
+  [./uo2a_1_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_12'
+  [../]
+  [./uo2a_1_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_13'
+  [../]
+  [./uo2a_1_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_14'
+  [../]
+  [./uo2a_1_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_15'
+  [../]
+  [./uo2a_1_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_16'
+  [../]
+  [./uo2a_1_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_1_17'
+  [../]
+  [./uo2a_2_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_1'
+  [../]
+  [./uo2a_2_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_2'
+  [../]
+  [./uo2a_2_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_3'
+  [../]
+  [./uo2a_2_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_4'
+  [../]
+  [./uo2a_2_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_1'
+  [../]
+  [./uo2a_2_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_6'
+  [../]
+  [./uo2a_2_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_7'
+  [../]
+  [./uo2a_2_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_8'
+  [../]
+  [./uo2a_2_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_9'
+  [../]
+  [./uo2a_2_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_10'
+  [../]
+  [./uo2a_2_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_11'
+  [../]
+  [./uo2a_2_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_12'
+  [../]
+  [./uo2a_2_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_13'
+  [../]
+  [./uo2a_2_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_14'
+  [../]
+  [./uo2a_2_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_15'
+  [../]
+  [./uo2a_2_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_16'
+  [../]
+  [./uo2a_2_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_2_17'
+  [../]
+  [./uo2a_3_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_1'
+  [../]
+  [./uo2a_3_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_2'
+  [../]
+  [./uo2a_3_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_3'
+  [../]
+  [./uo2a_3_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_4'
+  [../]
+  [./uo2a_3_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_1'
+  [../]
+  [./uo2a_3_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_7'
+  [../]
+  [./uo2a_3_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_8'
+  [../]
+  [./uo2a_3_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_10'
+  [../]
+  [./uo2a_3_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_11'
+  [../]
+  [./uo2a_3_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_13'
+  [../]
+  [./uo2a_3_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_14'
+  [../]
+  [./uo2a_3_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_15'
+  [../]
+  [./uo2a_3_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_16'
+  [../]
+  [./uo2a_3_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_3_17'
+  [../]
+  [./uo2a_4_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_1'
+  [../]
+  [./uo2a_4_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_2'
+  [../]
+  [./uo2a_4_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_3'
+  [../]
+  [./uo2a_4_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_1'
+  [../]
+  [./uo2a_4_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_6'
+  [../]
+  [./uo2a_4_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_7'
+  [../]
+  [./uo2a_4_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_8'
+  [../]
+  [./uo2a_4_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_9'
+  [../]
+  [./uo2a_4_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_10'
+  [../]
+  [./uo2a_4_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_11'
+  [../]
+  [./uo2a_4_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_12'
+  [../]
+  [./uo2a_4_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_13'
+  [../]
+  [./uo2a_4_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_15'
+  [../]
+  [./uo2a_4_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_16'
+  [../]
+  [./uo2a_4_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_4_17'
+  [../]
+  [./uo2a_5_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_1'
+  [../]
+  [./uo2a_5_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_2'
+  [../]
+  [./uo2a_5_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_3'
+  [../]
+  [./uo2a_5_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_4'
+  [../]
+  [./uo2a_5_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_1'
+  [../]
+  [./uo2a_5_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_6'
+  [../]
+  [./uo2a_5_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_7'
+  [../]
+  [./uo2a_5_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_8'
+  [../]
+  [./uo2a_5_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_9'
+  [../]
+  [./uo2a_5_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_10'
+  [../]
+  [./uo2a_5_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_11'
+  [../]
+  [./uo2a_5_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_12'
+  [../]
+  [./uo2a_5_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_13'
+  [../]
+  [./uo2a_5_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_14'
+  [../]
+  [./uo2a_5_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_15'
+  [../]
+  [./uo2a_5_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_16'
+  [../]
+  [./uo2a_5_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_5_17'
+  [../]
+  [./uo2a_6_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_1'
+  [../]
+  [./uo2a_6_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_2'
+  [../]
+  [./uo2a_6_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_4'
+  [../]
+  [./uo2a_6_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_1'
+  [../]
+  [./uo2a_6_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_7'
+  [../]
+  [./uo2a_6_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_8'
+  [../]
+  [./uo2a_6_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_10'
+  [../]
+  [./uo2a_6_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_11'
+  [../]
+  [./uo2a_6_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_12'
+  [../]
+  [./uo2a_6_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_13'
+  [../]
+  [./uo2a_6_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_14'
+  [../]
+  [./uo2a_6_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_16'
+  [../]
+  [./uo2a_6_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_6_17'
+  [../]
+  [./uo2a_7_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_1'
+  [../]
+  [./uo2a_7_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_2'
+  [../]
+  [./uo2a_7_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_3'
+  [../]
+  [./uo2a_7_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_4'
+  [../]
+  [./uo2a_7_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_1'
+  [../]
+  [./uo2a_7_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_6'
+  [../]
+  [./uo2a_7_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_7'
+  [../]
+  [./uo2a_7_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_8'
+  [../]
+  [./uo2a_7_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_9'
+  [../]
+  [./uo2a_7_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_10'
+  [../]
+  [./uo2a_7_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_11'
+  [../]
+  [./uo2a_7_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_12'
+  [../]
+  [./uo2a_7_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_13'
+  [../]
+  [./uo2a_7_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_14'
+  [../]
+  [./uo2a_7_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_15'
+  [../]
+  [./uo2a_7_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_16'
+  [../]
+  [./uo2a_7_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_7_17'
+  [../]
+  [./uo2a_8_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_1'
+  [../]
+  [./uo2a_8_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_2'
+  [../]
+  [./uo2a_8_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_3'
+  [../]
+  [./uo2a_8_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_4'
+  [../]
+  [./uo2a_8_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_1'
+  [../]
+  [./uo2a_8_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_6'
+  [../]
+  [./uo2a_8_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_7'
+  [../]
+  [./uo2a_8_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_8'
+  [../]
+  [./uo2a_8_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_9'
+  [../]
+  [./uo2a_8_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_10'
+  [../]
+  [./uo2a_8_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_11'
+  [../]
+  [./uo2a_8_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_12'
+  [../]
+  [./uo2a_8_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_13'
+  [../]
+  [./uo2a_8_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_14'
+  [../]
+  [./uo2a_8_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_15'
+  [../]
+  [./uo2a_8_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_16'
+  [../]
+  [./uo2a_8_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_8_17'
+  [../]
+  [./uo2a_9_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_1'
+  [../]
+  [./uo2a_9_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_2'
+  [../]
+  [./uo2a_9_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_4'
+  [../]
+  [./uo2a_9_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_1'
+  [../]
+  [./uo2a_9_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_7'
+  [../]
+  [./uo2a_9_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_8'
+  [../]
+  [./uo2a_9_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_10'
+  [../]
+  [./uo2a_9_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_11'
+  [../]
+  [./uo2a_9_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_12'
+  [../]
+  [./uo2a_9_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_13'
+  [../]
+  [./uo2a_9_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_14'
+  [../]
+  [./uo2a_9_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_16'
+  [../]
+  [./uo2a_9_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_9_17'
+  [../]
+  [./uo2a_10_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_1'
+  [../]
+  [./uo2a_10_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_2'
+  [../]
+  [./uo2a_10_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_3'
+  [../]
+  [./uo2a_10_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_4'
+  [../]
+  [./uo2a_10_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_1'
+  [../]
+  [./uo2a_10_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_6'
+  [../]
+  [./uo2a_10_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_7'
+  [../]
+  [./uo2a_10_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_8'
+  [../]
+  [./uo2a_10_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_9'
+  [../]
+  [./uo2a_10_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_10'
+  [../]
+  [./uo2a_10_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_11'
+  [../]
+  [./uo2a_10_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_12'
+  [../]
+  [./uo2a_10_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_13'
+  [../]
+  [./uo2a_10_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_14'
+  [../]
+  [./uo2a_10_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_15'
+  [../]
+  [./uo2a_10_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_16'
+  [../]
+  [./uo2a_10_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_10_17'
+  [../]
+  [./uo2a_11_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_1'
+  [../]
+  [./uo2a_11_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_2'
+  [../]
+  [./uo2a_11_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_3'
+  [../]
+  [./uo2a_11_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_4'
+  [../]
+  [./uo2a_11_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_1'
+  [../]
+  [./uo2a_11_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_6'
+  [../]
+  [./uo2a_11_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_7'
+  [../]
+  [./uo2a_11_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_8'
+  [../]
+  [./uo2a_11_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_9'
+  [../]
+  [./uo2a_11_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_10'
+  [../]
+  [./uo2a_11_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_11'
+  [../]
+  [./uo2a_11_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_12'
+  [../]
+  [./uo2a_11_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_13'
+  [../]
+  [./uo2a_11_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_14'
+  [../]
+  [./uo2a_11_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_15'
+  [../]
+  [./uo2a_11_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_16'
+  [../]
+  [./uo2a_11_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_11_17'
+  [../]
+  [./uo2a_12_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_1'
+  [../]
+  [./uo2a_12_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_2'
+  [../]
+  [./uo2a_12_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_4'
+  [../]
+  [./uo2a_12_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_1'
+  [../]
+  [./uo2a_12_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_7'
+  [../]
+  [./uo2a_12_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_8'
+  [../]
+  [./uo2a_12_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_10'
+  [../]
+  [./uo2a_12_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_11'
+  [../]
+  [./uo2a_12_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_13'
+  [../]
+  [./uo2a_12_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_14'
+  [../]
+  [./uo2a_12_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_16'
+  [../]
+  [./uo2a_12_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_12_17'
+  [../]
+  [./uo2a_13_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_1'
+  [../]
+  [./uo2a_13_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_2'
+  [../]
+  [./uo2a_13_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_3'
+  [../]
+  [./uo2a_13_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_4'
+  [../]
+  [./uo2a_13_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_1'
+  [../]
+  [./uo2a_13_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_6'
+  [../]
+  [./uo2a_13_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_7'
+  [../]
+  [./uo2a_13_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_8'
+  [../]
+  [./uo2a_13_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_9'
+  [../]
+  [./uo2a_13_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_10'
+  [../]
+  [./uo2a_13_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_11'
+  [../]
+  [./uo2a_13_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_12'
+  [../]
+  [./uo2a_13_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_13'
+  [../]
+  [./uo2a_13_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_14'
+  [../]
+  [./uo2a_13_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_15'
+  [../]
+  [./uo2a_13_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_16'
+  [../]
+  [./uo2a_13_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_13_17'
+  [../]
+  [./uo2a_14_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_1'
+  [../]
+  [./uo2a_14_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_2'
+  [../]
+  [./uo2a_14_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_3'
+  [../]
+  [./uo2a_14_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_1'
+  [../]
+  [./uo2a_14_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_6'
+  [../]
+  [./uo2a_14_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_7'
+  [../]
+  [./uo2a_14_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_8'
+  [../]
+  [./uo2a_14_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_9'
+  [../]
+  [./uo2a_14_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_10'
+  [../]
+  [./uo2a_14_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_11'
+  [../]
+  [./uo2a_14_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_12'
+  [../]
+  [./uo2a_14_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_13'
+  [../]
+  [./uo2a_14_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_15'
+  [../]
+  [./uo2a_14_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_16'
+  [../]
+  [./uo2a_14_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_14_17'
+  [../]
+  [./uo2a_15_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_1'
+  [../]
+  [./uo2a_15_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_2'
+  [../]
+  [./uo2a_15_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_3'
+  [../]
+  [./uo2a_15_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_4'
+  [../]
+  [./uo2a_15_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_1'
+  [../]
+  [./uo2a_15_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_7'
+  [../]
+  [./uo2a_15_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_8'
+  [../]
+  [./uo2a_15_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_10'
+  [../]
+  [./uo2a_15_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_11'
+  [../]
+  [./uo2a_15_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_13'
+  [../]
+  [./uo2a_15_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_14'
+  [../]
+  [./uo2a_15_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_15'
+  [../]
+  [./uo2a_15_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_16'
+  [../]
+  [./uo2a_15_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_15_17'
+  [../]
+  [./uo2a_16_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_1'
+  [../]
+  [./uo2a_16_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_2'
+  [../]
+  [./uo2a_16_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_3'
+  [../]
+  [./uo2a_16_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_4'
+  [../]
+  [./uo2a_16_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_1'
+  [../]
+  [./uo2a_16_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_6'
+  [../]
+  [./uo2a_16_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_7'
+  [../]
+  [./uo2a_16_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_8'
+  [../]
+  [./uo2a_16_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_9'
+  [../]
+  [./uo2a_16_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_10'
+  [../]
+  [./uo2a_16_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_11'
+  [../]
+  [./uo2a_16_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_12'
+  [../]
+  [./uo2a_16_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_13'
+  [../]
+  [./uo2a_16_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_14'
+  [../]
+  [./uo2a_16_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_15'
+  [../]
+  [./uo2a_16_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_16'
+  [../]
+  [./uo2a_16_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_16_17'
+  [../]
+  [./uo2a_17_1]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_1'
+  [../]
+  [./uo2a_17_2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_2'
+  [../]
+  [./uo2a_17_3]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_3'
+  [../]
+  [./uo2a_17_4]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_4'
+  [../]
+  [./uo2a_17_5]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_1'
+  [../]
+  [./uo2a_17_6]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_6'
+  [../]
+  [./uo2a_17_7]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_7'
+  [../]
+  [./uo2a_17_8]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_8'
+  [../]
+  [./uo2a_17_9]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_9'
+  [../]
+  [./uo2a_17_10]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_10'
+  [../]
+  [./uo2a_17_11]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_11'
+  [../]
+  [./uo2a_17_12]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_12'
+  [../]
+  [./uo2a_17_13]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_13'
+  [../]
+  [./uo2a_17_14]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_14'
+  [../]
+  [./uo2a_17_15]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_15'
+  [../]
+  [./uo2a_17_16]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_16'
+  [../]
+  [./uo2a_17_17]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'uo2a_17_17'
   [../]
   [./uo2b_fission_heat]
     type = ElmIntegTotFissHeatPostprocessor
@@ -564,30 +2167,5 @@
     moxb_16_1 moxb_16_17
     moxb_17_1 moxb_17_2 moxb_17_3 moxb_17_4 moxb_17_5 moxb_17_6 moxb_17_7 moxb_17_8 moxb_17_9 moxb_17_10 moxb_17_11 moxb_17_12 moxb_17_13 moxb_17_14 moxb_17_15 moxb_17_16 moxb_17_17
     '
-  [../]
-[]
-
-[Outputs]
-  perf_graph = true
-  print_linear_residuals = true
-  file_base = 'input-2g-power'
-  execute_on = timestep_end
-  exodus = true
-  csv = true
-[]
-
-[Debug]
-  show_var_residual_norms = true
-[]
-
-[VectorPostprocessors]
-  [./line]
-    type = LineValueSampler
-    variable = 'flux0_1 flux0_2 flux2_1 flux2_2'
-    start_point = '0 10.71 0'
-    end_point = '64.26 10.71 0'
-    sort_by = x
-    num_points = 400
-    execute_on = timestep_end
   [../]
 []
