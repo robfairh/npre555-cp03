@@ -64,41 +64,6 @@ def bench_power():
                      [899,  899,  901,  903,  906,  904,  897,  888,  880,
                      868,  855,  841,  821,  795,  765, 729, 675]])
 
-    mox = np.array([[1518, 1238, 1106, 1038,  996,  957,  911,  865,  822,
-                   773, 725, 679, 629, 587, 570, 619, 830],
-                   [1507, 1434, 1271, 1202, 1170, 1153, 1064, 1008,  984,
-                   902, 845, 817, 741, 679, 656, 722, 822],
-                   [1502, 1422, 1284, 1256, 1214,    0, 1065, 1003,    0,
-                   899, 842,   0, 767, 709, 663, 714, 816],
-                   [1504, 1432, 1335,    0, 1195, 1252, 1122, 1055, 1035,
-                   943, 887, 881, 748,   0, 689, 718, 814],
-                   [1509, 1458, 1354, 1250, 1282, 1205, 1084, 1020, 1004,
-                   912, 857, 847, 803, 699, 694, 728, 813],
-                   [1508, 1490,    0, 1367, 1251,    0, 1107, 1043,    0,
-                   934, 873,   0, 787, 760,   0, 742, 809],
-                   [1494, 1435, 1285, 1272, 1170, 1148, 1048,  991,  977,
-                   886, 829, 810, 734, 707, 653, 712, 799],
-                   [1479, 1418, 1266, 1250, 1150, 1130, 1034,  978,  964,
-                   875, 818, 797, 721, 693, 641, 702, 789],
-                   [1466, 1440,    0, 1280, 1179,    0, 1063, 1004,    0,
-                   900, 838,   0, 740, 708,   0, 711, 780],
-                   [1444, 1385, 1236, 1220, 1122, 1103, 1008,  954,  940,
-                   852, 796, 776, 701, 674, 624, 682, 766],
-                   [1423, 1366, 1222, 1209, 1111, 1089,  994,  940,  925,
-                   839, 784, 765, 693, 667, 615, 671, 752],
-                   [1402, 1385,    0, 1268, 1159,    0, 1025,  964,    0,
-                   862, 805,   0, 723, 697,   0, 679, 739],
-                   [1368, 1324, 1230, 1134, 1162, 1091,  981,  922,  906,
-                   822, 771, 761, 719, 625, 620, 649, 721],
-                   [1329, 1272, 1190,    0, 1065, 1114,  997,  937,  917,
-                   834, 783, 776, 657,   0, 603, 625, 703],
-                   [1292, 1243, 1136, 1117, 1081,    0,  946,  889,    0,
-                   794, 742,   0, 673, 621, 578, 616, 693],
-                   [1270, 1267, 1159, 1111, 1086, 1070,  988,  935,  909,
-                   832, 777, 748, 678, 620, 594, 640, 701],
-                   [1290, 1179, 1121, 1082, 1048, 1009,  961,  911,  863,
-                   810, 757, 707, 654, 608, 583, 610, 755]])
-
     uo2_B = np.array([[628, 635, 626, 612, 594, 572, 546, 518, 490, 460, 430,
                      401, 371, 344, 327, 331, 377],
                      [635, 677, 685, 678, 665, 648, 612, 580, 554, 515, 481,
@@ -133,6 +98,41 @@ def bench_power():
                      236, 215, 196, 181, 173, 179],
                      [377, 399, 401, 393, 381, 365, 346, 326, 306, 286, 265,
                      245, 225, 206, 189, 179, 178]])
+
+    mox = np.array([[1518, 1238, 1106, 1038,  996,  957,  911,  865,  822,
+                   773, 725, 679, 629, 587, 570, 619, 830],
+                   [1507, 1434, 1271, 1202, 1170, 1153, 1064, 1008,  984,
+                   902, 845, 817, 741, 679, 656, 722, 822],
+                   [1502, 1422, 1284, 1256, 1214,    0, 1065, 1003,    0,
+                   899, 842,   0, 767, 709, 663, 714, 816],
+                   [1504, 1432, 1335,    0, 1195, 1252, 1122, 1055, 1035,
+                   943, 887, 881, 748,   0, 689, 718, 814],
+                   [1509, 1458, 1354, 1250, 1282, 1205, 1084, 1020, 1004,
+                   912, 857, 847, 803, 699, 694, 728, 813],
+                   [1508, 1490,    0, 1367, 1251,    0, 1107, 1043,    0,
+                   934, 873,   0, 787, 760,   0, 742, 809],
+                   [1494, 1435, 1285, 1272, 1170, 1148, 1048,  991,  977,
+                   886, 829, 810, 734, 707, 653, 712, 799],
+                   [1479, 1418, 1266, 1250, 1150, 1130, 1034,  978,  964,
+                   875, 818, 797, 721, 693, 641, 702, 789],
+                   [1466, 1440,    0, 1280, 1179,    0, 1063, 1004,    0,
+                   900, 838,   0, 740, 708,   0, 711, 780],
+                   [1444, 1385, 1236, 1220, 1122, 1103, 1008,  954,  940,
+                   852, 796, 776, 701, 674, 624, 682, 766],
+                   [1423, 1366, 1222, 1209, 1111, 1089,  994,  940,  925,
+                   839, 784, 765, 693, 667, 615, 671, 752],
+                   [1402, 1385,    0, 1268, 1159,    0, 1025,  964,    0,
+                   862, 805,   0, 723, 697,   0, 679, 739],
+                   [1368, 1324, 1230, 1134, 1162, 1091,  981,  922,  906,
+                   822, 771, 761, 719, 625, 620, 649, 721],
+                   [1329, 1272, 1190,    0, 1065, 1114,  997,  937,  917,
+                   834, 783, 776, 657,   0, 603, 625, 703],
+                   [1292, 1243, 1136, 1117, 1081,    0,  946,  889,    0,
+                   794, 742,   0, 673, 621, 578, 616, 693],
+                   [1270, 1267, 1159, 1111, 1086, 1070,  988,  935,  909,
+                   832, 777, 748, 678, 620, 594, 640, 701],
+                   [1290, 1179, 1121, 1082, 1048, 1009,  961,  911,  863,
+                   810, 757, 707, 654, 608, 583, 610, 755]])
 
     uo2a = np.sum(uo2_A) * 1e-6
     uo2b = np.sum(uo2_B) * 1e-6
@@ -199,11 +199,13 @@ def power_distrib(file):
     return power, power_rel
 
 
-def plot_radial_power_distribution(power, rel=False):
+def plot_radial_power_distribution(pitch, power, rel=False):
     '''
     Plots radial power distribution.
     Parameters:
     -----------
+    pitch: [float]
+        pitch between elements
     power: [numpy array]
         contains the values in MW of the power produced in each fuel column
         the reactor model includes only a 1/6th of the reactor (only 11
@@ -212,7 +214,7 @@ def plot_radial_power_distribution(power, rel=False):
         name of the figure
     '''
 
-    P = 21.42  # pitch
+    P = pitch
     F = P/np.sqrt(2)
     coord = []
 
@@ -227,40 +229,41 @@ def plot_radial_power_distribution(power, rel=False):
     # coord.append(np.array([1*P+P/2, 1*P+P/2]))
     coord = np.array(coord)
 
+    patches = []
+    xmax, ymax = [-np.inf, ] * 2
+    xmin, ymin = [np.inf, ] * 2
+    for i in range(len(coord)):
+        h = RegularPolygon(coord[i], 4, F, np.pi/4)
+        patches.append(h)
+        verts = h.get_verts()
+        vmins = verts.min(0)
+        vmaxs = verts.max(0)
+        xmax = max(xmax, vmaxs[0])
+        xmin = min(xmin, vmins[0])
+        ymax = max(ymax, vmaxs[1])
+        ymin = min(ymin, vmins[1])
+
+    patches = np.array(patches, dtype=object)
+    pc = PatchCollection(patches)
+
+    ax = gca()
+    pc.set_array(power)
+    ax.add_collection(pc)
+    ax.set_xlim(xmin, xmax)
+    ax.set_ylim(ymin, ymax)
+
+    cbar = plt.colorbar(pc)
     if rel is False:
-        patches = []
-        xmax, ymax = [-np.inf, ] * 2
-        xmin, ymin = [np.inf, ] * 2
-        for i in range(len(coord)):
-            h = RegularPolygon(coord[i], 4, F, np.pi/4)
-            patches.append(h)
-            verts = h.get_verts()
-            vmins = verts.min(0)
-            vmaxs = verts.max(0)
-            xmax = max(xmax, vmaxs[0])
-            xmin = min(xmin, vmins[0])
-            ymax = max(ymax, vmaxs[1])
-            ymin = min(ymin, vmins[1])
-
-        patches = np.array(patches, dtype=object)
-        pc = PatchCollection(patches)
-
-        ax = gca()
-        pc.set_array(power)
-        ax.add_collection(pc)
-        ax.set_xlim(xmin, xmax)
-        ax.set_ylim(ymin, ymax)
-
-        cbar = plt.colorbar(pc)
         cbar.ax.set_ylabel('Power [W]')
+        # for i in range(len(coord)):
+        #     plt.text(x=coord[i][0]-F/4, y=coord[i][1]+F/5,
+        #              s=np.round(power[i], 3), fontsize=20, color='w')
 
-        for i in range(len(coord)):
-            plt.text(x=coord[i][0]-F/4, y=coord[i][1]+F/5,
-                     s=np.round(power[i], 3), fontsize=20, color='w')
     else:
-        for i in range(len(coord)):
-            plt.text(x=coord[i][0]-F/4, y=coord[i][1]-F/5,
-                     s=np.round(power[i], 3), fontsize=20, color='w')
+        cbar.ax.set_ylabel('Relative error [%]')
+        # for i in range(len(coord)):
+        #     plt.text(x=coord[i][0]-F/4, y=coord[i][1]-F/5,
+        #              s=np.round(power[i], 3), fontsize=20, color='w')
 
     plt.axis('equal')
     plt.xlabel('X [cm]')
@@ -478,7 +481,7 @@ def power_distrib_pin_by_pin(file):
     moxb *= norm
 
     # makes the power of the mox symmetric
-    mox = (moxa + moxb)/2
+    mox = (moxa + moxb.T)/2
 
     # calculates relative error avoiding divisions by zero
     uo2a_den = uo2a_r.copy()
@@ -499,7 +502,16 @@ def power_distrib_pin_by_pin(file):
 
     # power = np.array([uo2a, mox, mox, uo2b])
     # power_rel = np.array([uo2a_rel, mox_rel, mox_rel, uo2b_rel])
-    # return power, power_rel
+
+    uo2a = np.reshape(uo2a, 17*17)
+    uo2b = np.reshape(uo2b, 17*17)
+    mox = np.reshape(mox, 17*17)
+
+    uo2a_rel = np.reshape(np.absolute(uo2a_rel), 17*17)
+    uo2b_rel = np.reshape(np.absolute(uo2b_rel), 17*17)
+    mox_rel = np.reshape(np.absolute(mox_rel), 17*17)
+
+    return uo2a, uo2b, mox, uo2a_rel, uo2b_rel, mox_rel
 
 
 def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
@@ -553,6 +565,10 @@ def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
     plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$')
 
 
+# def plot_3D(power):
+
+
+
 if __name__ == "__main__":
 
     # save = 'output-fluxes'
@@ -564,13 +580,40 @@ if __name__ == "__main__":
     # plt.savefig(save, dpi=300, bbox_inches="tight")
 
     # power, power_rel = power_distrib('input-2g-het.csv')
-    # plot_radial_power_distribution(power)
-    # plot_radial_power_distribution(power_rel, rel=True)
+    # plot_radial_power_distribution(21.42, power)
+    # plot_radial_power_distribution(21.42, power_rel, rel=True)
     # plt.savefig('distrib', dpi=300, bbox_inches="tight")
     # plt.close()
 
-    power_distrib_pin_by_pin('input-2g-power.csv')
-    # plot_radial_power_pin_by_pin(power)
-    # plot_radial_power_distribution(power_rel, rel=True)
-    # plt.savefig('distrib-pin-by-pin', dpi=300, bbox_inches="tight")
+    uo2_p, _, _, uo2_r, _, _ = power_distrib_pin_by_pin('input-2g-power.csv')
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, uo2_p, rel=False)
+    # plt.savefig('uo2a-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    # plt.savefig('uo2a-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-2g-power.csv')
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, uo2_p, rel=False)
+    # plt.savefig('uo2b-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    # plt.savefig('uo2b-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, mox_p, rel=False)
+    # plt.savefig('mox-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, mox_r, rel=True)
+    # plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
     # plt.close()
