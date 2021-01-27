@@ -159,10 +159,10 @@ def power_distrib(file):
 
     file = pd.read_csv(file)
     tot = np.array(file['total_fission_heat'].tolist()[-1])
-    uo2a = np.array(file['uo2a_fission_heat'].tolist()[-1])
-    uo2b = np.array(file['uo2b_fission_heat'].tolist()[-1])
-    moxa = np.array(file['moxa_fission_heat'].tolist()[-1])
-    moxb = np.array(file['moxb_fission_heat'].tolist()[-1])
+    uo2a = np.array(file['uo2a_tot'].tolist()[-1])
+    uo2b = np.array(file['uo2b_tot'].tolist()[-1])
+    moxa = np.array(file['moxa_tot'].tolist()[-1])
+    moxb = np.array(file['moxb_tot'].tolist()[-1])
 
     print('uo2a: ', uo2a)
     print('uo2b: ', uo2b)
@@ -254,6 +254,7 @@ def plot_radial_power_distribution(pitch, power, rel=False):
 
     cbar = plt.colorbar(pc)
     if rel is False:
+        # cbar = plt.colorbar(pc)
         cbar.ax.set_ylabel('Power [W]')
         # for i in range(len(coord)):
         #     plt.text(x=coord[i][0]-F/4, y=coord[i][1]+F/5,
@@ -549,7 +550,8 @@ def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
         flux = flux0 - 2*flux2
 
         if hom is True:
-            legend = 'PBP'
+            # legend = 'PBP'
+            legend = 'SP3'
             marker = 'o'
         else:
             legend = 'HET'
@@ -558,11 +560,71 @@ def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
         if g == 0:
             M = max(flux)
         flux /= M
-        plt.plot(d, flux, label=legend+', g='+str(g+1), marker=marker)
+        # plt.plot(d, flux, label=legend+', g='+str(g+1), marker=marker)
+        plt.plot(d, flux, label=legend+', g='+str(g+1))
 
     plt.legend(loc='upper right')
     plt.xlabel(dire + ' [cm]')
     plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$')
+
+
+def plotcsv_frommoose_groups(file, save, G=2, dire='z'):
+    '''
+    Moltres output is a csv file.
+    This function plots the values of the multi-group flux in the csv.
+
+    Parameters:
+    -----------
+    file: [string]
+        name of the .csv file
+    save: [string]
+        name of the figure to produce
+    G: [int]
+        number of energy groups
+    dire: [char]
+        direction on which the detector is applied
+        values: 'x', 'y', 'z', 'r'
+    '''
+
+    file = pd.read_csv(file)
+    if dire == 'r':
+        x1 = np.array(file['x'].tolist())
+        y1 = np.array(file['y'].tolist())
+        r = np.sqrt(x1**2 + y1**2)
+        x = r
+    else:
+        # x, y, z direction
+        x = file[dire].tolist()
+
+    group1 = file['flux1'].tolist()
+    N = len(group1)
+    group = np.zeros((G, N))
+
+    for i in range(G):
+        group[i] = np.array(file['flux'+str(i+1)].tolist())
+
+    # If values are unsorted
+    for i in range(G):
+        group[i] = [X for _, X in sorted(zip(x, group[i]))]
+    x.sort()
+
+    # To normalize to the max value of group 1 flux
+    M = max(group1)
+    group /= M
+
+    for i in range(G):
+        plt.plot(x, group[i], label='DIFF, g='+str(i+1))
+
+    if G < 20:
+        plt.legend(loc="upper right", fontsize=14)
+    else:
+        plt.legend(loc="upper left", bbox_to_anchor=(1., 1.2), fancybox=True,
+                   fontsize=14)
+
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.xlabel(dire+' [cm]', fontsize=14)
+    plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$', fontsize=14)
 
 
 if __name__ == "__main__":
@@ -575,41 +637,81 @@ if __name__ == "__main__":
     # plotcsv_frommoose_multi(file, save, hom=True, G=2, dire='x')
     # plt.savefig(save, dpi=300, bbox_inches="tight")
 
-    # power, power_rel = power_distrib('input-2g-het.csv')
+    # save = 'output-flux-moltres'
+    # plt.figure()
+    # file = 'input-moltres_line_0001.csv'
+    # plotcsv_frommoose_groups(file, save, G=2, dire='x')
+    # plt.savefig(save, dpi=300, bbox_inches="tight")
+
+    # save = 'output-flux-both'
+    # plt.figure()
+    # file = 'input-2g-power_line_0001.csv'
+    # plotcsv_frommoose_multi(file, save, hom=True, G=2, dire='x')   
+    # file = 'input-moltres_line_0001.csv'
+    # plotcsv_frommoose_groups(file, save, G=2, dire='x')
+    # plt.savefig(save, dpi=300, bbox_inches="tight")
+
+    # power, power_rel = power_distrib('input-2g-power.csv')
+    # plt.figure()
     # plot_radial_power_distribution(21.42, power)
     # plot_radial_power_distribution(21.42, power_rel, rel=True)
     # plt.savefig('distrib', dpi=300, bbox_inches="tight")
     # plt.close()
 
-    uo2_p, _, _, uo2_r, _, _ = power_distrib_pin_by_pin('input-2g-power.csv')
-    plt.figure()
-    plot_radial_power_distribution(1.26, uo2_p, rel=False)
-    plt.savefig('uo2a-pin-by-pin', dpi=300, bbox_inches="tight")
-    plt.close()
+    # plt.figure()
+    # power, power_rel = power_distrib('input-moltres.csv')
+    # plot_radial_power_distribution(21.42, power)
+    # plot_radial_power_distribution(21.42, power_rel, rel=True)
+    # plt.savefig('distrib-moltres', dpi=300, bbox_inches="tight")
+    # plt.close()
 
-    plt.figure()
-    plot_radial_power_distribution(1.26, uo2_r, rel=True)
-    plt.savefig('uo2a-r-pin-by-pin', dpi=300, bbox_inches="tight")
-    plt.close()
-
-    _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-2g-power.csv')
-    plt.figure()
-    plot_radial_power_distribution(1.26, uo2_p, rel=False)
-    plt.savefig('uo2b-pin-by-pin', dpi=300, bbox_inches="tight")
-    plt.close()
-
+    uo2_p, _, _, uo2_r, _, _ = power_distrib_pin_by_pin('input-moltres.csv')
     plt.figure()
     plot_radial_power_distribution(1.26, uo2_r, rel=True)
-    plt.savefig('uo2b-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.savefig('distrib-moltres-uo2a', dpi=300, bbox_inches="tight")
     plt.close()
 
-    _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
+    _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-moltres.csv')
     plt.figure()
-    plot_radial_power_distribution(1.26, mox_p, rel=False)
-    plt.savefig('mox-pin-by-pin', dpi=300, bbox_inches="tight")
+    plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    plt.savefig('distrib-moltres-uo2b', dpi=300, bbox_inches="tight")
     plt.close()
 
+    _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-moltres.csv')
     plt.figure()
     plot_radial_power_distribution(1.26, mox_r, rel=True)
-    plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.savefig('distrib-moltres-mox', dpi=300, bbox_inches="tight")
     plt.close()
+
+    # uo2_p, _, _, uo2_r, _, _ = power_distrib_pin_by_pin('input-2g-power.csv')
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, uo2_p, rel=False)
+    # plt.savefig('uo2a-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    # plt.savefig('uo2a-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-2g-power.csv')
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, uo2_p, rel=False)
+    # plt.savefig('uo2b-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    # plt.savefig('uo2b-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, mox_p, rel=False)
+    # plt.savefig('mox-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
+
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, mox_r, rel=True)
+    # plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()

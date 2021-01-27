@@ -8,11 +8,14 @@ Cavarec, Perron, Verwaerde, West. Benchmark Calculations of Power Distribution w
 
 * Reference results (I believe they apply the diag tr correction) (p. 35): 0.93755 +/- 0.00080
 * Normal method result: keff = 9.71059145e-01
-* Applying diagonal transport correction result: (in input-2g-hetB.csv) keff = 0.9380140803, delta_rho = 53 pcm.
-* using diffusion coefficient specified in Cavarec: keff = 0.9379242898, delta_rho = 43 pcm.
+* Applying diagonal transport correction result: (in input-2g-hetB.csv) keff = 0.9380140803, delta_rho = 53 pcm
+* using diffusion coefficient specified in Cavarec: keff = 0.9379242898, delta_rho = 43 pcm
 
-0.9379242898
-0.9379242898
+* Reference result for diffusion codes: 0.93796
+* keff calculated w/ Moltres: 0.9381899730
+* delta_rho_to transport keff = 73 pcm
+* delta_rho_to diff keff = 57 pcm
+
 
 # Geometry files:
 
@@ -20,6 +23,7 @@ Cavarec, Perron, Verwaerde, West. Benchmark Calculations of Power Distribution w
 * mesh1B.geo: 2D full geometry of the benchmark
 * mesh2.geo: UO2 fuel assembly
 * mesh3.geo: MOX fuel assembly
+
 
 # Reproducing the results
 

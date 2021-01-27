@@ -573,6 +573,7 @@ def uo2_properties():
     mat = update_dict(mat, 'nsfxs', value)
     # from SR: S12, S21 and SS: S11, S22
     value = np.array([[0.54, 0.02], [0.00, 1.00]])
+    value = np.reshape(value, 4)
     mat = update_dict(mat, 'scxs', value)
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
@@ -592,6 +593,7 @@ def mox1_properties():
     mat = update_dict(mat, 'nsfxs', value)
     # from SR: S12, S21 and SS: S11, S22
     value = np.array([[0.52, 0.015], [0.00, 0.76]])
+    value = np.reshape(value, 4)
     mat = update_dict(mat, 'scxs', value)
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
@@ -611,25 +613,7 @@ def mox2_properties():
     mat = update_dict(mat, 'nsfxs', value)
     # from SR: S12, S21 and SS: S11, S22
     value = np.array([[0.52, 0.015], [0.00, 0.83]])
-    mat = update_dict(mat, 'scxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
-
-    mat2 = prepare_xs(mat)
-    return mat2
-
-
-def mox3_properties():
-    # mox2
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.015, 0.200])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.0075, 0.300])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.52, 0.015], [0.00, 0.90]])
+    value = np.reshape(value, 4)
     mat = update_dict(mat, 'scxs', value)
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
@@ -649,6 +633,7 @@ def mox3_properties():
     mat = update_dict(mat, 'nsfxs', value)
     # from SR: S12, S21 and SS: S11, S22
     value = np.array([[0.52, 0.015], [0.00, 0.90]])
+    value = np.reshape(value, 4)
     mat = update_dict(mat, 'scxs', value)
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
@@ -668,6 +653,7 @@ def fission_properties():
     mat = update_dict(mat, 'nsfxs', value)
     # from SR: S12, S21 and SS: S11, S22
     value = np.array([[0.56, 0.025], [0.00, 1.20]])
+    value = np.reshape(value, 4)
     mat = update_dict(mat, 'scxs', value)
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
@@ -685,6 +671,7 @@ def guide_properties():
     mat = update_dict(mat, 'absxs', value)
     # from SR: S12, S21 and SS: S11, S22
     value = np.array([[0.56, 0.025], [0.00, 1.20]])
+    value = np.reshape(value, 4)
     mat = update_dict(mat, 'scxs', value)
     mat2 = prepare_xs(mat)
     return mat2
@@ -699,6 +686,7 @@ def reflector_properties():
     mat = update_dict(mat, 'absxs', value)
     # from SR: S12, S21 and SS: S11, S22
     value = np.array([[0.56, 0.05], [0.00, 2.30]])
+    value = np.reshape(value, 4)
     mat = update_dict(mat, 'scxs', value)
 
     mat2 = prepare_xs(mat)
@@ -709,7 +697,7 @@ def prepare_xs(mat):
     mat2 = {}
 
     G = len(mat['absxs'])
-    remxs = mat['absxs'] + np.array([mat['scxs'][0, 1], mat['scxs'][1, 0]])
+    remxs = mat['absxs'] + np.array([mat['scxs'][1], mat['scxs'][2]])
 
     mat2['DIFFCOEF'] = mat['diff']
     mat2['REMXS'] = remxs
@@ -788,7 +776,7 @@ if __name__ == "__main__":
     materials['mox1'] = mox1_properties()
     materials['mox2'] = mox2_properties()
     materials['mox3'] = mox3_properties()
-    materials['fisc'] = fission_properties()
-    materials['gtube'] = guide_properties()
+    materials['fchamb'] = fission_properties()
+    materials['gtub'] = guide_properties()
     materials['reflec'] = reflector_properties()
     output_xs(outdir, temp, materials)
