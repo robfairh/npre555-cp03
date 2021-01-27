@@ -565,10 +565,6 @@ def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
     plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$')
 
 
-# def plot_3D(power):
-
-
-
 if __name__ == "__main__":
 
     # save = 'output-fluxes'
@@ -586,34 +582,34 @@ if __name__ == "__main__":
     # plt.close()
 
     uo2_p, _, _, uo2_r, _, _ = power_distrib_pin_by_pin('input-2g-power.csv')
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_p, rel=False)
-    # plt.savefig('uo2a-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    plt.figure()
+    plot_radial_power_distribution(1.26, uo2_p, rel=False)
+    plt.savefig('uo2a-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
-    # plt.savefig('uo2a-r-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    plt.figure()
+    plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    plt.savefig('uo2a-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-2g-power.csv')
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_p, rel=False)
-    # plt.savefig('uo2b-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-2g-power.csv')
+    plt.figure()
+    plot_radial_power_distribution(1.26, uo2_p, rel=False)
+    plt.savefig('uo2b-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
-    # plt.savefig('uo2b-r-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    plt.figure()
+    plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    plt.savefig('uo2b-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, mox_p, rel=False)
-    # plt.savefig('mox-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
+    plt.figure()
+    plot_radial_power_distribution(1.26, mox_p, rel=False)
+    plt.savefig('mox-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, mox_r, rel=True)
-    # plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    plt.figure()
+    plot_radial_power_distribution(1.26, mox_r, rel=True)
+    plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
