@@ -559,6 +559,8 @@ def update_dict(dictio, key, value):
     dictio[key] = value
     return dictio
 
+    # data = {
+
 
 def uo2_properties():
     # UO2
@@ -567,196 +569,174 @@ def uo2_properties():
     mat = update_dict(mat, 'diff', value)
     value = np.array([0.010, 0.100])
     mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.02, 0.])
-    mat = update_dict(mat, '', value)
-    value = np.array([])
-    mat = update_dict(mat, '', value)
-    value = np.array([])
-    mat = update_dict(mat, '', value)
-    value = np.array([])
-    mat = update_dict(mat, '', value)
-    value = np.array([])
-    mat = update_dict(mat, '', value)
-    value = np.array([[], []])
+    value = np.array([0.005, 0.125])
+    mat = update_dict(mat, 'nsfxs', value)
+    # from SR: S12, S21 and SS: S11, S22
+    value = np.array([[0.54, 0.02], [0.00, 1.00]])
     mat = update_dict(mat, 'scxs', value)
-
-    data = {
-        'uo2': {
-                'D': np.array([]),
-                'SA': np.array([]),
-                'SR': np.array([0.02, 0.]),
-                'NSF': np.array([0.005, 0.125]),
-                'SS': np.array([0.54, 1.00]),
-               },
-        'mox3': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.015, 0.200]),
-                'SR': np.array([0.015, 0.]),
-                'NSF': np.array([0.0075, 0.300]),
-                'SS': np.array([0.52, 0.90]),
-               },
-        'mox2': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.015, 0.250]),
-                'SR': np.array([0.015, 0.]),
-                'NSF': np.array([0.0075, 0.375]),
-                'SS': np.array([0.52, 0.83]),
-               },
-        'mox1': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.015, 0.300]),
-                'SR': np.array([0.015, 0.]),
-                'NSF': np.array([0.0075, 0.45]),
-                'SS': np.array([0.52, 0.76]),
-               },
-        'gtub': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.001, 0.02]),
-                'SR': np.array([0.025, 0.]),
-                'NSF': np.array([0., 0.]),
-                'SS': np.array([0.56, 1.20]),
-               },
-        'reflec': {
-                'D': np.array([1.20, 0.20]),
-                'SA': np.array([0.001, 0.04]),
-                'SR': np.array([0.05, 0.]),
-                'NSF': np.array([0., 0.]),
-                'SS': np.array([0.56, 2.30]),
-               },
-        'fchamb': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.001, 0.02]),
-                'SR': np.array([0.025, 0.]),
-                'NSF': np.array([1e-7, 3e-6]),
-                'SS': np.array([0.56, 1.20]),
-               }
-    }
+    value = np.array([1.0, 0.0])
+    mat = update_dict(mat, 'chi', value)
 
     mat2 = prepare_xs(mat)
     return mat2
 
 
-def materials_het_moltres():
-    '''
-    Cross-sections from Cavarec et al. Benchmark Calculations
-    of Power Distributions within Assemblies. 1994.
-    Applies the diagonal transport correction.
+def mox1_properties():
+    # mox1
+    mat = {}
+    value = np.array([1.20, 0.40])
+    mat = update_dict(mat, 'diff', value)
+    value = np.array([0.015, 0.300])
+    mat = update_dict(mat, 'absxs', value)
+    value = np.array([0.0075, 0.45])
+    mat = update_dict(mat, 'nsfxs', value)
+    # from SR: S12, S21 and SS: S11, S22
+    value = np.array([[0.52, 0.015], [0.00, 0.76]])
+    mat = update_dict(mat, 'scxs', value)
+    value = np.array([1.0, 0.0])
+    mat = update_dict(mat, 'chi', value)
 
-    # diagonal transport correction (for each group):
-    # str = sa + (1-mu)*ss
-    # ss* = ss + (STR-STOT)
+    mat2 = prepare_xs(mat)
+    return mat2
 
-    Returns:
-    --------
-    materials: [dictionary]
-        dictionary that contains the materials and their respective
-        cross-sections.
-        * main keys:
-            - uo2 - U - UO2 Fuel
-            - mox3 - P1 - 4.3% MOX Fuel
-            - mox2 - P2 - 7.0% MOX Fuel
-            - mox1 - P3 - 8.7% MOX Fuel
-            - gtub - X - Guide Tube
-            - reflec - R - Reflector
-            - fchamb - C - Moveable Fission Chamber
 
-        * secondary keys:
-            - D = difffusion coefficients
-            - SA = absorption cross-sections
-            - SR = removal scattering = [s12, s21]
-            - NSF = production cross-sections
-            - SS = self-scattering = [s11, s22]
-    '''
+def mox2_properties():
+    # mox2
+    mat = {}
+    value = np.array([1.20, 0.40])
+    mat = update_dict(mat, 'diff', value)
+    value = np.array([0.015, 0.250])
+    mat = update_dict(mat, 'absxs', value)
+    value = np.array([0.0075, 0.375])
+    mat = update_dict(mat, 'nsfxs', value)
+    # from SR: S12, S21 and SS: S11, S22
+    value = np.array([[0.52, 0.015], [0.00, 0.83]])
+    mat = update_dict(mat, 'scxs', value)
+    value = np.array([1.0, 0.0])
+    mat = update_dict(mat, 'chi', value)
 
-    data = {
-        'uo2': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.010, 0.100]),
-                'SR': np.array([0.02, 0.]),
-                'NSF': np.array([0.005, 0.125]),
-                'SS': np.array([0.54, 1.00]),
-               },
-        'mox3': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.015, 0.200]),
-                'SR': np.array([0.015, 0.]),
-                'NSF': np.array([0.0075, 0.300]),
-                'SS': np.array([0.52, 0.90]),
-               },
-        'mox2': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.015, 0.250]),
-                'SR': np.array([0.015, 0.]),
-                'NSF': np.array([0.0075, 0.375]),
-                'SS': np.array([0.52, 0.83]),
-               },
-        'mox1': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.015, 0.300]),
-                'SR': np.array([0.015, 0.]),
-                'NSF': np.array([0.0075, 0.45]),
-                'SS': np.array([0.52, 0.76]),
-               },
-        'gtub': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.001, 0.02]),
-                'SR': np.array([0.025, 0.]),
-                'NSF': np.array([0., 0.]),
-                'SS': np.array([0.56, 1.20]),
-               },
-        'reflec': {
-                'D': np.array([1.20, 0.20]),
-                'SA': np.array([0.001, 0.04]),
-                'SR': np.array([0.05, 0.]),
-                'NSF': np.array([0., 0.]),
-                'SS': np.array([0.56, 2.30]),
-               },
-        'fchamb': {
-                'D': np.array([1.20, 0.40]),
-                'SA': np.array([0.001, 0.02]),
-                'SR': np.array([0.025, 0.]),
-                'NSF': np.array([1e-7, 3e-6]),
-                'SS': np.array([0.56, 1.20]),
-               }
-    }
+    mat2 = prepare_xs(mat)
+    return mat2
 
-    materials = {}
-    for mat in data:
-        materials[mat] = {}
 
-        # tot xs
-        sa = data[mat]['SA']
-        ss = data[mat]['SS']
-        sr = data[mat]['SR']
-        stot = sa + ss + sr
-        materials[mat]['totxs'] = stot
+def mox3_properties():
+    # mox2
+    mat = {}
+    value = np.array([1.20, 0.40])
+    mat = update_dict(mat, 'diff', value)
+    value = np.array([0.015, 0.200])
+    mat = update_dict(mat, 'absxs', value)
+    value = np.array([0.0075, 0.300])
+    mat = update_dict(mat, 'nsfxs', value)
+    # from SR: S12, S21 and SS: S11, S22
+    value = np.array([[0.52, 0.015], [0.00, 0.90]])
+    mat = update_dict(mat, 'scxs', value)
+    value = np.array([1.0, 0.0])
+    mat = update_dict(mat, 'chi', value)
 
-        # nf xs
-        materials[mat]['nfxs'] = data[mat]['NSF']
+    mat2 = prepare_xs(mat)
+    return mat2
 
-        # transport correction
-        sa = data[mat]['SA']
-        ss = data[mat]['SS']
-        mu = np.array([0.5, 0.3])
-        
-        # materials[mat]['trxs'] = sa + (1-mu)*ss
-        materials[mat]['trxs'] = 1./3./data[mat]['D']
 
-        # scatt xs: SP0
-        ss = data[mat]['SS']
-        sr = data[mat]['SR']
+def mox3_properties():
+    # mox3
+    mat = {}
+    value = np.array([1.20, 0.40])
+    mat = update_dict(mat, 'diff', value)
+    value = np.array([0.015, 0.200])
+    mat = update_dict(mat, 'absxs', value)
+    value = np.array([0.0075, 0.300])
+    mat = update_dict(mat, 'nsfxs', value)
+    # from SR: S12, S21 and SS: S11, S22
+    value = np.array([[0.52, 0.015], [0.00, 0.90]])
+    mat = update_dict(mat, 'scxs', value)
+    value = np.array([1.0, 0.0])
+    mat = update_dict(mat, 'chi', value)
 
-        materials[mat]['scxs'] = np.zeros(4)
-        materials[mat]['scxs'][0] = ss[0]
-        materials[mat]['scxs'][1] = sr[0]
-        materials[mat]['scxs'][2] = sr[1]
-        materials[mat]['scxs'][3] = ss[1]
+    mat2 = prepare_xs(mat)
+    return mat2
 
-    # str = sa + (1-mu)*ss
-    # ss* = ss + (STR-STOT)
 
-    return materials
+def fission_properties():
+    # fission
+    mat = {}
+    value = np.array([1.20, 0.40])
+    mat = update_dict(mat, 'diff', value)
+    value = np.array([0.001, 0.02])
+    mat = update_dict(mat, 'absxs', value)
+    value = np.array([1e-7, 3e-6])
+    mat = update_dict(mat, 'nsfxs', value)
+    # from SR: S12, S21 and SS: S11, S22
+    value = np.array([[0.56, 0.025], [0.00, 1.20]])
+    mat = update_dict(mat, 'scxs', value)
+    value = np.array([1.0, 0.0])
+    mat = update_dict(mat, 'chi', value)
 
+    mat2 = prepare_xs(mat)
+    return mat2
+
+
+def guide_properties():
+    # guide
+    mat = {}
+    value = np.array([1.20, 0.40])
+    mat = update_dict(mat, 'diff', value)
+    value = np.array([0.001, 0.02])
+    mat = update_dict(mat, 'absxs', value)
+    # from SR: S12, S21 and SS: S11, S22
+    value = np.array([[0.56, 0.025], [0.00, 1.20]])
+    mat = update_dict(mat, 'scxs', value)
+    mat2 = prepare_xs(mat)
+    return mat2
+
+
+def reflector_properties():
+    # reflector
+    mat = {}
+    value = np.array([1.20, 0.20])
+    mat = update_dict(mat, 'diff', value)
+    value = np.array([0.001, 0.04])
+    mat = update_dict(mat, 'absxs', value)
+    # from SR: S12, S21 and SS: S11, S22
+    value = np.array([[0.56, 0.05], [0.00, 2.30]])
+    mat = update_dict(mat, 'scxs', value)
+
+    mat2 = prepare_xs(mat)
+    return mat2
+
+
+def prepare_xs(mat):
+    mat2 = {}
+
+    G = len(mat['absxs'])
+    remxs = mat['absxs'] + np.array([mat['scxs'][0, 1], mat['scxs'][1, 0]])
+
+    mat2['DIFFCOEF'] = mat['diff']
+    mat2['REMXS'] = remxs
+    mat2['SP0'] = mat['scxs']
+    try:
+        mat2['NSF'] = mat['nsfxs']
+    except KeyError:
+        mat2['NSF'] = np.zeros(G)
+
+    try:
+        mat2['CHIT'] = mat['chi']
+    except KeyError:
+        mat2['CHIT'] = np.zeros(G)
+
+    try:
+        mat2['FISS'] = mat['nsfxs']/2.4
+    except KeyError:
+        mat2['FISS'] = np.zeros(G)
+
+    mat2['KAPPA'] = np.ones(G) * 200
+    mat2['CHIP'] = np.zeros(G)
+    mat2['CHID'] = np.zeros(G)
+    mat2['INVV'] = np.zeros(G)
+    mat2['BETA_EFF'] = np.zeros(8)
+    mat2['LAMBDA'] = np.zeros(8)
+
+    return mat2
 
 
 def output_xs(outdir, temp, materials):
@@ -810,6 +790,5 @@ if __name__ == "__main__":
     materials['mox3'] = mox3_properties()
     materials['fisc'] = fission_properties()
     materials['gtube'] = guide_properties()
-    materials['moder'] = moderator_properties()
-    materials['reflec'] = moderator_properties()
+    materials['reflec'] = reflector_properties()
     output_xs(outdir, temp, materials)
