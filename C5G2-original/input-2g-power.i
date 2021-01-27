@@ -5907,7 +5907,7 @@
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv'
-    block = 'moxa_17_5'
+    block = 'moxa_17_1'
   [../]
   [./moxa_17_2]
     type = ElmIntegTotFissHeatPostprocessor
@@ -6567,7 +6567,7 @@
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv'
-    block = 'moxb_7_5'
+    block = 'moxb_7_1'
   [../]
   [./moxb_7_2]
     type = ElmIntegTotFissHeatPostprocessor
