@@ -293,31 +293,55 @@
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'
-    block = 'uo2a gtubea fchambera uo2b gtubeb fchamberb mox1a mox2a mox3a gtubec fchamberc mox1b mox2b mox3b gtubed fchamberd'
+    # block = 'uo2a gtubea fchambera uo2b gtubeb fchamberb mox1a mox2a mox3a gtubec fchamberc mox1b mox2b mox3b gtubed fchamberd'
   [../]
   [./uo2a_fission_heat]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'
-    block = 'uo2a gtubea fchambera'
+    block = 'uo2a fchambera'
+  [../]
+  [./uo2a_fission_heat2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'gtubea'
   [../]
   [./uo2b_fission_heat]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'
-    block = 'uo2b gtubeb fchamberb'
+    block = 'uo2b fchamberb'
+  [../]
+  [./uo2b_fission_heat2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'gtubeb'
   [../]
   [./moxa_fission_heat]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'
-    block = 'mox1a mox2a mox3a gtubec fchamberc'
+    block = 'mox1a mox2a mox3a fchamberc'
+  [../]
+  [./moxa_fission_heat2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'gtubec'
   [../]
   [./moxb_fission_heat]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'
-    block = 'mox1b mox2b mox3b gtubed fchamberd'
+    block = 'mox1b mox2b mox3b fchamberd'
+  [../]
+  [./moxb_fission_heat2]
+    type = ElmIntegTotFissHeatPostprocessor
+    execute_on = timestep_end
+    outputs = 'csv console'
+    block = 'gtubed'
   [../]
 []
 

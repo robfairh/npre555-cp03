@@ -165,6 +165,12 @@ def power_distrib(file):
     moxa = np.array(file['moxa_fission_heat'].tolist()[-1])
     moxb = np.array(file['moxb_fission_heat'].tolist()[-1])
 
+    print('uo2a: ', uo2a)
+    print('uo2b: ', uo2b)
+    print('moxa: ', moxa)
+    print('moxb: ', moxb)
+    print('tot: ', tot)
+
     norm = 1/tot * tot_r
 
     uo2a *= norm
@@ -173,21 +179,21 @@ def power_distrib(file):
     moxb *= norm
     mox = (moxa + moxb)/2
 
-    print(uo2a)
-    print(uo2b)
-    print(mox)
+    # print(uo2a)
+    # print(uo2b)
+    # print(mox)
 
-    print(uo2a_r)
-    print(uo2b_r)
-    print(mox_r)
+    # print(uo2a_r)
+    # print(uo2b_r)
+    # print(mox_r)
 
     uo2a_rel = (uo2a - uo2a_r) / uo2a_r * 100
     uo2b_rel = (uo2b - uo2b_r) / uo2b_r * 100
     mox_rel = (mox - mox_r) / mox_r * 100
 
-    print('uo2a [%]: ', uo2a_rel)
-    print('uo2b [%]: ', uo2b_rel)
-    print('mox [%]: ', mox_rel)
+    # print('uo2a [%]: ', uo2a_rel)
+    # print('uo2b [%]: ', uo2b_rel)
+    # print('mox [%]: ', mox_rel)
 
     power = np.array([uo2a, mox, mox, uo2b])
     power_rel = np.array([uo2a_rel, mox_rel, mox_rel, uo2b_rel])
@@ -210,12 +216,16 @@ def plot_radial_power_distribution(power, rel=False):
     P = 21.42  # pitch
     F = P/np.sqrt(2)
     coord = []
-    # 1 - 2
-    coord.append(np.array([0*P+P/2, 0*P+P/2]))
-    coord.append(np.array([1*P+P/2, 0*P+P/2]))
-    # 3 - 4
-    coord.append(np.array([0*P+P/2, 1*P+P/2]))
-    coord.append(np.array([1*P+P/2, 1*P+P/2]))
+
+    side = int(np.sqrt(len(power)))
+    for j in range(side):
+        for i in range(side):
+            coord.append(np.array([i*P+P/2, j*P+P/2]))
+
+    # coord.append(np.array([0*P+P/2, 0*P+P/2]))
+    # coord.append(np.array([1*P+P/2, 0*P+P/2]))
+    # coord.append(np.array([0*P+P/2, 1*P+P/2]))
+    # coord.append(np.array([1*P+P/2, 1*P+P/2]))
     coord = np.array(coord)
 
     if rel is False:
@@ -405,48 +415,188 @@ def power_distrib_pin_by_pin(file):
 
     '''
 
-    uo2a_r, uo2b_r, mox_r, tot = bench_power_pin_by_pin()
+    uo2a_r, uo2b_r, mox_r, tot_r = bench_power_pin_by_pin()
 
     file = pd.read_csv(file)
     tot = np.array(file['total_fission_heat'].tolist()[-1])
+    print('tot: ', tot)
+    uo2a = np.array(file['uo2a_tot'].tolist()[-1])
+    print('uo2a: ', uo2a)
+    uo2b = np.array(file['uo2b_tot'].tolist()[-1])
+    print('uo2b: ', uo2b)
+    moxa = np.array(file['moxa_tot'].tolist()[-1])
+    print('moxa: ', moxa)
+    moxb = np.array(file['moxb_tot'].tolist()[-1])
+    print('moxb: ', moxb)
 
-    
+    uo2a = np.zeros(18)
+    uo2b = np.zeros(18)
+    moxa = np.zeros(18)
+    moxb = np.zeros(18)
+    for i in range(18):
+        uo2a[i] = np.array(file['uo2a_tot_' + str(i+1)].tolist()[-1])
+        uo2b[i] = np.array(file['uo2b_tot_' + str(i+1)].tolist()[-1])
+        moxa[i] = np.array(file['moxa_tot_' + str(i+1)].tolist()[-1])
+        moxb[i] = np.array(file['moxb_tot_' + str(i+1)].tolist()[-1])
+    print('sum_uo2a: ', np.sum(uo2a))
+    print('sum_uo2b: ', np.sum(uo2b))
+    print('sum_moxa: ', np.sum(moxa))
+    print('sum_moxb: ', np.sum(moxb))
 
-    uo2a = np.array(file['uo2a_fission_heat'].tolist()[-1])
-    uo2b = np.array(file['uo2b_fission_heat'].tolist()[-1])
-    moxa = np.array(file['moxa_fission_heat'].tolist()[-1])
-    moxb = np.array(file['moxb_fission_heat'].tolist()[-1])
+    # by line
+    # print('uo2a_lines:', uo2a)
+    # print('uo2b_lines:', uo2b)
+    # print('moxa_lines:', moxa)
+    # print('moxb_lines:', moxb)
+
+    uo2a2 = np.zeros((17, 17))
+    uo2b2 = np.zeros((17, 17))
+    moxa2 = np.zeros((17, 17))
+    moxb2 = np.zeros((17, 17))
+    for i in range(17):
+        for j in range(17):
+            try:
+                uo2a2[i, j] = np.array(file['uo2a_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
+            except KeyError:
+                uo2a2[i, j] = 0
+
+            try:
+                uo2b2[i, j] = np.array(file['uo2b_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
+            except KeyError:
+                uo2b2[i, j] = 0
+
+            try:
+                moxa2[i, j] = np.array(file['moxa_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
+            except KeyError:
+                moxa2[i, j] = 0
+
+            try:
+                moxb2[i, j] = np.array(file['moxb_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
+            except KeyError:
+                moxb2[i, j] = 0
+
+    # uo2a3 = []
+    # for i in range(17):
+    #     uo2a3.append(np.sum(uo2a2[i]))
+    # print('uo2a_lines2: ', uo2a3)
+    # uo2b3 = []
+    # for i in range(17):
+    #     uo2b3.append(np.sum(uo2b2[i]))
+    # print('uo2b_lines2: ', uo2b3)
+    # moxa3 = []
+    # for i in range(17):
+    #     moxa3.append(np.sum(moxa2[i]))
+    # print('moxa_lines2: ', moxa3)
+    # moxb3 = []
+    # for i in range(17):
+    #     moxb3.append(np.sum(moxb2[i]))
+    # print('moxb_lines2: ', moxb3)
+
+
+    # normalizes power
+    # print(file['uo2a_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
+    # print(uo2a)
+
+    print('uo2a_tot: ', np.sum(uo2a))
+    print('uo2b_tot: ', np.sum(uo2b))
+    print('moxa_tot: ', np.sum(moxa))
+    print('moxb_tot: ', np.sum(moxb))
+
+    tot = np.sum(uo2a + uo2b + moxa + moxb)
+    print('tot: ', tot)
 
     norm = 1/tot * tot_r
+
     uo2a *= norm
     uo2b *= norm
     moxa *= norm
     moxb *= norm
+
+    # makes the power of the mox symmetric
     mox = (moxa + moxb)/2
 
-    uo2a_rel = (uo2a - uo2a_r) / uo2a_r * 100
-    uo2b_rel = (uo2b - uo2b_r) / uo2b_r * 100
-    mox_rel = (mox - mox_r) / mox_r * 100
+    # uo2a_rel = (uo2a - uo2a_r) / uo2a_r * 100
+    # uo2b_rel = (uo2b - uo2b_r) / uo2b_r * 100
+    # mox_rel = (mox - mox_r) / mox_r * 100
 
-    print('uo2a [%]: ', uo2a_rel)
-    print('uo2b [%]: ', uo2b_rel)
-    print('mox [%]: ', mox_rel)
+    # print('uo2a [%]: ', uo2a_rel)
+    # print('uo2b [%]: ', uo2b_rel)
+    # print('mox [%]: ', mox_rel)
 
-    power = np.array([uo2a, mox, mox, uo2b])
-    power_rel = np.array([uo2a_rel, mox_rel, mox_rel, uo2b_rel])
-    return power, power_rel
+    # power = np.array([uo2a, mox, mox, uo2b])
+    # power_rel = np.array([uo2a_rel, mox_rel, mox_rel, uo2b_rel])
+    # return power, power_rel
+
+
+def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
+    '''
+    Running MOOSE app produces a csv file.
+    This function plots the values in it.
+    The output is a figure.
+
+    Parameters:
+    -----------
+    file: [string]
+        name of the .csv file
+    save: [string]
+        name of the figure
+    hom: [bool]
+        True if plotting the solution of the homogeneous case
+    G: [int]
+        Number of energy groups
+    dire: ['x', 'y', 'z']
+        direction of the detector
+    '''
+
+    file = pd.read_csv(file)
+
+    if dire == 'r':
+        x = np.array(file['x'].tolist())
+        y = np.array(file['y'].tolist())
+        d = np.sqrt(x**2 + y**2)
+    else:
+        d = file[dire].tolist()
+
+    for g in range(G):
+        flux0 = np.array(file['flux0_'+str(g+1)].tolist())
+        flux2 = np.array(file['flux2_'+str(g+1)].tolist())
+        flux = flux0 - 2*flux2
+
+        if hom is True:
+            legend = 'PBP'
+            marker = 'o'
+        else:
+            legend = 'HET'
+            marker = 'v'
+
+        if g == 0:
+            M = max(flux)
+        flux /= M
+        plt.plot(d, flux, label=legend+', g='+str(g+1), marker=marker)
+
+    plt.legend(loc='upper right')
+    plt.xlabel(dire + ' [cm]')
+    plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$')
 
 
 if __name__ == "__main__":
 
-    # power, power_rel = power_distrib('input-2g-het.csv')
+    # save = 'output-fluxes'
+    # plt.figure()
+    # file = 'input-2g-het_line_0001.csv'
+    # plotcsv_frommoose_multi(file, save, hom=False, G=2, dire='x')
+    # file = 'input-2g-power_line_0001.csv'
+    # plotcsv_frommoose_multi(file, save, hom=True, G=2, dire='x')
+    # plt.savefig(save, dpi=300, bbox_inches="tight")
+
+    power, power_rel = power_distrib('input-2g-het.csv')
     # plot_radial_power_distribution(power)
     # plot_radial_power_distribution(power_rel, rel=True)
     # plt.savefig('distrib', dpi=300, bbox_inches="tight")
     # plt.close()
 
-    power, power_rel = power_distrib_pin_by_pin('input-2g-power.csv')
-    plot_radial_power_pin_by_pin(power)
+    power_distrib_pin_by_pin('input-2g-power.csv')
+    # plot_radial_power_pin_by_pin(power)
     # plot_radial_power_distribution(power_rel, rel=True)
-    plt.savefig('distrib-pin-by-pin', dpi=300, bbox_inches="tight")
-    plt.close()
+    # plt.savefig('distrib-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()
