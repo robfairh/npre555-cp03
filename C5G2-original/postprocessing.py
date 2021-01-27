@@ -153,7 +153,6 @@ def power_distrib(file):
         name of the .csv file
     save: [string]
         name of the figure
-
     '''
 
     uo2a_r, uo2b_r, mox_r, tot_r = bench_power()
@@ -396,8 +395,10 @@ def bench_power_pin_by_pin():
                      [377, 399, 401, 393, 381, 365, 346, 326, 306, 286, 265,
                      245, 225, 206, 189, 179, 178]])
 
-    tot = np.sum(uo2_A + uo2_B + 2*mox) * 1e-6
-
+    uo2_A = uo2_A * 1e-6
+    uo2_B = uo2_B * 1e-6
+    mox = mox * 1e-6
+    tot = np.sum(uo2_A + uo2_B + 2*mox)
     return uo2_A, uo2_B, mox, tot
 
 
@@ -412,141 +413,85 @@ def power_distrib_pin_by_pin(file):
         name of the .csv file
     save: [string]
         name of the figure
-
     '''
 
     uo2a_r, uo2b_r, mox_r, tot_r = bench_power_pin_by_pin()
 
     file = pd.read_csv(file)
-    tot = np.array(file['total_fission_heat'].tolist()[-1])
-    print('tot: ', tot)
-    uo2a = np.array(file['uo2a_tot'].tolist()[-1])
-    print('uo2a: ', uo2a)
-    uo2b = np.array(file['uo2b_tot'].tolist()[-1])
-    print('uo2b: ', uo2b)
-    moxa = np.array(file['moxa_tot'].tolist()[-1])
-    print('moxa: ', moxa)
-    moxb = np.array(file['moxb_tot'].tolist()[-1])
-    print('moxb: ', moxb)
-    print()
+    tot_tot = np.array(file['total_fission_heat'].tolist()[-1])
+    uo2a_tot = np.array(file['uo2a_tot'].tolist()[-1])
+    uo2b_tot = np.array(file['uo2b_tot'].tolist()[-1])
+    moxa_tot = np.array(file['moxa_tot'].tolist()[-1])
+    moxb_tot = np.array(file['moxb_tot'].tolist()[-1])
 
-    uo2a2 = np.zeros(17)
-    uo2b2 = np.zeros(17)
-    moxa2 = np.zeros(17)
-    moxb2 = np.zeros(17)
-    for i in range(17):
-        if i == 8:
-            uo2a2[i] = np.array(file['uo2a_tot_' + str(i+1)].tolist()[-1]) + \
-                np.array(file['uo2a_tot_18'].tolist()[-1])
-            uo2b2[i] = np.array(file['uo2b_tot_' + str(i+1)].tolist()[-1]) + \
-                np.array(file['uo2b_tot_18'].tolist()[-1])
-            moxa2[i] = np.array(file['moxa_tot_' + str(i+1)].tolist()[-1]) + \
-                np.array(file['moxa_tot_18'].tolist()[-1])
-            moxb2[i] = np.array(file['moxb_tot_' + str(i+1)].tolist()[-1]) + \
-                np.array(file['moxb_tot_18'].tolist()[-1])  
-        else:
-            uo2a2[i] = np.array(file['uo2a_tot_' + str(i+1)].tolist()[-1])
-            uo2b2[i] = np.array(file['uo2b_tot_' + str(i+1)].tolist()[-1])
-            moxa2[i] = np.array(file['moxa_tot_' + str(i+1)].tolist()[-1])
-            moxb2[i] = np.array(file['moxb_tot_' + str(i+1)].tolist()[-1])
+    # print('tot: ', tot_tot)
+    # print('uo2a_tot: ', uo2a_tot)
+    # print('uo2b_tot: ', uo2b_tot)
+    # print('moxa_tot: ', moxa_tot)
+    # print('moxb_tot: ', moxb_tot)
+    # print()
 
-    print('sum_tot: ', np.sum(uo2a2 + uo2b2 + moxa2 + moxb2))
-    print('sum_uo2a: ', np.sum(uo2a2))
-    print('sum_uo2b: ', np.sum(uo2b2))
-    print('sum_moxa: ', np.sum(moxa2))
-    print('sum_moxb: ', np.sum(moxb2))
-    print()
-
-    uo2a3 = np.zeros((17, 17))
-    uo2b3 = np.zeros((17, 17))
-    moxa3 = np.zeros((17, 17))
-    moxb3 = np.zeros((17, 17))
+    uo2a = np.zeros((17, 17))
+    uo2b = np.zeros((17, 17))
+    moxa = np.zeros((17, 17))
+    moxb = np.zeros((17, 17))
     for i in range(17):
         for j in range(17):
             try:
-                uo2a3[i, j] = np.array(file['uo2a_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
+                uo2a[i, j] = np.array(file['uo2a_' + str(i+1) + '_' + \
+                    str(j+1)].tolist()[-1])
             except KeyError:
-                uo2a3[i, j] = 0
+                uo2a[i, j] = 0
 
             try:
-                uo2b3[i, j] = np.array(file['uo2b_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
+                uo2b[i, j] = np.array(file['uo2b_' + str(i+1) + '_' + \
+                    str(j+1)].tolist()[-1])
             except KeyError:
-                uo2b3[i, j] = 0
+                uo2b[i, j] = 0
 
             try:
-                moxa3[i, j] = np.array(file['moxa_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
+                moxa[i, j] = np.array(file['moxa_' + str(i+1) + '_' + \
+                    str(j+1)].tolist()[-1])
             except KeyError:
-                moxa3[i, j] = 0
+                moxa[i, j] = 0
 
             try:
-                moxb3[i, j] = np.array(file['moxb_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
+                moxb[i, j] = np.array(file['moxb_' + str(i+1) + '_' + \
+                    str(j+1)].tolist()[-1])
             except KeyError:
-                moxb3[i, j] = 0
+                moxb[i, j] = 0
 
-    tot3 = np.sum(uo2a3 + uo2b3 + moxa3 + moxb3)
-    print('tot: ', tot3)
-    print('uo2a_tot: ', np.sum(uo2a3))
-    print('uo2b_tot: ', np.sum(uo2b3))
-    print('moxa_tot: ', np.sum(moxa3))
-    print('moxb_tot: ', np.sum(moxb3))
-    # print('tot: ', tot3 - tot)
-    # print('uo2a_tot: ', np.sum(uo2a3) - uo2a)
-    # print('uo2b_tot: ', np.sum(uo2b3) - uo2b)
-    # print('moxa_tot: ', np.sum(moxa3) - moxa)
-    # print('moxb_tot: ', np.sum(moxb3) - moxb)
+    tot = np.sum(uo2a + uo2b + moxa + moxb)
+
+    # print('tot: ', tot)
+    # print('uo2a_tot: ', np.sum(uo2a))
+    # print('uo2b_tot: ', np.sum(uo2b))
+    # print('moxa_tot: ', np.sum(moxa))
+    # print('moxb_tot: ', np.sum(moxb))
     # print()
-
-    # by line
-    # print('uo2a_lines:', uo2a)
-    # print('uo2b_lines:', uo2b)
-    # print('moxa_lines:', moxa2)
-    # print('moxb_lines:', moxb2)
-
-    # uo2a3 = []
-    # for i in range(17):
-    #     uo2a3.append(np.sum(uo2a2[i]))
-    # print('uo2a_lines2: ', uo2a3)
-
-    # uo2b3 = []
-    # for i in range(17):
-    #     uo2b3.append(np.sum(uo2b2[i]))
-    # print('uo2b_lines2: ', uo2b3)
-
-    # print('uo2b_lines_diff: ', uo2b3-uo2b)
-
-    # moxa4 = []
-    # for i in range(17):
-    #     moxa4.append(np.sum(moxa3[i]))
-    # print('moxa_lines2: ', moxa4)
-    # print('moxa_lines2: ', moxa4-moxa2)
-
-    # moxb4 = []
-    # for i in range(17):
-    #     moxb4.append(np.sum(moxb3[i]))
-    # print('moxb_lines2: ', moxb4)
-    # print()
-    # print('moxb_lines2: ', moxb4-moxb2)
-
 
     # normalizes power
-    # print(file['uo2a_' + str(i+1) + '_' + str(j+1)].tolist()[-1])
-    # print(uo2a)
+    norm = 1/tot * tot_r
+    uo2a *= norm
+    uo2b *= norm
+    moxa *= norm
+    moxb *= norm
 
+    # makes the power of the mox symmetric
+    mox = (moxa + moxb)/2
 
+    # calculates relative error avoiding divisions by zero
+    uo2a_den = uo2a_r.copy()
+    uo2a_den[uo2a_den == 0] = 1
+    uo2a_rel = (uo2a - uo2a_r) / uo2a_den * 100
 
-    # norm = 1/tot * tot_r
+    uo2b_den = uo2b_r.copy()
+    uo2b_den[uo2b_den == 0] = 1
+    uo2b_rel = (uo2b - uo2b_r) / uo2b_den * 100
 
-    # uo2a *= norm
-    # uo2b *= norm
-    # moxa *= norm
-    # moxb *= norm
-
-    # # makes the power of the mox symmetric
-    # mox = (moxa + moxb)/2
-
-    # uo2a_rel = (uo2a - uo2a_r) / uo2a_r * 100
-    # uo2b_rel = (uo2b - uo2b_r) / uo2b_r * 100
-    # mox_rel = (mox - mox_r) / mox_r * 100
+    mox_den = mox_r.copy()
+    mox_den[mox_den == 0] = 1
+    mox_rel = (mox - mox_r) / mox_den * 100
 
     # print('uo2a [%]: ', uo2a_rel)
     # print('uo2b [%]: ', uo2b_rel)
