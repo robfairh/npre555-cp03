@@ -16,6 +16,11 @@ Cavarec, Perron, Verwaerde, West. Benchmark Calculations of Power Distribution w
 * delta_rho_to transport keff = 73 pcm
 * delta_rho_to diff keff = 57 pcm
 
+* pin power distribution max errors: 
+	- uo2a max [%]:  0.36897182045319704
+	- uo2b max [%]:  0.7686613069926476
+	- mox max [%]:  0.8008475544697691
+
 
 # Geometry files:
 

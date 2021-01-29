@@ -233,16 +233,12 @@ Table \ref{tab:keff-1st} compares the eigenvalue obtained with the SP$_3$ solver
 \end{table}
 
 
-\subsection{C5 MOX Benchmark}
+\subsection{C5G2 2D Benchmark}
 
-This section introduces the C5 MOX Benchmark \cite{cavarec_benchmark_1994} and presents Cerberus results.
 % intro to the benchmark
+The open literature describes different versions and extensions of the C5 MOX benchmark, originally introduced by Cavarec et al. in 1994 \cite{cavarec_benchmark_1994}.
 The \gls{OECD}/\gls{NEA} developed this benchmark to validate methods and identify their strengths, limitations, and accuracy, and suggest needs for method development.
-% other papers that solved it?
-
-% 3D version: ryu_finite_2013
-
-% 3D version: 
+This section describes the benchmark exercise and presents Cerberus results.
 
 % benchmark specification
 Two types of fuel assembly (MOX and UO$_2$) and a reflector comprise the core, shown in Figure \ref{fig:bench1}.
@@ -313,6 +309,13 @@ The results obtained with the SP$_3$ solver are within 145 pcm of the reference 
 However, the difference between the reference values of the different schemes is 3535 pcm, suggesting that the use of the transport correction is necessary.
 % examples of codes using the diagonal transport correction PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
+% Pin-by-pin power distribution: choose one of the 3, the one w/ largest errors
+
+% Comparison w/ Moltres, keff and neutron flux
+
+
+
+
 Figure \ref{fig:power-distrib} presents the power distribution and the relative difference to the reference provided by the benchmark \cite{cavarec_benchmark_1994}.
 For conciseness, we only calculated the power distribution using the transport correction.
 The benchmark specifies the power distribution pin-by-pin, but to simplify displaying the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly.
@@ -326,6 +329,22 @@ The results of the power distribution are within the 1\% difference.
     \caption{Power distribution in the C5 MOX Benchmark. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
     \label{fig:power-distrib}
 \end{figure}
+
+
+\section{C5G2 3D Benchmark}
+
+% intro: exercise description
+\cite{lewis_benchmark_2001}
+
+\cite{ryu_finite_2013}
+
+
+% Figure go here
+
+
+% Results comparison
+
+
 
 
 \section{Conclusions}
