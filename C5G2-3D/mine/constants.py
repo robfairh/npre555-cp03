@@ -184,6 +184,7 @@ def homogenizes_uo2():
     XS['fcham'] = fission_properties()
 
     mat = homogenizer(XS, V)
+    print(mat)
     return prepare_xs(mat)
 
 
@@ -199,6 +200,7 @@ def homogenizes_mox():
     XS['fcham'] = fission_properties()
     
     mat = homogenizer(XS, V)
+    print(mat)
     return prepare_xs(mat)
 
 

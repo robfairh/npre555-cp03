@@ -27,7 +27,7 @@ def uo2_properties():
     value = np.array([0.00457, 0.11353])
     mat = update_dict(mat, 'nsfxs', value)
     # from S11, S12, S21, S22 (S11, S22 from mine/)
-    value = np.array([0.02043, 0.00])
+    value = np.array([0.5417301, 0.02043, 0.00, 1.01730104])
     mat = update_dict(mat, 'ssxs', value)
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
@@ -46,7 +46,7 @@ def mox_properties():
     value = np.array([0.0068524, 0.34450])
     mat = update_dict(mat, 'nsfxs', value)
     # from S11, S12, S21, S22 (S11, S22 from mine/)
-    value = np.array([0.015864, 0.00])
+    value = np.array([0.56844291, 0.015864, 0.00, 0.92557093])
     mat = update_dict(mat, 'ssxs', value)
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
@@ -63,7 +63,7 @@ def reflector_properties():
     value = np.array([0.051, 0.04])
     mat = update_dict(mat, 'remxs', value)
     # from S11, S12, S21, S22 (S11, S22 from mine/)
-    value = np.array([0.05, 0.00])
+    value = np.array([0.56, 0.05, 0.00, 2.30])
     mat = update_dict(mat, 'ssxs', value)
 
     mat2 = prepare_xs(mat)
@@ -75,18 +75,17 @@ def prepare_xs(mat):
 
     G = len(mat['diff'])
 
-    totxs = 
-    sp0 = 
+    totxs = mat['remxs'] + mat['ssxs'].reshape((2, 2)).diagonal()
 
     # mat2['DIFFCOEFA'] = 1./3./mat['totxs']
-    mat2['DIFFCOEFA'] = mat1['diff']
+    mat2['DIFFCOEFA'] = mat['diff']
 
     mat2['DIFFCOEFB'] = 9./35./totxs
     mat2['REMXSA'] = mat['remxs']
     mat2['REMXSB'] = totxs + 4./5 * mat['remxs']
     mat2['COUPLEXSA'] = 2 * mat['remxs']
     mat2['COUPLEXSB'] = 2./5 * mat['remxs']
-    mat2['SP0'] = sp0
+    mat2['SP0'] = mat['ssxs']
 
     try:
         mat2['NSF'] = mat['nsfxs']
