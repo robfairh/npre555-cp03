@@ -76,7 +76,7 @@ MOOSE is an open-source \gls{FEM} framework that supports the development of app
 % These functions become inputs into PetSc solution routines.
 
 All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
-While Cerberus solves the neutronics in a nuclear reactor using the SP$_3$ equations, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
+While Cerberus solves the neutronics in a nuclear reactor using the multi-group steady-state SP$_3$ equations, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
 % Additionally, the framework and its applications use \gls{MPI} for parallel communication allowing for deployment on massively-parallel cluster-computing platforms.
 
 % lit - review: the SPN approximation
@@ -173,22 +173,21 @@ Such procedure is standard in weighted residual methods and can be found in \cit
 
 \section{Results}
 
-This section presents several numerical results that validate the calculation scheme.
+This section presents several numerical results that validate Cerberus' calculation scheme.
 The following sections discuss the results of a one group exercise presented in \cite{brantley_simplifiedP3_2000} and describe the results of the C5 MOX Benchmark \cite{cavarec_benchmark_1994}.
 
 \subsection{One group two-dimensional problem}
 
 This section describes a one group, isotropic-scattering eigenvalue problem introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000}.
-This section also presents the eigenvalue obtained with the SP$_3$ solver and compares it against the reference value.
+This section also presents the eigenvalue obtained with Cerberus and compares it against the reference value.
 Figure \ref{fig:2D} shows the problem's geometry, and Table \ref{tab:cross-sections} specifies its cross-sections.
 Due to the problem's symmetry, the model included only a quarter of the core.
-We created the mesh using the \textit{Gmsh} \cite{geuzaine_gmsh_2009} meshing tool.
-The mesh had $6 \times 10^{3}$ elements.
+Using the \textit{Gmsh} \cite{geuzaine_gmsh_2009} meshing tool, we created the mesh, which had $6 \times 10^{3}$ elements.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 
 \begin{figure}[H] %or H 
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/mesh2.png}
+    \includegraphics[width=0.75\linewidth]{figures/mesh2.png}
     \hfill
     \caption{Geometry of the one group eigenvalue problem. Fuel in red. Moderator in gray.}
     \label{fig:2D}
@@ -216,13 +215,13 @@ Table \ref{tab:keff-1st} compares the eigenvalue obtained with the SP$_3$ solver
   & \Delta_\rho = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
   \intertext{where}
   & \Delta_\rho = \mbox{reactivity difference } [pcm] \notag \\
-  & k_{SP_3} = \mbox{eigenvalue obtained with SP$_3$ solver} \notag \\
+  & k_{SP_3} = \mbox{eigenvalue obtained with Cerberus} \notag \\
   & k_{Ref} = \mbox{reference eigenvalue.} \notag
 \end{align}
 
 \begin{table}[htbp!]
 	\centering
-	\caption{Comparison between the result obtained with the SP$_3$ solver and the reference result for the one group eigenvalue problem.}
+	\caption{Comparison between the result obtained with Cerberus and the reference result for the one group eigenvalue problem.}
 	\label{tab:keff-1st}
 	\begin{tabular}{lll}
 	\toprule
@@ -236,9 +235,15 @@ Table \ref{tab:keff-1st} compares the eigenvalue obtained with the SP$_3$ solver
 
 \subsection{C5 MOX Benchmark}
 
-This section introduces the C5 MOX Benchmark \cite{cavarec_benchmark_1994} and presents the SP$_3$ solver results.
+This section introduces the C5 MOX Benchmark \cite{cavarec_benchmark_1994} and presents Cerberus results.
 % intro to the benchmark
 The \gls{OECD}/\gls{NEA} developed this benchmark to validate methods and identify their strengths, limitations, and accuracy, and suggest needs for method development.
+% other papers that solved it?
+
+% 3D version: ryu_finite_2013
+
+% 3D version: 
+
 % benchmark specification
 Two types of fuel assembly (MOX and UO$_2$) and a reflector comprise the core, shown in Figure \ref{fig:bench1}.
 Each fuel assembly consists of a 17 $\times$ 17 array of squared pin cells, as displayed in Figures \ref{fig:bench2} and \ref{fig:bench3}.
