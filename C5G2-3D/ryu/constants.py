@@ -26,7 +26,7 @@ def uo2_properties():
     mat = update_dict(mat, 'remxs', value)
     value = np.array([0.00457, 0.11353])
     mat = update_dict(mat, 'nsfxs', value)
-    # from S12, S21
+    # from S11, S12, S21, S22 (S11, S22 from mine/)
     value = np.array([0.02043, 0.00])
     mat = update_dict(mat, 'ssxs', value)
     value = np.array([1.0, 0.0])
@@ -45,7 +45,7 @@ def mox_properties():
     mat = update_dict(mat, 'remxs', value)
     value = np.array([0.0068524, 0.34450])
     mat = update_dict(mat, 'nsfxs', value)
-    # from S12, S21
+    # from S11, S12, S21, S22 (S11, S22 from mine/)
     value = np.array([0.015864, 0.00])
     mat = update_dict(mat, 'ssxs', value)
     value = np.array([1.0, 0.0])
@@ -62,7 +62,7 @@ def reflector_properties():
     mat = update_dict(mat, 'diff', value)
     value = np.array([0.051, 0.04])
     mat = update_dict(mat, 'remxs', value)
-    # from S12, S21
+    # from S11, S12, S21, S22 (S11, S22 from mine/)
     value = np.array([0.05, 0.00])
     mat = update_dict(mat, 'ssxs', value)
 

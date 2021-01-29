@@ -16,9 +16,9 @@ def materials_het():
         cross-sections.
         * main keys:
             - uo2 - U - UO2 Fuel
-            - mox3 - P1 - 4.3% MOX Fuel
+            - mox3 - P1 - 4.3% MOX Fuel (outer)
             - mox2 - P2 - 7.0% MOX Fuel
-            - mox1 - P3 - 8.7% MOX Fuel
+            - mox1 - P3 - 8.7% MOX Fuel (inner)
             - gtub - X - Guide Tube
             - reflec - R - Reflector
             - fchamb - C - Moveable Fission Chamber

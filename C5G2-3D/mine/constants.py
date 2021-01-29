@@ -3,6 +3,18 @@ import os
 from os import path
 import shutil
 
+'''
+Materials:
+- uo2 - U - UO2 Fuel
+- mox3 - P1 - 4.3% MOX Fuel (outer)
+- mox2 - P2 - 7.0% MOX Fuel
+- mox1 - P3 - 8.7% MOX Fuel (inner)
+- gtub - X - Guide Tube
+- reflec - R - Reflector
+- fchamb - C - Moveable Fission Chamber
+
+'''
+
 
 def update_dict(dictio, key, value):
     ''' updates dictionary by adding a key with an associated value
@@ -31,8 +43,7 @@ def uo2_properties():
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
 
-    mat2 = prepare_xs(mat)
-    return mat2
+    return mat
 
 
 def mox1_properties():
@@ -51,8 +62,7 @@ def mox1_properties():
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
 
-    mat2 = prepare_xs(mat)
-    return mat2
+    return mat
 
 
 def mox2_properties():
@@ -71,8 +81,7 @@ def mox2_properties():
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
 
-    mat2 = prepare_xs(mat)
-    return mat2
+    return mat
 
 
 def mox3_properties():
@@ -91,8 +100,7 @@ def mox3_properties():
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
 
-    mat2 = prepare_xs(mat)
-    return mat2
+    return mat
 
 
 def fission_properties():
@@ -111,8 +119,7 @@ def fission_properties():
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
 
-    mat2 = prepare_xs(mat)
-    return mat2
+    return mat
 
 
 def guide_properties():
@@ -126,8 +133,8 @@ def guide_properties():
     value = np.array([[0.56, 0.025], [0.00, 1.20]])
     value = np.reshape(value, 4)
     mat = update_dict(mat, 'scxs', value)
-    mat2 = prepare_xs(mat)
-    return mat2
+
+    return mat
 
 
 def reflector_properties():
@@ -142,28 +149,76 @@ def reflector_properties():
     value = np.reshape(value, 4)
     mat = update_dict(mat, 'scxs', value)
 
-    mat2 = prepare_xs(mat)
-    return mat2
+    return prepare_xs(mat)
+
+
+def homogenizer(XS, vi):
+    HXS = {}
+    HXS = {'diff': np.zeros(2),
+           'absxs': np.zeros(2),
+           'nsfxs': np.zeros(2),
+           'chi': np.array([1., 0.]),
+           'scxs': np.zeros(4)
+           }
+
+    for data in HXS.keys():
+        if data != 'chi':
+            value = 0
+            for count, mat in enumerate(XS.keys()):
+                try:
+                    value += XS[mat][data] * vi[count]
+                except KeyError:
+                    value += 0
+            HXS[data] = value
+
+    return HXS
 
 
 def homogenizes_uo2():
-    
-    return 
+    # uo2, gtube, fchamb
+    V = np.array([ 17*17-25, 24, 1])/(17*17)
+
+    XS = {}
+    XS['uo2'] = uo2_properties()
+    XS['gtube'] = guide_properties()
+    XS['fcham'] = fission_properties()
+
+    mat = homogenizer(XS, V)
+    return prepare_xs(mat)
 
 
 def homogenizes_mox():
-    return 
+    # mox1, mox2, mox3, gtube, fchamb
+    V = np.array([ 100, 123, 66, 24, 1])/(17*17)
+
+    XS = {}
+    XS['mox1'] = mox1_properties()
+    XS['mox2'] = mox2_properties()
+    XS['mox3'] = mox3_properties()  
+    XS['gtube'] = guide_properties()
+    XS['fcham'] = fission_properties()
+    
+    mat = homogenizer(XS, V)
+    return prepare_xs(mat)
 
 
 def prepare_xs(mat):
     mat2 = {}
 
-    G = len(mat['absxs'])
+    G = len(mat['diff'])
     remxs = mat['absxs'] + np.array([mat['scxs'][1], mat['scxs'][2]])
+    totxs = remxs + mat['scxs'].reshape((2, 2)).diagonal()
 
-    mat2['DIFFCOEF'] = mat['diff']
-    mat2['REMXS'] = remxs
+    # mat2['DIFFCOEFA'] = 1./3./mat['totxs']
+    mat2['DIFFCOEFA'] = mat['diff']
+
+    mat2['DIFFCOEFB'] = 9./35./totxs
+    mat2['REMXSA'] = remxs
+    mat2['REMXSB'] = totxs + 4./5 * remxs
+    mat2['COUPLEXSA'] = 2 * remxs
+    mat2['COUPLEXSB'] = 2./5 * remxs
     mat2['SP0'] = mat['scxs']
+
     try:
         mat2['NSF'] = mat['nsfxs']
     except KeyError:
@@ -175,7 +230,7 @@ def prepare_xs(mat):
         mat2['CHIT'] = np.zeros(G)
 
     try:
-        mat2['FISS'] = mat['nsfxs']/2.4
+        mat2['FISS'] = mat['nsfxs'] / 2.4
     except KeyError:
         mat2['FISS'] = np.zeros(G)
 
