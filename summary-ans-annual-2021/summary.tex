@@ -1,6 +1,6 @@
 \documentclass{anstrans}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Cerberus: A MOOSE-based application for solving the $SP_3$ equations}
+\title{Cerberus: A MOOSE-based application for solving the SP$_3$ equations}
 \author{Roberto E. Fairhurst Agosta, Kathryn D. Huff}
 
 \institute{
@@ -60,7 +60,7 @@ ref3@illinois.edu
 \section{Introduction}
 
 % what I am doing
-This work presents the implementation of the Simplified $P_3$ ($SP_3$) equations \cite{gelbard_spherical_1960} in the \gls{MOOSE}-based application Cerberus.
+This work presents the implementation of the Simplified P$_3$ (SP$_3$) equations \cite{gelbard_spherical_1960} in the \gls{MOOSE}-based application Cerberus.
 % MOOSE
 MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
 In a nuclear reactor, several partial differential equations describe its physical behavior.
@@ -76,34 +76,34 @@ MOOSE is an open-source \gls{FEM} framework that supports the development of app
 % These functions become inputs into PetSc solution routines.
 
 All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
-While Cerberus solves the neutronics in a nuclear reactor using the $SP_3$ equations, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
+While Cerberus solves the neutronics in a nuclear reactor using the SP$_3$ equations, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
 % Additionally, the framework and its applications use \gls{MPI} for parallel communication allowing for deployment on massively-parallel cluster-computing platforms.
 
 % lit - review: the SPN approximation
-The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
-If $N \rightarrow \infty$, the solution of the $P_N$ equations tends to the exact transport solution.
-In three-dimensional geometries, the number of $P_N$ equations is proportional to $(N+1)^2$, whereas, in one-dimensional planar geometries, the number of $P_N$ equations is $(N+1)$.
-Gelbard \cite{gelbard_spherical_1960} proposed the $SP_N$ approximation by replacing the second derivatives in the one-dimensional planar $P_N$ equations with three-dimensional Laplacian operators.
+The P$_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
+If $N \rightarrow \infty$, the solution of the P$_N$ equations tends to the exact transport solution.
+In three-dimensional geometries, the number of P$_N$ equations is proportional to $(N+1)^2$, whereas, in one-dimensional planar geometries, the number of P$_N$ equations is $(N+1)$.
+Gelbard \cite{gelbard_spherical_1960} proposed the SP$_N$ approximation by replacing the second derivatives in the one-dimensional planar P$_N$ equations with three-dimensional Laplacian operators.
 This approximation considerably reduces the number of equations conserving a reasonable accuracy \cite{capilla_applications_2009}.
 % Capilla et al. \cite{capilla_applications_2009} studied a modified version of the C5 \gls{MOX} fuel Benchmark \cite{cavarec_benchmark_1994} introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000} comparing the $P_3$ and $SP_3$ methods, the difference between results being less than 40 pcm.
 
-The $SP_N$ approximation has the disadvantage that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
-Additionally, the theoretical basis of Gelbard's formulation of $SP_N$ approximation was weak.
+The SP$_N$ approximation has the disadvantage that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
+Additionally, the theoretical basis of Gelbard's formulation of SP$_N$ approximation was weak.
 For these reasons, the method did not gain widespread use until the 2000s, when thanks to Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution, the method gained a stronger theoretical basis.
 % Although Gelbard proposed the $SP_N$ approximation in the 60s, the method did not have a strong theoretical basis until the 90s with Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution.
 % Additionally, the $SP_N$ approximation has the disadvantage that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
 
-In practice, the $SP_N$ equations are most accurate for diffusive problems or for problems in which the solution behaves nearly one-dimensionally and has weak tangential derivatives at material interfaces.
+In practice, the SP$_N$ equations are most accurate for diffusive problems or for problems in which the solution behaves nearly one-dimensionally and has weak tangential derivatives at material interfaces.
 % For problems with strong, multidimensional transport effects, such as voids, streaming regions, or geometrically complex regions, the $SP_N$ solutions are less accurate \cite{downar_parcs_2004}.
 % However, several results show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
-Several results show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
+Several results show that the SP$_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
 % why is SP_3 preferred over diffusion
-For example, the $SP_3$ approximation is preferable over the diffusion approximation for modeling reactors using MOX/UO$_2$ fuel assemblies.
+For example, the SP$_3$ approximation is preferable over the diffusion approximation for modeling reactors using MOX/UO$_2$ fuel assemblies.
 MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies, and consequently, their thermal flux is lower while their power production higher.
 Modeling these characteristics using the diffusion approximation may be challenging \cite{brantley_simplifiedP3_2000} \cite{capilla_applications_2009}.
 
 % lit - review: software using the SPN approximation
-The $SP_3$ approximation gained usage throughout the last couple of decades and currently, different software uses it to solve the neutron transport equation.
+The SP$_3$ approximation gained usage throughout the last couple of decades and currently, different software uses it to solve the neutron transport equation.
 % Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
 Some of those software are PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, and COCAGNE \cite{fliscounakis_potential_2012}.
 
@@ -112,7 +112,7 @@ Some of those software are PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_d
 This section describes the methodology followed for solving the equations.
 % Equations P3
 Davidson \cite{davidson_neutron_1957} defined the one-dimensional multi-group P$_N$ equations.
-For $N=3$ and steady-state, the equations become
+In the steady state, and for $N=3$, the equations become
 
 \begin{align}
     & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} \notag \\ & \quad \quad \quad \quad \quad \quad \quad + Q_{0,g}  \label{eq:P3-0} \\
@@ -139,7 +139,7 @@ Assuming an isotropic external source and negligible anisotropic group-to-group 
 
 \noindent
 simplifies equations \ref{eq:P3-1} and \ref{eq:P3-3}, allowing to express the odd moments of the flux $\phi_{1,g}$ and $\phi_{3,g}$ as functions of the even moments $\phi_{0,g}$ and $\phi_{2,g}$.
-Introducing $\phi_{1,g}$ and $\phi_{3,g}$ into equations \ref{eq:P3-0} and \ref{eq:P3-2} reduces the system from four to two equations.
+Replacing $\phi_{1,g}$ and $\phi_{3,g}$ into equations \ref{eq:P3-0} and \ref{eq:P3-2} reduces the system from four to two equations.
 Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$, reorganizing the equations, and replacing the second derivatives by Laplacian operators \cite{gelbard_spherical_1960} yields the SP$_3$ equations \cite{beckert_development_2007}
 
 % Equations SP_3
@@ -166,9 +166,9 @@ The Marshak-like vacuum \glspl{BC} complete the system of equations \cite{becker
     & J_{n,g} = -D_{n,g} \nabla \Phi_{n,g}. \notag
 \end{align}
 
-Finally, multiplying equations \ref{eq:SP3-0e} and \ref{eq:SP3-2e} by a test function and integrating over the domain yields the weak form of the equations modularized into kernels in the MOOSE-based application.
+Finally, multiplying equations \ref{eq:SP3-0e} and \ref{eq:SP3-2e} by a test function and integrating over the domain yields the weak form of the equations modularized into kernels by Cerberus.
 For brevity, we will not display the derivation of the kernels here.
-Such procedure is standard in weighted residual methods and can be found in \cite{ryu_finite_2013} and any finite elements book \cite{quarteroni_numerical_1994}.
+Such procedure is standard in weighted residual methods and can be found in \cite{ryu_finite_2013} or any finite elements book \cite{quarteroni_numerical_1994}.
 
 
 \section{Results}
@@ -179,7 +179,7 @@ The following sections discuss the results of a one group exercise presented in 
 \subsection{One group two-dimensional problem}
 
 This section describes a one group, isotropic-scattering eigenvalue problem introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000}.
-This section also presents the eigenvalue obtained with the $SP_3$ solver and compares it against the reference value.
+This section also presents the eigenvalue obtained with the SP$_3$ solver and compares it against the reference value.
 Figure \ref{fig:2D} shows the problem's geometry, and Table \ref{tab:cross-sections} specifies its cross-sections.
 Due to the problem's symmetry, the model included only a quarter of the core.
 We created the mesh using the \textit{Gmsh} \cite{geuzaine_gmsh_2009} meshing tool.
@@ -210,19 +210,19 @@ The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 	\end{tabular}
 \end{table}
 
-Table \ref{tab:keff-1st} compares the eigenvalue obtained with the $SP_3$ solver and the reference value \cite{brantley_simplifiedP3_2000} using the equation
+Table \ref{tab:keff-1st} compares the eigenvalue obtained with the SP$_3$ solver and the reference value \cite{brantley_simplifiedP3_2000} using the equation
 \begin{align}
   % & \Delta_\rho = \left| \rho_{SP_3} - \rho_{Ref} \right| = \left| \frac{k_{SP_3}-1}{k_{SP_3}} - \frac{k_{Ref}-1}{k_{Ref}} \right| = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
   & \Delta_\rho = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
   \intertext{where}
   & \Delta_\rho = \mbox{reactivity difference } [pcm] \notag \\
-  & k_{SP_3} = \mbox{eigenvalue obtained with $SP_3$ solver} \notag \\
+  & k_{SP_3} = \mbox{eigenvalue obtained with SP$_3$ solver} \notag \\
   & k_{Ref} = \mbox{reference eigenvalue.} \notag
 \end{align}
 
 \begin{table}[htbp!]
 	\centering
-	\caption{Comparison between the result obtained with the $SP_3$ solver and the reference result for the one group eigenvalue problem.}
+	\caption{Comparison between the result obtained with the SP$_3$ solver and the reference result for the one group eigenvalue problem.}
 	\label{tab:keff-1st}
 	\begin{tabular}{lll}
 	\toprule
@@ -236,7 +236,7 @@ Table \ref{tab:keff-1st} compares the eigenvalue obtained with the $SP_3$ solver
 
 \subsection{C5 MOX Benchmark}
 
-This section introduces the C5 MOX Benchmark \cite{cavarec_benchmark_1994} and presents the $SP_3$ solver results.
+This section introduces the C5 MOX Benchmark \cite{cavarec_benchmark_1994} and presents the SP$_3$ solver results.
 % intro to the benchmark
 The \gls{OECD}/\gls{NEA} developed this benchmark to validate methods and identify their strengths, limitations, and accuracy, and suggest needs for method development.
 % benchmark specification
@@ -285,13 +285,13 @@ Due to the problem's symmetry, the model included only a quarter of the core.
 The mesh had $2.4 \times 10^{4}$ elements.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 
-Table \ref{tab:keff-2nd} compares the eigenvalues obtained with the $SP_3$ solver and the references.
+Table \ref{tab:keff-2nd} compares the eigenvalues obtained with the SP$_3$ solver and the references.
 For the method without correction, we used an eigenvalue reference value from Capilla et al. \cite{capilla_applications_2009} as they conducted the exercise without correction.
 For the method with transport correction, we used the reference value from the benchmark \cite{cavarec_benchmark_1994}.
 % \usepackage{booktabs}
 \begin{table}[htbp!]
 	\centering
-	\caption{Comparison between the results obtained with the $SP_3$ solver using no correction (equation \ref{eq:diff-rem}), the transport correction (equation \ref{eq:diff-tr}), and the reference results for the C5 MOX Benchmark.}
+	\caption{Comparison between the results obtained with the SP$_3$ solver using no correction (equation \ref{eq:diff-rem}), the transport correction (equation \ref{eq:diff-tr}), and the reference results for the C5 MOX Benchmark.}
 	\label{tab:keff-2nd}
 	\begin{tabular}{lrrr}
 	\toprule
@@ -304,7 +304,7 @@ For the method with transport correction, we used the reference value from the b
 \end{table}
 
 % discussion about the transport correction
-The results obtained with the $SP_3$ solver are within 145 pcm of the reference values.
+The results obtained with the SP$_3$ solver are within 145 pcm of the reference values.
 However, the difference between the reference values of the different schemes is 3535 pcm, suggesting that the use of the transport correction is necessary.
 % examples of codes using the diagonal transport correction PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
@@ -326,13 +326,13 @@ The results of the power distribution are within the 1\% difference.
 \section{Conclusions}
 
 MOOSE is a computational framework that solves systems of nonlinear differential equations.
-As part of this work, we implemented the kernels to solve the steady-state $SP_3$ equations in a MOOSE-based application.
+As part of this work, we implemented the kernels to solve the steady-state SP$_3$ equations in a MOOSE-based application.
 Additionally, we carried out two exercises whose reference results were known.
 The first exercise solved a one-group eigenvalue problem with a simple geometry, with a result within the 12 pcm.
 The second exercise studied the C5 MOX Benchmark, solving it using different approaches and obtaining results within the 145 pcm.
 The calculated power distribution values were within the 1\% error from the reference.
 
-While the $SP_3$ equations solve the neutronics in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate this application to existing applications.
+While the SP$_3$ equations solve the neutronics in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate this application to existing applications.
 MOOSE-based applications share the same API making their integration straightforward.
 
 
