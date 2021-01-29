@@ -311,7 +311,22 @@ However, the difference between the reference values of the different schemes is
 
 % Pin-by-pin power distribution: choose one of the 3, the one w/ largest errors
 
+The next step was to calculate the pin power distribution.
+Figure \ref{fig:power-pbp} shows the relative error of the pin power distribution calculated with Cerberus in the MOX assembly located in the lower right of Figure ??.
+We present this result for the MOX assembly only, as it has the largest relative errors.
+The largest relative error is 1.88\%.
+
+
+\begin{figure}[h] %or H 
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/mox-r-pin-by-pin.png}
+    \hfill
+    \caption{.}
+    \label{fig:power-pbp}
+\end{figure}
+
 % Comparison w/ Moltres, keff and neutron flux
+
 
 
 
@@ -330,6 +345,9 @@ The results of the power distribution are within the 1\% difference.
     \label{fig:power-distrib}
 \end{figure}
 
+% \subsection{Comparison to Diffusion solver}
+
+
 
 \section{C5G2 3D Benchmark}
 
@@ -339,11 +357,38 @@ The results of the power distribution are within the 1\% difference.
 \cite{ryu_finite_2013}
 
 
-% Figure go here
+% geometry description
+
+Figure \ref{fig:c5g2-3d} displays the axial layout of the core.
+
+\begin{figure}[h] %or H 
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/geo-xz2.png}
+    \hfill
+    \caption{.}
+    \label{fig:c5g2-3d}
+\end{figure}
+
+% cross-section description
+Where did they come from?
+
 
 
 % Results comparison
+Table \ref{tab:keff-4th} ...
 
+\begin{table}[htbp!]
+    \centering
+    \caption{Comparison between the result obtained with Cerberus and the reference result for the C5G2 3D benchmark problem in \cite{ryu_finite_2013}.}
+    \label{tab:keff-4th}
+    \begin{tabular}{lll}
+    \toprule
+        $k_{Ref}$   & $k_{SP_3}$    & $\Delta_{\rho}$   \\
+    \midrule
+        0.91974     & 0.       &                 \\
+    \bottomrule
+    \end{tabular}
+\end{table}
 
 
 
