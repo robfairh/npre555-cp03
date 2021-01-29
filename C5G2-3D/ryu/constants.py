@@ -3,6 +3,8 @@ import os
 from os import path
 import shutil
 
+# This data is missing the groups self scattering
+
 
 def update_dict(dictio, key, value):
     ''' updates dictionary by adding a key with an associated value
@@ -20,14 +22,13 @@ def uo2_properties():
     mat = {}
     value = np.array([1.20, 0.40])
     mat = update_dict(mat, 'diff', value)
-    value = np.array([0.010, 0.100])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.005, 0.125])
+    value = np.array([0.029656, 0.092659])
+    mat = update_dict(mat, 'remxs', value)
+    value = np.array([0.00457, 0.11353])
     mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.54, 0.02], [0.00, 1.00]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
+    # from S12, S21
+    value = np.array([0.02043, 0.00])
+    mat = update_dict(mat, 'ssxs', value)
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
 
@@ -35,97 +36,21 @@ def uo2_properties():
     return mat2
 
 
-def mox1_properties():
-    # mox1
+def mox_properties():
+    # mox
     mat = {}
     value = np.array([1.20, 0.40])
     mat = update_dict(mat, 'diff', value)
-    value = np.array([0.015, 0.300])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.0075, 0.45])
+    value = np.array([0.029655, 0.23164])
+    mat = update_dict(mat, 'remxs', value)
+    value = np.array([0.0068524, 0.34450])
     mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.52, 0.015], [0.00, 0.76]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
+    # from S12, S21
+    value = np.array([0.015864, 0.00])
+    mat = update_dict(mat, 'ssxs', value)
     value = np.array([1.0, 0.0])
     mat = update_dict(mat, 'chi', value)
 
-    mat2 = prepare_xs(mat)
-    return mat2
-
-
-def mox2_properties():
-    # mox2
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.015, 0.250])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.0075, 0.375])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.52, 0.015], [0.00, 0.83]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
-
-    mat2 = prepare_xs(mat)
-    return mat2
-
-
-def mox3_properties():
-    # mox3
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.015, 0.200])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.0075, 0.300])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.52, 0.015], [0.00, 0.90]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
-
-    mat2 = prepare_xs(mat)
-    return mat2
-
-
-def fission_properties():
-    # fission
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.001, 0.02])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([1e-7, 3e-6])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.56, 0.025], [0.00, 1.20]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
-
-    mat2 = prepare_xs(mat)
-    return mat2
-
-
-def guide_properties():
-    # guide
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.001, 0.02])
-    mat = update_dict(mat, 'absxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.56, 0.025], [0.00, 1.20]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
     mat2 = prepare_xs(mat)
     return mat2
 
@@ -135,34 +60,34 @@ def reflector_properties():
     mat = {}
     value = np.array([1.20, 0.20])
     mat = update_dict(mat, 'diff', value)
-    value = np.array([0.001, 0.04])
-    mat = update_dict(mat, 'absxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.56, 0.05], [0.00, 2.30]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
+    value = np.array([0.051, 0.04])
+    mat = update_dict(mat, 'remxs', value)
+    # from S12, S21
+    value = np.array([0.05, 0.00])
+    mat = update_dict(mat, 'ssxs', value)
 
     mat2 = prepare_xs(mat)
     return mat2
 
 
-def homogenizes_uo2():
-    return 
-
-
-def homogenizes_mox():
-    return 
-
-
 def prepare_xs(mat):
     mat2 = {}
 
-    G = len(mat['absxs'])
-    remxs = mat['absxs'] + np.array([mat['scxs'][1], mat['scxs'][2]])
+    G = len(mat['diff'])
 
-    mat2['DIFFCOEF'] = mat['diff']
-    mat2['REMXS'] = remxs
-    mat2['SP0'] = mat['scxs']
+    totxs = 
+    sp0 = 
+
+    # mat2['DIFFCOEFA'] = 1./3./mat['totxs']
+    mat2['DIFFCOEFA'] = mat1['diff']
+
+    mat2['DIFFCOEFB'] = 9./35./totxs
+    mat2['REMXSA'] = mat['remxs']
+    mat2['REMXSB'] = totxs + 4./5 * mat['remxs']
+    mat2['COUPLEXSA'] = 2 * mat['remxs']
+    mat2['COUPLEXSB'] = 2./5 * mat['remxs']
+    mat2['SP0'] = sp0
+
     try:
         mat2['NSF'] = mat['nsfxs']
     except KeyError:
@@ -174,7 +99,7 @@ def prepare_xs(mat):
         mat2['CHIT'] = np.zeros(G)
 
     try:
-        mat2['FISS'] = mat['nsfxs']/2.4
+        mat2['FISS'] = mat['nsfxs'] / 2.4
     except KeyError:
         mat2['FISS'] = np.zeros(G)
 
@@ -217,7 +142,7 @@ if __name__ == "__main__":
     os.mkdir(outdir)
 
     materials = {}
-    materials['uo2'] = homogenizes_uo2()
-    materials['mox'] = homogenizes_mox()
+    materials['uo2'] = uo2_properties()
+    materials['mox'] = mox_properties()
     materials['reflec'] = reflector_properties()
     output_xs(outdir, temp, materials)
