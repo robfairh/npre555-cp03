@@ -73,13 +73,13 @@ Plane Surface(8) = {8};
 Curve Loop(9) = {9, 24, -12, -21};
 Plane Surface(9) = {9};
 
-Transfinite Line{1, 4, 7, 10} = 10;
-Transfinite Line{2, 5, 8, 11} = 10;
-Transfinite Line{3, 6, 9, 12} = 10;
+Transfinite Line{1, 4, 7, 10} = 15;
+Transfinite Line{2, 5, 8, 11} = 15;
+Transfinite Line{3, 6, 9, 12} = 15;
 
-Transfinite Line{13, 16, 19, 22} = 10;
-Transfinite Line{14, 17, 20, 23} = 10;
-Transfinite Line{15, 18, 21, 24} = 10;
+Transfinite Line{13, 16, 19, 22} = 15;
+Transfinite Line{14, 17, 20, 23} = 15;
+Transfinite Line{15, 18, 21, 24} = 15;
 
 Transfinite Surface{1, 2, 3, 4, 5, 6, 7, 8, 9};
 Recombine Surface{1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -87,7 +87,7 @@ Recombine Surface{1, 2, 3, 4, 5, 6, 7, 8, 9};
 Extrude {0, 0, 60} {
   Surface{1}; Surface{2}; Surface{3}; Surface{4}; Surface{5};
   Surface{6}; Surface{7}; Surface{8}; Surface{9};
-  Layers{30}; Recombine;
+  Layers{45}; Recombine;
 }
 
 Physical Volume("uo2a") = {1};
@@ -101,7 +101,7 @@ Physical Surface("boundary") = {173, 195, 217, 213, 147, 81};
 Extrude {0, 0, 20} {
   Surface{46}; Surface{68}; Surface{90}; Surface{112}; Surface{134};
   Surface{156}; Surface{178}; Surface{200}; Surface{222};
-  Layers{10}; Recombine;
+  Layers{15}; Recombine;
 }
 
 Physical Volume("reflec") += {10, 11, 12, 13, 14, 15, 16, 17, 18};
