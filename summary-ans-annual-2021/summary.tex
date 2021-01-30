@@ -89,7 +89,8 @@ This approximation considerably reduces the number of equations conserving a rea
 
 The SP$_N$ approximation has the disadvantage that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
 Additionally, the theoretical basis of Gelbard's formulation of SP$_N$ approximation was weak.
-For these reasons, the method did not gain widespread use until the 2000s, when thanks to Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution, the method gained a stronger theoretical basis.
+For these reasons, the method did not gain widespread use until the 2000s, when thanks to Brantley and Larsen's \cite{brantley_simplifiedP3_2000} contribution, the method gained a stronger theoretical basis.
+% For these reasons, the method did not gain widespread use until the 2000s, when thanks to Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution, the method gained a stronger theoretical basis.
 % Although Gelbard proposed the $SP_N$ approximation in the 60s, the method did not have a strong theoretical basis until the 90s with Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution.
 % Additionally, the $SP_N$ approximation has the disadvantage that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
 
@@ -103,16 +104,16 @@ MOX fuel assemblies have higher thermal absorption and fission cross-sections th
 Modeling these characteristics using the diffusion approximation may be challenging \cite{brantley_simplifiedP3_2000} \cite{capilla_applications_2009}.
 
 % lit - review: software using the SPN approximation
-The SP$_3$ approximation gained usage throughout the last couple of decades and currently, different software uses it to solve the neutron transport equation.
+The SP$_3$ approximation gained usage throughout the last couple of decades, and currently, different software uses it to solve the neutron transport equation.
 % Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
-Some of those software are PARCS \cite{downar_parcs_2004} and DYN3D \cite{beckert_development_2007}.
+Some examples are PARCS \cite{downar_parcs_2004} and DYN3D \cite{beckert_development_2007}.
 
 \section{Methodology}
 
 This section describes the methodology followed for solving the equations.
 % Equations P3
 Davidson \cite{davidson_neutron_1957} defined the 1D multi-group P$_N$ equations.
-In the steady state, for $N=3$, and a negligible fixed source, the equations become
+In the steady-state, for $N=3$ and a negligible fixed source, the equations become
 
 \begin{align}
     & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} \label{eq:P3-0} \\
@@ -408,15 +409,15 @@ The results of the power distribution are within 1\% difference.
 \section{Conclusions}
 
 MOOSE is a computational framework that solves systems of nonlinear differential equations.
-As part of this work, we implemented the kernels to solve the steady-state SP$_3$ equations in Cerberus, a MOOSE-based application.
-Additionally, we carried out three exercises whose reference results were known.
+As part of this work, we developed the MOOSE-based application Cerberus to solve the steady-state multi-group SP$_3$ equations.
+Additionally, we validated Cerberus' calculation scheme by carrying out three exercises whose reference results were known.
 The first and second exercises solved 2D eigenvalue problems with results within 12 and 145 pcm, respectively.
-For the second exercise we calculated the pin-by-pin power distribution, the relative error being within 2\% error.
+For the second exercise, we calculated the pin-by-pin power distribution and its relative error was within 2\% error.
 The third exercise solved a 3D eigenvalue problem with a result within 6 pcm from the reference.
 The calculation of the power distribution yielded results within 1\% of the reference.
 
 Cerberus is an application with great potential for further development.
-While the SP$_3$ equations solve the neutronics in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate Cerberus to existing applications.
+While the SP$_3$ equations solve the neutronics in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate Cerberus into existing applications.
 MOOSE-based applications share the same API making their integration straightforward.
 
 
