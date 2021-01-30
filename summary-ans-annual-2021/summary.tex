@@ -189,7 +189,7 @@ Table \ref{tab:keff-1st} compares the eigenvalue obtained with Cerberus and the 
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[width=0.7\linewidth]{figures/mesh2.png}
+    \includegraphics[width=0.55\linewidth]{figures/mesh2.png}
     \hfill
     \caption{Geometry of the one group eigenvalue problem. Fuel in red. Moderator in gray.}
     \label{fig:2D}
@@ -242,26 +242,27 @@ The open literature describes different versions and extensions of the C5 MOX be
 The \gls{OECD}/\gls{NEA} developed this benchmark to validate methods and identify their strengths, limitations, and accuracy, and suggest needs for method development.
 This section describes the benchmark exercise and presents Cerberus results.
 
-% benchmark specification
-Two types of fuel assembly (MOX and UO$_2$) and a reflector comprise the core, shown in Figure \ref{fig:bench1}.
-Due to the problem's symmetry, the model included only a quarter of the core.
-Each fuel assembly consists of a 17 $\times$ 17 array of squared pin cells, as displayed in Figures \ref{fig:bench2} and \ref{fig:bench3}.
-The dimensions of each pin cell are 1.26 $\times$ 1.26 cm, being 21.42 $\times$ 21.42 cm the dimensions of each assembly.
-The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which have a two-energy group structure.
-
-\begin{figure}[htbp!] %or H 
+\begin{figure}[htbp!] %or htbp!
     \centering
-    \includegraphics[width=0.7\linewidth]{figures/geo-xy2.png}
+    \includegraphics[width=0.55\linewidth]{figures/geo-xy2.png}
     \hfill
-    \caption{C5 MOX Benchmark configuration. UO$_2$ in gray. MOX in red. Reflector in green.}
+    \caption{C5 MOX Benchmark configuration. UO$_2$ assembly in gray. MOX assembly in red. Reflector in green.}
     \label{fig:bench1}
 \end{figure}
 
+% benchmark specification
+Two types of fuel assembly (MOX and UO$_2$) and a reflector comprise the core, shown in Figure \ref{fig:bench1}.
+Due to the problem's symmetry, the model included only a quarter of the core.
+Each fuel assembly consists of a 17 $\times$ 17 array of squared pin cells, as displayed in Figures \ref{fig:bench2}.
+The dimensions of each pin cell are 1.26 $\times$ 1.26 cm, being 21.42 $\times$ 21.42 cm the dimensions of each assembly.
+The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which have a two-energy group structure.
+
+
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.85\linewidth]{figures/bench-config2.png}
+    \includegraphics[width=0.45\linewidth]{figures/bench-config2.png}
     \hfill
-    \caption{Structure of the UO$_2$ assembly. Image reproduced from \cite{capilla_applications_2009}.}
+    \caption{Structure of the UO$_2$ and MOX assemblies. UO$_2$ in yellow, 8.7\% MOX in red, 7\% MOX in gray, 4.3\% in orange, guide tubes in black, and fission chamber in blue.}
     \label{fig:bench2}
 \end{figure}
 
@@ -275,14 +276,14 @@ When no anisotropic component of the scattering cross-section is available, the 
 \end{align}
 
 % \begin{figure}[htbp!] %or H 
-\begin{figure}[h] %or H 
-    \centering
-    % \includegraphics[width=0.95\linewidth]{figures/bench-config3.png}
-    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.85\linewidth]{figures/bench-config3.png}
-    \hfill
-    \caption{Structure of the MOX assembly. Image reproduced from \cite{capilla_applications_2009}.}
-    \label{fig:bench3}
-\end{figure}
+% \begin{figure}[h] %or H 
+%     \centering
+%     % \includegraphics[width=0.95\linewidth]{figures/bench-config3.png}
+%     \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.85\linewidth]{figures/bench-config3.png}
+%     \hfill
+%     \caption{Structure of the MOX assembly. Image reproduced from \cite{capilla_applications_2009}.}
+%     \label{fig:bench3}
+% \end{figure}
 
 For the sake of comparison, we conducted the exercise with and without the transport correction for calculating $D_{0,g}$ with equations \ref{eq:diff-tr} and \ref{eq:diff-rem}, respectively.
 The mesh had $2.4 \times 10^{4}$ elements.
@@ -320,7 +321,7 @@ For conciseness, we only calculated the power distribution using the transport c
 
 \begin{figure}[h] %or H 
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/mox-r-pin-by-pin.png}
+    \includegraphics[width=0.75\linewidth]{figures/mox-r-pin-by-pin.png}
     \hfill
     \caption{Power distribution in the MOX assembly of the C5 MOX Benchmark.}
     \label{fig:power-pbp}
@@ -366,9 +367,9 @@ Figure \ref{fig:c5g2-3d} displays the axial layout of the core and its dimension
 
 \begin{figure}[h] %or H 
     \centering
-    \includegraphics[width=0.65\linewidth]{figures/geo-xz2.png}
+    \includegraphics[width=0.4\linewidth]{figures/geo-xz2.png}
     \hfill
-    \caption{Axial layout of the C5G2 3D Benchmark.}
+    \caption{Axial layout of the C5G2 3D Benchmark. UO$_2$ assembly in gray. MOX assembly in red. Reflector in green.}
     \label{fig:c5g2-3d}
 \end{figure}
 
@@ -401,7 +402,7 @@ The results of the power distribution are within 1\% difference.
 
 \begin{figure}[h] %or H 
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/C5G23D-distrib.png}
+    \includegraphics[width=0.65\linewidth]{figures/C5G23D-distrib.png}
     \hfill
     \caption{Power distribution in the C5G2 3D Benchmark. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
     \label{fig:c5g2-3d-power}
