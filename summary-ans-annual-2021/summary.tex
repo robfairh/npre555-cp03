@@ -248,9 +248,9 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/bench-config.png}
+    \includegraphics[width=0.85\linewidth]{figures/geo-xy2.png}
     \hfill
-    \caption{C5 MOX benchmark configuration. \textit{R} correponds to the reflector region. Image reproduced from \cite{capilla_applications_2009}.}
+    \caption{C5 MOX benchmark configuration. UO$_2$ in gray. MOX in red. Reflector in green.}
     \label{fig:bench1}
 \end{figure}
 
@@ -312,40 +312,29 @@ However, the difference between the reference values of the different schemes is
 % Pin-by-pin power distribution: choose one of the 3, the one w/ largest errors
 
 The next step was to calculate the pin power distribution.
-Figure \ref{fig:power-pbp} shows the relative error of the pin power distribution calculated with Cerberus in the MOX assembly located in the lower right of Figure ??.
+Figure \ref{fig:power-pbp} shows the relative difference to the reference provided by the benchmark \cite{cavarec_benchmark_1994} of the pin power distribution calculated with Cerberus in the MOX assembly located in the lower right of Figure \ref{fig:bench1}.
 We present this result for the MOX assembly only, as it has the largest relative errors.
 The largest relative error is 1.88\%.
-
+For conciseness, we only calculated the power distribution using the transport correction.
 
 \begin{figure}[h] %or H 
     \centering
     \includegraphics[width=0.85\linewidth]{figures/mox-r-pin-by-pin.png}
     \hfill
-    \caption{.}
+    \caption{Power distribution in the MOX assembly of the C5 MOX Benchmark.}
     \label{fig:power-pbp}
 \end{figure}
 
+% \subsection{Comparison to Diffusion solver}
 % Comparison w/ Moltres, keff and neutron flux
 
-
-
-
-
-Figure \ref{fig:power-distrib} presents the power distribution and the relative difference to the reference provided by the benchmark \cite{cavarec_benchmark_1994}.
-For conciseness, we only calculated the power distribution using the transport correction.
-The benchmark specifies the power distribution pin-by-pin, but to simplify displaying the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly.
-% discuss results
-The results of the power distribution are within the 1\% difference.
-
-\begin{figure}[htbp!] %or H 
-    \centering
-    \includegraphics[width=0.95\linewidth]{figures/distrib.png}
-    \hfill
-    \caption{Power distribution in the C5 MOX Benchmark. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
-    \label{fig:power-distrib}
-\end{figure}
-
-% \subsection{Comparison to Diffusion solver}
+% \begin{figure}[htbp!] %or H 
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{figures/distrib.png}
+%     \hfill
+%     \caption{Power distribution in the C5 MOX Benchmark. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
+%     \label{fig:power-distrib}
+% \end{figure}
 
 
 
@@ -385,10 +374,22 @@ Table \ref{tab:keff-4th} ...
     \toprule
         $k_{Ref}$   & $k_{SP_3}$    & $\Delta_{\rho}$   \\
     \midrule
-        0.91974     & 0.       &                 \\
+        0.91974     & 0.91979       & 6                 \\
     \bottomrule
     \end{tabular}
 \end{table}
+
+% Power distribution Figure
+Figure \ref{fig:c5g2-3d-power}
+
+\begin{figure}[h] %or H 
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/C5G2-distrib.png}
+    \hfill
+    \caption{.}
+    \label{fig:c5g2-3d-power}
+\end{figure}
+
 
 
 
