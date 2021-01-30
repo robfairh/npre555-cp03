@@ -25,20 +25,20 @@ def add_legend():
     scalex = xlength/567
     ticks_x = ticker.FuncFormatter(lambda x, pos: '{0:g}'.format(x*scalex))
     ax.xaxis.set_major_formatter(ticks_x)
-    xticks = np.arange(0, np.floor(xlength)+1, 2)/scalex
+    xticks = np.arange(0, np.floor(xlength)+1, 5)/scalex
     ax.set_xticks(xticks)
-    ax.tick_params(axis="x", labelsize=12)
+    ax.tick_params(axis="x", labelsize=14)
 
     ylength = 20
     scaley = ylength/567
     ticks_y = ticker.FuncFormatter(lambda x, pos: '{0:g}'.format(x*scaley))
     ax.yaxis.set_major_formatter(ticks_y)
-    yticks = np.arange(0, np.floor(ylength)+1, 2)/scaley
+    yticks = np.arange(0, np.floor(ylength)+1, 5)/scaley
     ax.set_yticks(yticks)
-    ax.tick_params(axis="y", labelsize=12)
+    ax.tick_params(axis="y", labelsize=14)
 
-    ax.set_xlabel('x [cm]', fontsize=12)
-    ax.set_ylabel('y [cm]', fontsize=12)
+    ax.set_xlabel('x [cm]', fontsize=14)
+    ax.set_ylabel('y [cm]', fontsize=14)
     # plt.legend(handles=[matrix, block], loc="lower right",
     #            bbox_to_anchor=(1.0, 1.0),  fontsize=12)
     plt.savefig("mesh2", dpi=300, bbox_inches="tight")

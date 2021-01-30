@@ -105,20 +105,20 @@ Modeling these characteristics using the diffusion approximation may be challeng
 % lit - review: software using the SPN approximation
 The SP$_3$ approximation gained usage throughout the last couple of decades and currently, different software uses it to solve the neutron transport equation.
 % Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
-Some of those software are PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, and COCAGNE \cite{fliscounakis_potential_2012}.
+Some of those software are PARCS \cite{downar_parcs_2004} and DYN3D \cite{beckert_development_2007}.
 
 \section{Methodology}
 
 This section describes the methodology followed for solving the equations.
 % Equations P3
 Davidson \cite{davidson_neutron_1957} defined the one-dimensional multi-group P$_N$ equations.
-In the steady state, and for $N=3$, the equations become
+In the steady state, for $N=3$, and a negligible fixed source, the equations become
 
 \begin{align}
-    & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} \notag \\ & \quad \quad \quad \quad \quad \quad \quad + Q_{0,g}  \label{eq:P3-0} \\
-    & \frac{1}{3} \frac{d}{dx} \phi_{0,g} + \frac{2}{3}\frac{d}{dx}\phi_{2,g} + \Sigma_{t,g} \phi_{1,g} = \sum_{g'=1}^G \Sigma_{s1,g' \rightarrow g} \phi_{1,g'} + Q_{1,g} \label{eq:P3-1} \\
-    & \frac{2}{5} \frac{d}{dx}\phi_{1,g} + \frac{3}{5}\frac{d}{dx}\phi_{3,g} + \Sigma_{t,g} \phi_{2,g} = \sum_{g'=1}^G \Sigma_{s2,g' \rightarrow g} \phi_{2,g'} + Q_{2,g} \label{eq:P3-2} \\
-    & \frac{3}{7}\frac{d}{dx}\phi_{2,g} + \Sigma_{t,g} \phi_{3,g} = \sum_{g'=1}^G \Sigma_{s3,g' \rightarrow g} \phi_{3,g'} + Q_{3,g} \label{eq:P3-3} \\
+    & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} \label{eq:P3-0} \\
+    & \frac{1}{3} \frac{d}{dx} \phi_{0,g} + \frac{2}{3}\frac{d}{dx}\phi_{2,g} + \Sigma_{t,g} \phi_{1,g} = \sum_{g'=1}^G \Sigma_{s1,g' \rightarrow g} \phi_{1,g'} \label{eq:P3-1} \\
+    & \frac{2}{5} \frac{d}{dx}\phi_{1,g} + \frac{3}{5}\frac{d}{dx}\phi_{3,g} + \Sigma_{t,g} \phi_{2,g} = \sum_{g'=1}^G \Sigma_{s2,g' \rightarrow g} \phi_{2,g'} \label{eq:P3-2} \\
+    & \frac{3}{7}\frac{d}{dx}\phi_{2,g} + \Sigma_{t,g} \phi_{3,g} = \sum_{g'=1}^G \Sigma_{s3,g' \rightarrow g} \phi_{3,g'} \label{eq:P3-3} \\
     \intertext{where}
     & \phi_{n,g} = \mbox{$n^{th}$ moment of group $g$ neutron flux}  \notag \\ %  } [n \cdot cm^{-2} \cdot s^{-1}]
     & \Sigma_{t,g} = \mbox{group $g$ macroscopic total cross-section}  \notag \\ %  } [cm^{-1}]
@@ -127,13 +127,11 @@ In the steady state, and for $N=3$, the equations become
 	& \nu\Sigma_{f,g} = \mbox{group $g$ macroscopic production cross-section}  \notag \\ %  } [cm^{-1}]
 	& \chi_{g} = \mbox{group $g$ fission spectrum}  \notag \\ %  } [cm^{-1}]
 	& k_{eff} = \mbox{eigenvalue}  \notag \\ %  } [-]
-	& Q_{n,g} = \mbox{$n^{th}$ moment of group $g$ external neutron source}  \notag \\  % } [n \cdot cm^{-3} \cdot s^{-1}]
 	& G = \mbox{number of energy groups}.  \notag % } [-]
 \end{align}
 
-Assuming an isotropic external source and negligible anisotropic group-to-group scattering \cite{brantley_simplifiedP3_2000}
+Assuming a negligible anisotropic group-to-group scattering \cite{brantley_simplifiedP3_2000}
 \begin{align}
-	& Q_{n,g} = 0, \quad n > 0 \notag \\
 	& \Sigma_{sn,g' \rightarrow g} = 0, \quad g' \ne g, \quad n > 0 \notag
 \end{align}
 
@@ -153,7 +151,7 @@ Introducing the variables $\Phi_{0,g}$ and $\Phi_{2,g}$, reorganizing the equati
     & D_{0,g} = \frac{1}{3 \Sigma_{1,g}} \label{eq:diff-rem} \\
     & D_{2,g} = \frac{9}{35 \Sigma_{3,g}} \notag \\
     & S_{0,g} = \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) \notag \\
-    & \quad \quad + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right) + Q_{0,g}. \notag
+    & \quad \quad + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right). \notag
 \end{align}
 
 % BCs
@@ -180,14 +178,18 @@ The following sections discuss the results of a one group exercise presented in 
 
 This section describes a one group, isotropic-scattering eigenvalue problem introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000}.
 This section also presents the eigenvalue obtained with Cerberus and compares it against the reference value.
-Figure \ref{fig:2D} shows the problem's geometry, and Table \ref{tab:cross-sections} specifies its cross-sections.
+% Figure \ref{fig:2D} shows the problem's geometry, and Table \ref{tab:cross-sections} specifies its cross-sections.
+Figure \ref{fig:2D} shows the problem's geometry.
+The fuel plates have a 1 cm-thickness, and the distance among them is 2 cm.
 Due to the problem's symmetry, the model included only a quarter of the core.
 Using the \textit{Gmsh} \cite{geuzaine_gmsh_2009} meshing tool, we created the mesh, which had $6 \times 10^{3}$ elements.
+The problem cross-sections can be found in \cite{brantley_simplifiedP3_2000}.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
+Table \ref{tab:keff-1st} compares the eigenvalue obtained with Cerberus and the reference value from Brantley and Larsen \cite{brantley_simplifiedP3_2000}.
 
-\begin{figure}[H] %or H 
+\begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[width=0.75\linewidth]{figures/mesh2.png}
+    \includegraphics[width=0.7\linewidth]{figures/mesh2.png}
     \hfill
     \caption{Geometry of the one group eigenvalue problem. Fuel in red. Moderator in gray.}
     \label{fig:2D}
@@ -195,29 +197,29 @@ The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 
 % \usepackage{booktabs}
 % \begin{table}[htbp!]
-\begin{table}[h]
-	\centering
-	\caption{Cross-sections of the one group eigenvalue problem \cite{brantley_simplifiedP3_2000}. Values expressed in $cm^{-1}$.}
-	\label{tab:cross-sections}
-	\begin{tabular}{llll}
-	\toprule
-	Material	& $\Sigma_t$ & $\Sigma_{s0}$ & $\nu\Sigma_f$ \\
-	\midrule
-	Moderator	& 1.00		& 0.93			& 0.00			\\
-	Fuel		& 1.50		& 1.35			& 0.24			\\
-	\bottomrule
-	\end{tabular}
-\end{table}
+% \begin{table}[h]
+% 	\centering
+% 	\caption{Cross-sections of the one group eigenvalue problem \cite{brantley_simplifiedP3_2000}. Values expressed in $cm^{-1}$.}
+% 	\label{tab:cross-sections}
+% 	\begin{tabular}{llll}
+% 	\toprule
+% 	Material	& $\Sigma_t$ & $\Sigma_{s0}$ & $\nu\Sigma_f$ \\
+% 	\midrule
+% 	Moderator	& 1.00		& 0.93			& 0.00			\\
+% 	Fuel		& 1.50		& 1.35			& 0.24			\\
+% 	\bottomrule
+% 	\end{tabular}
+% \end{table}
 
-Table \ref{tab:keff-1st} compares the eigenvalue obtained with the SP$_3$ solver and the reference value \cite{brantley_simplifiedP3_2000} using the equation
-\begin{align}
-  % & \Delta_\rho = \left| \rho_{SP_3} - \rho_{Ref} \right| = \left| \frac{k_{SP_3}-1}{k_{SP_3}} - \frac{k_{Ref}-1}{k_{Ref}} \right| = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
-  & \Delta_\rho = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
-  \intertext{where}
-  & \Delta_\rho = \mbox{reactivity difference } [pcm] \notag \\
-  & k_{SP_3} = \mbox{eigenvalue obtained with Cerberus} \notag \\
-  & k_{Ref} = \mbox{reference eigenvalue.} \notag
-\end{align}
+% Table \ref{tab:keff-1st} compares the eigenvalue obtained with the SP$_3$ solver and the reference value from Brantley and Larsen \cite{brantley_simplifiedP3_2000} using the equation
+% \begin{align}
+%   % & \Delta_\rho = \left| \rho_{SP_3} - \rho_{Ref} \right| = \left| \frac{k_{SP_3}-1}{k_{SP_3}} - \frac{k_{Ref}-1}{k_{Ref}} \right| = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
+%   & \Delta_\rho = \left| \frac{k_{SP_3}-k_{Ref}}{k_{SP_3} k_{Ref}} \right| \label{eq:delta-rho} \\
+%   \intertext{where}
+%   & \Delta_\rho = \mbox{reactivity difference } [pcm] \notag \\
+%   & k_{SP_3} = \mbox{eigenvalue obtained with Cerberus} \notag \\
+%   & k_{Ref} = \mbox{reference eigenvalue.} \notag
+% \end{align}
 
 \begin{table}[htbp!]
 	\centering
@@ -242,15 +244,16 @@ This section describes the benchmark exercise and presents Cerberus results.
 
 % benchmark specification
 Two types of fuel assembly (MOX and UO$_2$) and a reflector comprise the core, shown in Figure \ref{fig:bench1}.
+Due to the problem's symmetry, the model included only a quarter of the core.
 Each fuel assembly consists of a 17 $\times$ 17 array of squared pin cells, as displayed in Figures \ref{fig:bench2} and \ref{fig:bench3}.
-The dimensions of each pin cell are 1.26 $\times$ 1.26 cm, being 21.42 $\times$ 21.42 cm the dimensions of each assembly, and 128.52 $\times$ 128.52 cm of the whole core.
+The dimensions of each pin cell are 1.26 $\times$ 1.26 cm, being 21.42 $\times$ 21.42 cm the dimensions of each assembly.
 The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which have a two-energy group structure.
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/geo-xy2.png}
+    \includegraphics[width=0.7\linewidth]{figures/geo-xy2.png}
     \hfill
-    \caption{C5 MOX benchmark configuration. UO$_2$ in gray. MOX in red. Reflector in green.}
+    \caption{C5 MOX Benchmark configuration. UO$_2$ in gray. MOX in red. Reflector in green.}
     \label{fig:bench1}
 \end{figure}
 
@@ -282,7 +285,6 @@ When no anisotropic component of the scattering cross-section is available, the 
 \end{figure}
 
 For the sake of comparison, we conducted the exercise with and without the transport correction for calculating $D_{0,g}$ with equations \ref{eq:diff-tr} and \ref{eq:diff-rem}, respectively.
-Due to the problem's symmetry, the model included only a quarter of the core.
 The mesh had $2.4 \times 10^{4}$ elements.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 
@@ -324,6 +326,7 @@ For conciseness, we only calculated the power distribution using the transport c
     \label{fig:power-pbp}
 \end{figure}
 
+
 % Comparison w/ Moltres, keff and neutron flux
 % \subsection{Comparison to Diffusion solver}
 
@@ -349,14 +352,13 @@ For conciseness, we only calculated the power distribution using the transport c
 % \end{figure}
 
 
-
 \section{C5G2 3D Benchmark}
 
 % intro: exercise description
-\cite{lewis_benchmark_2001}
-
-\cite{ryu_finite_2013}
-
+As mentioned earlier, the open literature describes different versions of the C5 MOX benchmark.
+% Lewis et al. \cite{lewis_benchmark_2001} defined a C5 MOX Benchmark with a three-dimensional geometry defining seven-energy group cross-sections.
+Ryu et al. \cite{ryu_finite_2013} defined a 3D mini-core variation of the C5 MOX Benchmark with spatial homogenization of the fuel assemblies.
+This section uses their results as a reference.
 
 % geometry description
 The radial layout of the core is shown in Figure \ref{fig:bench1}.
@@ -364,9 +366,9 @@ Figure \ref{fig:c5g2-3d} displays the axial layout of the core and its dimension
 
 \begin{figure}[h] %or H 
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/geo-xz2.png}
+    \includegraphics[width=0.65\linewidth]{figures/geo-xz2.png}
     \hfill
-    \caption{.}
+    \caption{Axial layout of the C5G2 3D Benchmark.}
     \label{fig:c5g2-3d}
 \end{figure}
 
@@ -375,6 +377,8 @@ Ryu et al. calculated and presented the two-group assembly homogenized cross-sec
 Because the data was missing the self-scattering cross-sections, we calculated it by volume averaging the cross-sections from the C5G2 2D Benchmark \cite{cavarec_benchmark_1994}.
 
 % Results comparison
+The mesh had $1.1 \times 10^{5}$ elements.
+The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 Table \ref{tab:keff-4th} compares the eigenvalue obtained with Cerberus to the reference value presented in \cite{ryu_finite_2013}.
 
 \begin{table}[htbp!]
@@ -402,6 +406,7 @@ The results of the power distribution are within 1\% difference.
     \caption{Power distribution in the C5G2 3D Benchmark. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
     \label{fig:c5g2-3d-power}
 \end{figure}
+
 
 \section{Conclusions}
 
