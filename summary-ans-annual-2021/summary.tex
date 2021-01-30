@@ -226,7 +226,7 @@ Table \ref{tab:keff-1st} compares the eigenvalue obtained with Cerberus and the 
 	\label{tab:keff-1st}
 	\begin{tabular}{lll}
 	\toprule
-		$k_{Ref}$	& $k_{SP_3}$ 	& $\Delta_{\rho}$	\\
+		$k_{Ref}$	& $k_{SP_3}$ 	& $\Delta_{\rho}$ [pcm]	\\
 	\midrule
 	 	0.79862		& 0.79854		& 12				\\
 	\bottomrule
@@ -298,7 +298,7 @@ For the method with transport correction, we used the reference value from the b
 	\label{tab:keff-2nd}
 	\begin{tabular}{lrrr}
 	\toprule
-							& $k_{Ref}$ & $k_{SP_3}$	& $\Delta_{\rho}$	\\
+							& $k_{Ref}$ & $k_{SP_3}$	& $\Delta_{\rho}$ [pcm]	\\
 	\midrule
 	No correction			& 0.96969	& 0.97106		& 145				\\
 	Transport correction	& 0.93755	& 0.93792		& 43				\\
@@ -357,10 +357,10 @@ The largest relative error is 1.88\%.
 As mentioned earlier, the open literature describes different versions of the C5 MOX benchmark.
 % Lewis et al. \cite{lewis_benchmark_2001} defined a C5 MOX Benchmark with a three-dimensional geometry defining seven-energy group cross-sections.
 Ryu et al. \cite{ryu_finite_2013} defined a 3D mini-core variation of the C5 MOX Benchmark with spatial homogenization of the fuel assemblies.
-This section uses their results as a reference.
-
 % geometry description
-The radial and axial layout of the core is shown in Figures \ref{fig:bench1} and \ref{fig:c5g2-3d}.
+The radial and axial layout of the core are shown in Figures \ref{fig:bench1} and \ref{fig:c5g2-3d}.
+This section uses the results in Ryu et al. as a reference.
+
 
 \begin{figure}[h] %or H 
     \centering
@@ -373,11 +373,10 @@ The radial and axial layout of the core is shown in Figures \ref{fig:bench1} and
 % cross-section description
 Ryu et al. calculated and presented the two-group assembly homogenized cross-sections for this exercise.
 Because the data was missing the self-scattering cross-sections, we calculated it by volume averaging the cross-sections from the C5G2 2D Benchmark \cite{cavarec_benchmark_1994}.
-
 % Results comparison
 The mesh had $1.1 \times 10^{5}$ elements.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
-Table \ref{tab:keff-4th} compares the eigenvalue obtained with Cerberus to the reference value presented in \cite{ryu_finite_2013}.
+Table \ref{tab:keff-4th} compares the eigenvalue obtained with Cerberus to the reference value.
 
 \begin{table}[htbp!]
     \centering
@@ -385,7 +384,7 @@ Table \ref{tab:keff-4th} compares the eigenvalue obtained with Cerberus to the r
     \label{tab:keff-4th}
     \begin{tabular}{lll}
     \toprule
-        $k_{Ref}$   & $k_{SP_3}$    & $\Delta_{\rho}$   \\
+        $k_{Ref}$   & $k_{SP_3}$    & $\Delta_{\rho}$ [pcm]   \\
     \midrule
         0.91974     & 0.91979       & 6                 \\
     \bottomrule
@@ -410,12 +409,14 @@ The results of the power distribution are within 1\% difference.
 
 MOOSE is a computational framework that solves systems of nonlinear differential equations.
 As part of this work, we implemented the kernels to solve the steady-state SP$_3$ equations in Cerberus, a MOOSE-based application.
-Additionally, we carried out two exercises whose reference results were known.
-The first exercise solved a one-group eigenvalue problem with a simple geometry, with a result within the 12 pcm.
-The second exercise studied the C5 MOX Benchmark, solving it using different approaches and obtaining results within the 145 pcm.
-The calculated power distribution values were within the 1\% error from the reference.
+Additionally, we carried out three exercises whose reference results were known.
+The first and second exercises solved 2D eigenvalue problems with results within 12 and 145 pcm, respectively.
+For the second exercise we calculated the pin-by-pin power distribution, the relative error being within 2\% error.
+The third exercise solved a 3D eigenvalue problem with a result within 6 pcm from the reference.
+The calculation of the power distribution yielded results within 1\% of the reference.
 
-While the SP$_3$ equations solve the neutronics in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate this application to existing applications.
+Cerberus is an application with great potential for further development.
+While the SP$_3$ equations solve the neutronics in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate Cerberus to existing applications.
 MOOSE-based applications share the same API making their integration straightforward.
 
 
