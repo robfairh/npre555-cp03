@@ -310,7 +310,6 @@ However, the difference between the reference values of the different schemes is
 % examples of codes using the diagonal transport correction PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
 % Pin-by-pin power distribution: choose one of the 3, the one w/ largest errors
-
 The next step was to calculate the pin power distribution.
 Figure \ref{fig:power-pbp} shows the relative difference to the reference provided by the benchmark \cite{cavarec_benchmark_1994} of the pin power distribution calculated with Cerberus in the MOX assembly located in the lower right of Figure \ref{fig:bench1}.
 We present this result for the MOX assembly only, as it has the largest relative errors.
@@ -325,12 +324,25 @@ For conciseness, we only calculated the power distribution using the transport c
     \label{fig:power-pbp}
 \end{figure}
 
-% \subsection{Comparison to Diffusion solver}
 % Comparison w/ Moltres, keff and neutron flux
+% \subsection{Comparison to Diffusion solver}
+
+% \begin{table}[htbp!]
+%     \centering
+%     \caption{.}
+%     \label{tab:keff-3th}
+%     \begin{tabular}{lll}
+%     \toprule
+%         $k_{Ref}$   & $k_{SP_3}$    & $\Delta_{\rho}$   \\
+%     \midrule
+%              &      &                  \\
+%     \bottomrule
+%     \end{tabular}
+% \end{table}
 
 % \begin{figure}[htbp!] %or H 
 %     \centering
-%     \includegraphics[width=0.95\linewidth]{figures/distrib.png}
+%     \includegraphics[width=0.95\linewidth]{figures/output-flux-both.png}
 %     \hfill
 %     \caption{Power distribution in the C5 MOX Benchmark. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
 %     \label{fig:power-distrib}
@@ -347,8 +359,8 @@ For conciseness, we only calculated the power distribution using the transport c
 
 
 % geometry description
-
-Figure \ref{fig:c5g2-3d} displays the axial layout of the core.
+The radial layout of the core is shown in Figure \ref{fig:bench1}.
+Figure \ref{fig:c5g2-3d} displays the axial layout of the core and its dimensions.
 
 \begin{figure}[h] %or H 
     \centering
@@ -359,12 +371,11 @@ Figure \ref{fig:c5g2-3d} displays the axial layout of the core.
 \end{figure}
 
 % cross-section description
-Where did they come from?
-
-
+Ryu et al. calculated and presented the two-group assembly homogenized cross-sections for this exercise.
+Because the data was missing the self-scattering cross-sections, we calculated it by volume averaging the cross-sections from the C5G2 2D Benchmark \cite{cavarec_benchmark_1994}.
 
 % Results comparison
-Table \ref{tab:keff-4th} ...
+Table \ref{tab:keff-4th} compares the eigenvalue obtained with Cerberus to the reference value presented in \cite{ryu_finite_2013}.
 
 \begin{table}[htbp!]
     \centering
@@ -380,23 +391,22 @@ Table \ref{tab:keff-4th} ...
 \end{table}
 
 % Power distribution Figure
-Figure \ref{fig:c5g2-3d-power}
+Figure \ref{fig:c5g2-3d-power} displays the power distribution and the relative
+difference to the reference provided by Ryu et al. \cite{ryu_finite_2013}.
+The results of the power distribution are within 1\% difference.
 
 \begin{figure}[h] %or H 
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/C5G2-distrib.png}
+    \includegraphics[width=0.85\linewidth]{figures/C5G23D-distrib.png}
     \hfill
-    \caption{.}
+    \caption{Power distribution in the C5G2 3D Benchmark. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
     \label{fig:c5g2-3d-power}
 \end{figure}
-
-
-
 
 \section{Conclusions}
 
 MOOSE is a computational framework that solves systems of nonlinear differential equations.
-As part of this work, we implemented the kernels to solve the steady-state SP$_3$ equations in a MOOSE-based application.
+As part of this work, we implemented the kernels to solve the steady-state SP$_3$ equations in Cerberus, a MOOSE-based application.
 Additionally, we carried out two exercises whose reference results were known.
 The first exercise solved a one-group eigenvalue problem with a simple geometry, with a result within the 12 pcm.
 The second exercise studied the C5 MOX Benchmark, solving it using different approaches and obtaining results within the 145 pcm.
