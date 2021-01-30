@@ -82,8 +82,8 @@ While Cerberus solves the neutronics in a nuclear reactor using the multi-group 
 % lit - review: the SPN approximation
 The P$_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
 If $N \rightarrow \infty$, the solution of the P$_N$ equations tends to the exact transport solution.
-In three-dimensional geometries, the number of P$_N$ equations is proportional to $(N+1)^2$, whereas, in one-dimensional planar geometries, the number of P$_N$ equations is $(N+1)$.
-Gelbard \cite{gelbard_spherical_1960} proposed the SP$_N$ approximation by replacing the second derivatives in the one-dimensional planar P$_N$ equations with three-dimensional Laplacian operators.
+In three-dimensional(3D) geometries, the number of P$_N$ equations is proportional to $(N+1)^2$, whereas, in one-dimensional(1D) planar geometries, the number of P$_N$ equations is $(N+1)$.
+Gelbard \cite{gelbard_spherical_1960} proposed the SP$_N$ approximation by replacing the second derivatives in the 1D planar P$_N$ equations with 3D Laplacian operators.
 This approximation considerably reduces the number of equations conserving a reasonable accuracy \cite{capilla_applications_2009}.
 % Capilla et al. \cite{capilla_applications_2009} studied a modified version of the C5 \gls{MOX} fuel Benchmark \cite{cavarec_benchmark_1994} introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000} comparing the $P_3$ and $SP_3$ methods, the difference between results being less than 40 pcm.
 
@@ -96,7 +96,7 @@ For these reasons, the method did not gain widespread use until the 2000s, when 
 In practice, the SP$_N$ equations are most accurate for diffusive problems or for problems in which the solution behaves nearly one-dimensionally and has weak tangential derivatives at material interfaces.
 % For problems with strong, multidimensional transport effects, such as voids, streaming regions, or geometrically complex regions, the $SP_N$ solutions are less accurate \cite{downar_parcs_2004}.
 % However, several results show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
-Several results show that the SP$_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
+Several results show that the SP$_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{ryu_finite_2013} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
 % why is SP_3 preferred over diffusion
 For example, the SP$_3$ approximation is preferable over the diffusion approximation for modeling reactors using MOX/UO$_2$ fuel assemblies.
 MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies, and consequently, their thermal flux is lower while their power production higher.
@@ -111,7 +111,7 @@ Some of those software are PARCS \cite{downar_parcs_2004} and DYN3D \cite{becker
 
 This section describes the methodology followed for solving the equations.
 % Equations P3
-Davidson \cite{davidson_neutron_1957} defined the one-dimensional multi-group P$_N$ equations.
+Davidson \cite{davidson_neutron_1957} defined the 1D multi-group P$_N$ equations.
 In the steady state, for $N=3$, and a negligible fixed source, the equations become
 
 \begin{align}
@@ -172,15 +172,14 @@ Such procedure is standard in weighted residual methods and can be found in \cit
 \section{Results}
 
 This section presents several numerical results that validate Cerberus' calculation scheme.
-The following sections discuss the results of a one group exercise presented in \cite{brantley_simplifiedP3_2000} and describe the results of the C5 MOX Benchmark \cite{cavarec_benchmark_1994}.
+The following sections discuss the results of a one group exercise and describe the results of a two-dimensional(2D) and a 3D configuration of the C5 MOX Benchmark \cite{cavarec_benchmark_1994}.
 
-\subsection{One group two-dimensional problem}
+\subsection{One group 2D problem}
 
 This section describes a one group, isotropic-scattering eigenvalue problem introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000}.
 This section also presents the eigenvalue obtained with Cerberus and compares it against the reference value.
 % Figure \ref{fig:2D} shows the problem's geometry, and Table \ref{tab:cross-sections} specifies its cross-sections.
-Figure \ref{fig:2D} shows the problem's geometry.
-The fuel plates have a 1 cm-thickness, and the distance among them is 2 cm.
+Figure \ref{fig:2D} shows the problem's geometry, in which the fuel plates have a 1 cm-thickness, the distance between them being 2 cm.
 Due to the problem's symmetry, the model included only a quarter of the core.
 Using the \textit{Gmsh} \cite{geuzaine_gmsh_2009} meshing tool, we created the mesh, which had $6 \times 10^{3}$ elements.
 The problem cross-sections can be found in \cite{brantley_simplifiedP3_2000}.
@@ -242,7 +241,7 @@ The open literature describes different versions and extensions of the C5 MOX be
 The \gls{OECD}/\gls{NEA} developed this benchmark to validate methods and identify their strengths, limitations, and accuracy, and suggest needs for method development.
 This section describes the benchmark exercise and presents Cerberus results.
 
-\begin{figure}[htbp!] %or htbp!
+\begin{figure}[H] %or htbp!
     \centering
     \includegraphics[width=0.55\linewidth]{figures/geo-xy2.png}
     \hfill
@@ -253,7 +252,7 @@ This section describes the benchmark exercise and presents Cerberus results.
 % benchmark specification
 Two types of fuel assembly (MOX and UO$_2$) and a reflector comprise the core, shown in Figure \ref{fig:bench1}.
 Due to the problem's symmetry, the model included only a quarter of the core.
-Each fuel assembly consists of a 17 $\times$ 17 array of squared pin cells, as displayed in Figures \ref{fig:bench2}.
+Each fuel assembly consists of a 17 $\times$ 17 array of squared pin cells, as displayed in Figure \ref{fig:bench2}.
 The dimensions of each pin cell are 1.26 $\times$ 1.26 cm, being 21.42 $\times$ 21.42 cm the dimensions of each assembly.
 The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which have a two-energy group structure.
 
@@ -289,13 +288,13 @@ For the sake of comparison, we conducted the exercise with and without the trans
 The mesh had $2.4 \times 10^{4}$ elements.
 The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 
-Table \ref{tab:keff-2nd} compares the eigenvalues obtained with the SP$_3$ solver and the references.
-For the method without correction, we used an eigenvalue reference value from Capilla et al. \cite{capilla_applications_2009} as they conducted the exercise without correction.
+Table \ref{tab:keff-2nd} compares the eigenvalues obtained with Cerberus and the references.
+For the method without correction, we used a reference value from Capilla et al. \cite{capilla_applications_2009} as they conducted the exercise without correction.
 For the method with transport correction, we used the reference value from the benchmark \cite{cavarec_benchmark_1994}.
 % \usepackage{booktabs}
 \begin{table}[htbp!]
 	\centering
-	\caption{Comparison between the results obtained with the SP$_3$ solver using no correction (equation \ref{eq:diff-rem}), the transport correction (equation \ref{eq:diff-tr}), and the reference results for the C5 MOX Benchmark.}
+	\caption{Comparison between the results obtained with Cerberus using no correction (equation \ref{eq:diff-rem}), the transport correction (equation \ref{eq:diff-tr}), and the reference results for the C5 MOX Benchmark.}
 	\label{tab:keff-2nd}
 	\begin{tabular}{lrrr}
 	\toprule
@@ -308,22 +307,21 @@ For the method with transport correction, we used the reference value from the b
 \end{table}
 
 % discussion about the transport correction
-The results obtained with the SP$_3$ solver are within 145 pcm of the reference values.
+The results obtained Cerberus solver are within 145 pcm of the reference values.
 However, the difference between the reference values of the different schemes is 3535 pcm, suggesting that the use of the transport correction is necessary.
 % examples of codes using the diagonal transport correction PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
 % Pin-by-pin power distribution: choose one of the 3, the one w/ largest errors
-The next step was to calculate the pin power distribution.
-Figure \ref{fig:power-pbp} shows the relative difference to the reference provided by the benchmark \cite{cavarec_benchmark_1994} of the pin power distribution calculated with Cerberus in the MOX assembly located in the lower right of Figure \ref{fig:bench1}.
-We present this result for the MOX assembly only, as it has the largest relative errors.
+The next step was to calculate the pin power distribution, and for conciseness, we only calculated it using the transport correction.
+Figure \ref{fig:power-pbp} shows the relative difference to the reference of the pin power distribution calculated with Cerberus.
+We present this result only for the MOX assembly located in the lower right of Figure \ref{fig:bench1}, as it had the largest relative errors.
 The largest relative error is 1.88\%.
-For conciseness, we only calculated the power distribution using the transport correction.
 
 \begin{figure}[h] %or H 
     \centering
     \includegraphics[width=0.75\linewidth]{figures/mox-r-pin-by-pin.png}
     \hfill
-    \caption{Power distribution in the MOX assembly of the C5 MOX Benchmark.}
+    \caption{Relative difference to the reference values in \cite{cavarec_benchmark_1994} of the power distribution in the lower-right MOX assembly of the C5 MOX Benchmark.}
     \label{fig:power-pbp}
 \end{figure}
 
@@ -362,12 +360,11 @@ Ryu et al. \cite{ryu_finite_2013} defined a 3D mini-core variation of the C5 MOX
 This section uses their results as a reference.
 
 % geometry description
-The radial layout of the core is shown in Figure \ref{fig:bench1}.
-Figure \ref{fig:c5g2-3d} displays the axial layout of the core and its dimensions.
+The radial and axial layout of the core is shown in Figures \ref{fig:bench1} and \ref{fig:c5g2-3d}.
 
 \begin{figure}[h] %or H 
     \centering
-    \includegraphics[width=0.4\linewidth]{figures/geo-xz2.png}
+    \includegraphics[width=0.5\linewidth]{figures/geo-xz2.png}
     \hfill
     \caption{Axial layout of the C5G2 3D Benchmark. UO$_2$ assembly in gray. MOX assembly in red. Reflector in green.}
     \label{fig:c5g2-3d}

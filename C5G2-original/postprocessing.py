@@ -249,7 +249,8 @@ def plot_radial_power_distribution(pitch, power, rel=False):
     ax = gca()
     pc.set_array(power)
     ax.add_collection(pc)
-    ax.set_xlim(xmin, xmax)
+    print(xmin, xmax, ymin, ymax)
+    ax.set_xlim(ymin, xmax)
     ax.set_ylim(ymin, ymax)
 
     cbar = plt.colorbar(pc)
@@ -261,14 +262,18 @@ def plot_radial_power_distribution(pitch, power, rel=False):
         #              s=np.round(power[i], 3), fontsize=20, color='w')
 
     else:
-        cbar.ax.set_ylabel('Relative error [%]')
+        cbar.ax.set_ylabel('Relative error [%]', fontsize=16)
         # for i in range(len(coord)):
         #     plt.text(x=coord[i][0]-F/4, y=coord[i][1]-F/5,
         #              s=np.round(power[i], 3), fontsize=20, color='w')
 
-    plt.axis('equal')
-    plt.xlabel('X [cm]')
-    plt.ylabel('Y [cm]')
+    cbar.ax.tick_params(labelsize=18)
+    ax.tick_params(axis="x", labelsize=18)
+    ax.tick_params(axis="y", labelsize=18)
+
+    # plt.axis('equal')
+    plt.xlabel('X [cm]', fontsize=16)
+    plt.ylabel('Y [cm]', fontsize=16)
 
 
 def bench_power_pin_by_pin():
@@ -683,8 +688,8 @@ if __name__ == "__main__":
     # plt.savefig('distrib-moltres-mox', dpi=300, bbox_inches="tight")
     # plt.close()
 
-    uo2_p, _, _, uo2_r, _, _ = power_distrib_pin_by_pin('input-2g-power.csv')
-    print('uo2a max: ', np.max(uo2_r))
+    # uo2_p, _, _, uo2_r, _, _ = power_distrib_pin_by_pin('input-2g-power.csv')
+    # print('uo2a max: ', np.max(uo2_r))
     # plt.figure()
     # plot_radial_power_distribution(1.26, uo2_p, rel=False)
     # plt.savefig('uo2a-pin-by-pin', dpi=300, bbox_inches="tight")
@@ -695,8 +700,8 @@ if __name__ == "__main__":
     # plt.savefig('uo2a-r-pin-by-pin', dpi=300, bbox_inches="tight")
     # plt.close()
 
-    _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-2g-power.csv')
-    print('uo2b max: ', np.max(uo2_r))
+    # _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-2g-power.csv')
+    # print('uo2b max: ', np.max(uo2_r))
     # plt.figure()
     # plot_radial_power_distribution(1.26, uo2_p, rel=False)
     # plt.savefig('uo2b-pin-by-pin', dpi=300, bbox_inches="tight")
@@ -708,13 +713,13 @@ if __name__ == "__main__":
     # plt.close()
 
     _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
-    print('mox max: ', np.max(mox_r))
+    # print('mox max: ', np.max(mox_r))
     # plt.figure()
     # plot_radial_power_distribution(1.26, mox_p, rel=False)
     # plt.savefig('mox-pin-by-pin', dpi=300, bbox_inches="tight")
     # plt.close()
 
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, mox_r, rel=True)
-    # plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    plt.figure()
+    plot_radial_power_distribution(1.26, mox_r, rel=True)
+    plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
