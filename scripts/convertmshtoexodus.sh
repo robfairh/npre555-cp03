@@ -1,6 +1,6 @@
 #!/bin/bash
 # converts a gmsh .msh file into paraview-viewable exodus II mesh
-# do: bash convertmshtoexodus.sh <gmshfile>.msh
+# run: bash convertmshtoexodus.sh <gmshfile>.msh
 
 mymoose="$MOLTRES/moltres-opt"
 
