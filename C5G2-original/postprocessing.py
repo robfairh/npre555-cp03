@@ -4,6 +4,34 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import RegularPolygon
 from matplotlib.collections import PatchCollection
 from matplotlib.pyplot import gca
+import matplotlib.patches as mpatches
+from matplotlib.cbook import get_sample_data
+import os
+
+
+def add_legend():
+    '''
+    Adds legends and dimensions to images of the geometry.
+    '''
+
+    red = mpatches.Patch(color=(1., 0., 0.), label='8.7% MOX')
+    gray = mpatches.Patch(color=(0.75, 0.75, 0.75), label='7.0% MOX')
+    orange = mpatches.Patch(color=(1., 0.5, 0.), label='4.3% MOX')
+    yellow = mpatches.Patch(color=(1., 1., 0.), label=r'UO$_2$')
+    black = mpatches.Patch(color=(0., 0., 0.), label='Guide Tubes')
+    blue = mpatches.Patch(color=(0., 0, 1.), label='Fission Chamber')
+
+    cwd = os.getcwd()
+    fname = get_sample_data('%s/bench-config2.png' % (cwd))
+    image = plt.imread(fname)
+    fig, ax = plt.subplots()
+    ax.imshow(image)
+
+    plt.legend(handles=[yellow, red, gray, orange, black, blue],
+               loc="upper left", bbox_to_anchor=(1.0, 1.0),  fontsize=20)
+    plt.axis('off')
+    plt.savefig("bench-config2B", dpi=300, bbox_inches="tight")
+    plt.close()
 
 
 def bench_power():
@@ -634,6 +662,8 @@ def plotcsv_frommoose_groups(file, save, G=2, dire='z'):
 
 if __name__ == "__main__":
 
+    add_legend()
+
     # save = 'output-fluxes'
     # plt.figure()
     # file = 'input-2g-het_line_0001.csv'
@@ -712,14 +742,14 @@ if __name__ == "__main__":
     # plt.savefig('uo2b-r-pin-by-pin', dpi=300, bbox_inches="tight")
     # plt.close()
 
-    _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
+    # _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
     # print('mox max: ', np.max(mox_r))
     # plt.figure()
     # plot_radial_power_distribution(1.26, mox_p, rel=False)
     # plt.savefig('mox-pin-by-pin', dpi=300, bbox_inches="tight")
     # plt.close()
 
-    plt.figure()
-    plot_radial_power_distribution(1.26, mox_r, rel=True)
-    plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
-    plt.close()
+    # plt.figure()
+    # plot_radial_power_distribution(1.26, mox_r, rel=True)
+    # plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    # plt.close()

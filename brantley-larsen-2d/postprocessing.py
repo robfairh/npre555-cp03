@@ -12,8 +12,8 @@ def add_legend():
     Adds legend to image of the geometry.
     '''
 
-    matrix = mpatches.Patch(color=(0.85, 0.85, 0.85), label='Moderator')
-    block = mpatches.Patch(color=(1., 0., 0.), label='Fuel')
+    gray = mpatches.Patch(color=(0.85, 0.85, 0.85), label='Moderator')
+    red = mpatches.Patch(color=(1., 0., 0.), label='Fuel')
 
     cwd = os.getcwd()
     fname = get_sample_data('%s/mesh.png' % (cwd))
@@ -39,8 +39,8 @@ def add_legend():
 
     ax.set_xlabel('x [cm]', fontsize=16)
     ax.set_ylabel('y [cm]', fontsize=16)
-    # plt.legend(handles=[matrix, block], loc="lower right",
-    #            bbox_to_anchor=(1.0, 1.0),  fontsize=12)
+    plt.legend(handles=[red, gray], loc="upper left",
+               bbox_to_anchor=(1.0, 1.0),  fontsize=20)
     plt.savefig("mesh2", dpi=300, bbox_inches="tight")
     plt.close()
 
