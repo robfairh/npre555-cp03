@@ -3,7 +3,7 @@
   num_groups = 1
   num_precursor_groups = 8
   use_exp_form = false
-  group_fluxes = 'flux'
+  group_fluxes = 'flux1'
   sss2_input = true
   account_delayed = false
   temperature = 300
@@ -18,7 +18,7 @@
 []
 
 [Variables]
-  [./flux]
+  [./flux1]
     order = FIRST
     family = LAGRANGE
     initial_condition = 1
@@ -26,19 +26,19 @@
 []
 
 [Kernels]
-  [./diff_flux]
+  [./diff_flux1]
     type = GroupDiffusion
-    variable = flux
+    variable = flux1
     group_number = 1
   [../]
-  [./sigma_r_flux]
+  [./sigma_r_flux1]
     type = SigmaR
-    variable = flux
+    variable = flux1
     group_number = 1
   [../]
   [./source]
     type = BodyForce
-    variable = flux
+    variable = flux1
     value = 1
   [../]
 []
@@ -49,7 +49,7 @@
     # type = DirichletBC
     # value = 0
     boundary = 'left right'
-    variable = flux
+    variable = flux1
   [../]
 []
 
@@ -98,7 +98,7 @@
 [VectorPostprocessors]
   [./line]
     type = LineValueSampler
-    variable = flux
+    variable = flux1
     start_point = '0 0 0'
     end_point = '50 0 0'
     sort_by = x

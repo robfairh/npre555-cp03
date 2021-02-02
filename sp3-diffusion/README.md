@@ -59,7 +59,7 @@ diff-1g-crit.i
 - 1 group
 - Criticality source
 - xmax = 200
-- keff = 1.05278137e+00
+- keff = 1.0527815106033
 
 diff-3g-fixed.i:
 - Moltres diffusion kernels

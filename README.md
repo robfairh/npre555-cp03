@@ -9,14 +9,17 @@ This repository contains the following files necessary for reproducing this work
 * in my case, my ```~/.bashrc``` file defines the path to moltres directory called ```$MOLTRES```
 * build application by running: ```make -j4```
 
+
 ## sp3-diffusion
 
 * contains the input files necessary for running the one-dimensional test cases.
 * to create the 3 group cross-section files for the SP3 solver run: ```bash create-xs-sp3.sh```
-* to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to create the 3 group cross-section files for the diffusion solver run: ```bash create-xs-diff.sh```
+
+* to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to run Moltres input files do: ```$MOLTRES/moltres-opt -i <inputfile>```
 * to plot results run: ```python postprocessing.py```
+
 
 ## C5G2-capilla
 
@@ -26,17 +29,6 @@ This repository contains the following files necessary for reproducing this work
 * to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to plot results run: ```python postprocessing.py```
 
-## report-555
-
-* report.tex uses images located in other locations of this repository
-* this folder contains all the rest of the necessary files for building the .pdf of the report
-* the .pdf is included in this folder
-
-## presentation-555
-
-* pres.tex uses images located in other locations of this repository
-* this folder contains all the rest of the necessary files for building the .pdf of the presentation
-* the .pdf is included in this folder
 
 ## C5G2-original
 
@@ -47,16 +39,16 @@ This repository contains the following files necessary for reproducing this work
 * to plot results run: ```python postprocessing.py```
 
 
-## summary-studentconf-2021
-
-* contains the necessary files for building the .pdf of the summary
-
-
-## summary-ans-annual-2021
-
-* contains the necessary files for building the .pdf of the summary
-
-
 ## scripts
 
 * contains diferent useful scripts
+
+
+## pubs/
+
+Contains the necessary files for building the .pdf of the following publications:
+* report-555/
+* presentation-555/
+* summary-studentconf-2021
+* summary-ans-annual-2021
+

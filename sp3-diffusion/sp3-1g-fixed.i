@@ -2,8 +2,8 @@
 [GlobalParams]
   num_groups = 1
   num_precursor_groups = 8
-  flux0_groups = 'flux0'
-  flux2_groups = 'flux2'
+  flux0_groups = 'flux0_1'
+  flux2_groups = 'flux2_1'
   temperature = 300
 []
 
@@ -16,12 +16,12 @@
 []
 
 [Variables]
-  [./flux0]
+  [./flux0_1]
     order = FIRST
     family = LAGRANGE
     initial_condition = 1
   [../]
-  [./flux2]
+  [./flux2_1]
     order = FIRST
     family = LAGRANGE
     initial_condition = 1
@@ -32,50 +32,50 @@
   # Eq A
   [./diff_flux0]
     type = P3Diffusion
-    variable = flux0
+    variable = flux0_1
     group_number = 1
     equation_number = 0
   [../]
   [./sigma_r0_flux0]
     type = P3SigmaR
-    variable = flux0
+    variable = flux0_1
     group_number = 1
     equation_number = 0
   [../]
   [./sigma_r0_flux2]
     type = P3SigmaCoupled
-    variable = flux0
+    variable = flux0_1
     group_number = 1
     equation_number = 0
   [../]
   [./source0]
     type = BodyForce
-    variable = flux0
+    variable = flux0_1
     value = 1
   [../]
 
   # Eq B
   [./diff_flux1]
     type = P3Diffusion
-    variable = flux2
+    variable = flux2_1
     group_number = 1
     equation_number = 1
   [../]
   [./sigma_r1_flux2]
     type = P3SigmaR
-    variable = flux2
+    variable = flux2_1
     group_number = 1
     equation_number = 1
   [../]
   [./sigma_r1_flux0]
     type = P3SigmaCoupled
-    variable = flux2
+    variable = flux2_1
     group_number = 1
     equation_number = 1
   [../]
   [./source1]
     type = BodyForce
-    variable = flux2
+    variable = flux2_1
     value = -0.4
   [../]
 []
@@ -84,8 +84,8 @@
   [./vacuum_flux0]
     type = P3VacuumBC
     boundary = 'left right'
-    variable = flux0
-    second_flux = flux2
+    variable = flux0_1
+    second_flux = flux2_1
     val1 = 0.5
     val2 = -0.75
   [../]
@@ -93,8 +93,8 @@
   [./vacuum_flux2]
     type = P3VacuumBC
     boundary = 'left right'
-    variable = flux2
-    second_flux = flux0
+    variable = flux2_1
+    second_flux = flux0_1
     val1 = 0.525
     val2 = -0.075
   [../]
@@ -145,7 +145,7 @@
 [VectorPostprocessors]
   [./line]
     type = LineValueSampler
-    variable = 'flux0 flux2'
+    variable = 'flux0_1 flux2_1'
     start_point = '0 0 0'
     end_point = '50 0 0'
     sort_by = x
