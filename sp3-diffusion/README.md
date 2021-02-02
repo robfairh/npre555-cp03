@@ -1,3 +1,9 @@
+# Geometries
+
+1D-fuel-reflec.geo:
+- Comprises an active core region with top and bottom reflectors
+
+
 # SP3 input files:
 
 sp3-1g-fixed.i:

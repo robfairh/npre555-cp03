@@ -1,4 +1,4 @@
-// No top and bottom reflector
+// 
 Geometry.CopyMeshingMethod = 1;
 
 h = 0.5;

@@ -13,9 +13,16 @@ This repository contains the following files necessary for reproducing this work
 ## sp3-diffusion
 
 * contains the input files necessary for running the one-dimensional test cases.
+
+
+* to create the 1 group cross-section files for the SP3 solver run: ```python constants.py``` ??
+
+
+
 * to create the 3 group cross-section files for the SP3 solver run: ```bash create-xs-sp3.sh```
 * to create the 3 group cross-section files for the diffusion solver run: ```bash create-xs-diff.sh```
 
+* to produce the ```.msh``` file open ```1D-fuel-reflec.geo``` with ```gmsh``` and generate the 1D mesh
 * to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to run Moltres input files do: ```$MOLTRES/moltres-opt -i <inputfile>```
 * to plot results run: ```python postprocessing.py```
@@ -25,7 +32,7 @@ This repository contains the following files necessary for reproducing this work
 
 * contains the input files necessary for running the two-dimensional test case.
 * to create the cross-section files run: ```mkdir xs2g; mkdir xs2g-homo; python constants.py```
-* to produce the ```.msh``` file open ```2D.geo``` with ```gmsh``` and generate 2D mesh
+* to produce the ```.msh``` file open ```2D.geo``` with ```gmsh``` and generate the 2D mesh
 * to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to plot results run: ```python postprocessing.py```
 
@@ -34,7 +41,7 @@ This repository contains the following files necessary for reproducing this work
 
 * contains the input files necessary for running the two-dimensional test case.
 * to create the cross-section files run: ``` python constants.py ```
-* to produce the ```.msh``` file open ```2D.geo``` with ```gmsh``` and generate 2D mesh
+* to produce the ```.msh``` file open ```2D.geo``` with ```gmsh``` and generate the 2D mesh
 * to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to plot results run: ```python postprocessing.py```
 
