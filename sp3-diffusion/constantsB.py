@@ -1,4 +1,6 @@
 import numpy as np
+import serpentTools as sT
+import argparse
 
 
 def process_xs1g_diff(constants):
@@ -104,4 +106,53 @@ if __name__ == '__main__':
     # process_xs1g_diff(constants)
     # process_xs1g_sp3(constants)
 
-    
+
+
+
+    parser = argparse.ArgumentParser(
+        description='Extracts Serpent 2 group constants, \
+            and puts them in a directory suitable for Cerberus.')
+    parser.add_argument('outDir', metavar='o', type=str, nargs=1,
+                        help='name of directory to write properties to.')
+    parser.add_argument('fileBase', metavar='f', type=str, nargs=1,
+                        help='File base name to give Cerberus')
+    parser.add_argument('mapFile', metavar='b', type=str, nargs=1,
+                        help='File that maps branches to temperatures')
+    parser.add_argument('universeMap', metavar='u', type=str, nargs=1,
+                        help='File that maps material names to serpent universe')
+    args = parser.parse_args()
+
+    outdir = args.outDir[0]
+    fileBase = args.fileBase[0]
+    mapFile = args.mapFile[0]
+    unimapFile = args.universeMap[0]
+
+    # define universes map
+    with open(unimapFile) as fh:
+        uniMap = []
+        for line in fh:
+            uniMap.append(tuple(line.split()))
+    uniMap = dict(uniMap)
+
+    # list of material names
+    inmats = list(uniMap.keys())
+
+    # get data from .coe
+    coeList = dict([(mat, sT.read(mat + '.coe')) for mat in inmats])
+
+
+    toget = ['Tot', 'Sp0', 'Sp2', 'Fiss', 'Nsf', 'Kappa', 'Sp1', 'Sp3',
+             'Invv', 'Chit', 'Chip', 'Chid', 'BETA_EFF', 'lambda']
+
+    branch2TempMapping = open(mapFile)
+    for line in branch2TempMapping:
+        item, temp = tuple(line.split())
+        for mat in inmats:
+            if mat in item:
+                currentMat = mat
+                break
+
+        totxsdata = coeList[currentMat].branches[item].universes[
+            uniMap[currentMat], 0, 0, None].infExp['infTot']
+
+    print(totxsdata)
