@@ -56,7 +56,7 @@
 [Materials]
   [./cross_sections]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs1g-diff/'
+    property_tables_root = 'xs1g-diff/fuel_'
     interp_type = 'linear'
   [../]
 []

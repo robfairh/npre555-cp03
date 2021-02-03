@@ -17,7 +17,7 @@ sp3-1g-crit.i:
 - 1 group
 - Criticality source
 - xmax = 200
-- keff = 1.06003541e+00
+- keff = 1.0601080741
 
 sp3-3g-fixed.i:
 - P3moltres4 kernels
@@ -65,7 +65,7 @@ diff-1g-crit.i
 - 1 group
 - Criticality source
 - xmax = 200
-- keff = 1.0527815106033
+- keff = 1.0528531829
 
 diff-3g-fixed.i:
 - Moltres diffusion kernels

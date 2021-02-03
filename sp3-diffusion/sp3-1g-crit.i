@@ -105,7 +105,7 @@
 [Materials]
   [./cross_sections]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs1g-sp3/mhtgr_fuel_'
+    property_tables_root = 'xs1g-sp3/fuel_'
     interp_type = 'none'
   [../]
 []

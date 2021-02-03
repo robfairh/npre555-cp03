@@ -12,7 +12,6 @@
 [Mesh]
   type = GeneratedMesh
   dim = 1
-  # xmax = 5.
   xmax = 200.
   nx = 400
   elem_type = EDGE2
@@ -55,7 +54,7 @@
 [Materials]
   [./cross_sections]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs1g-diff/'
+    property_tables_root = 'xs1g-diff/fuel_'
     interp_type = 'linear'
   [../]
 []
