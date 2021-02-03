@@ -203,43 +203,43 @@
 [Materials]
   [./cross_sections_mox1]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs2g/mox1_'
+    property_tables_root = 'xs2g-het/mox1_'
     interp_type = 'none'
     block = 'mox1a mox1b'
   [../]
   [./cross_sections_mox2]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs2g/mox2_'
+    property_tables_root = 'xs2g-het/mox2_'
     interp_type = 'none'
     block = 'mox2a mox2b'
   [../]
   [./cross_sections_mox3]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs2g/mox3_'
+    property_tables_root = 'xs2g-het/mox3_'
     interp_type = 'none'
     block = 'mox3a mox3b'
   [../]
   [./cross_sections_uo2]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs2g/uo2_'
+    property_tables_root = 'xs2g-het/uo2_'
     interp_type = 'none'
     block = 'uo2a uo2b'
   [../]
   [./cross_sections_gtube]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs2g/gtub_'
+    property_tables_root = 'xs2g-het/gtub_'
     interp_type = 'none'
     block = 'gtubea gtubeb gtubec gtubed'
   [../]
   [./cross_sections_fchamber]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs2g/fchamb_'
+    property_tables_root = 'xs2g-het/fchamb_'
     interp_type = 'none'
     block = 'fchambera fchamberb fchamberc fchamberd'
   [../]
   [./cross_sections_reflec]
     type = GenericMoltresMaterial
-    property_tables_root = 'xs2g/reflec_'
+    property_tables_root = 'xs2g-het/reflec_'
     interp_type = 'none'
     block = 'reflec'
   [../]
