@@ -7,11 +7,21 @@ import shutil
 
 def process_xs1g_diff(constants):
     '''
-    This function
+    This function collapses the 3 group constants to 1 group, and outputs
+    a dictionary with all the information required by moltres.
+
+    Parameters:
+    ----------
+    constants: [dictionary]
+        3-group cross-sections from serpent
+    Returns:
+    --------
+    constants2: [dictionary]
+        1-group cross-sections for moltres
+        the keys of the dictionary are all the constants required by moltres
     '''
 
     G = len(constants['FLX'])
-
     flux = sum(constants['FLX'])
     totxs = sum(constants['TOT'] * constants['FLX'])/flux
     s0xs = sum(constants['SP0'].reshape(3, 3).T @ constants['FLX'])/flux
@@ -36,11 +46,21 @@ def process_xs1g_diff(constants):
 
 def process_xs1g_sp3(constants):
     '''
-    This function
+    This function the 3 group constants to 1 group, and outputs
+    a dictionary with all the information required by Cerberus.
+
+    Parameters:
+    ----------
+    constants: [dictionary]
+        3-group cross-sections from serpent
+    Returns:
+    --------
+    constants2: [dictionary]
+        1-group cross-sections for Cerberus
+        the keys of the dictionary are all the constants required by Cerberus
     '''
 
     G = len(constants['FLX'])
-
     flux = sum(constants['FLX'])
     totxs = sum(constants['TOT'] * constants['FLX'])/flux
     s0xs = sum(constants['SP0'].reshape(3, 3).T @ constants['FLX'])/flux
@@ -76,9 +96,23 @@ def process_xs1g_sp3(constants):
 def output_xs(outdir, temp, materials):
     '''
     This function outputs the dictionary with the material cross-sections
-    into the Cerberus and Moltres readable format.
+    into the Cerberus and moltres readable text files.
 
+    Parameters:
+    -----------
+    outdir: [string]
+        directory that will hold the cross-section files
+    temp: [float]
+        temperature at which the cross-sections were obtained
+    materials: [dictionary]
+        contains the cross-section informations
+        primary keys: name of the material
+        secondary keys: constants
+    Return:
+    -------
+    None
     '''
+
     for currentMat in materials.keys():
         for data in materials[currentMat].keys():
 
@@ -91,6 +125,7 @@ def output_xs(outdir, temp, materials):
                     strData, np.ndarray) else str(strData)
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
+    return None
 
 
 if __name__ == '__main__':
@@ -106,8 +141,8 @@ if __name__ == '__main__':
     item = 'fuel0'
     uni = '9'
 
-    getdata = ['Flx', 'Tot', 'Sp0', 'Sp2', 'Fiss', 'Nsf', 'Kappa', 'Sp1', 'Sp3',
-               'Invv', 'Chit', 'Chip', 'Chid', 'Diffcoef', 'Abs']
+    getdata = ['Flx', 'Tot', 'Sp0', 'Sp2', 'Fiss', 'Nsf', 'Kappa', 'Sp1',
+               'Sp3', 'Invv', 'Chit', 'Chip', 'Chid', 'Diffcoef', 'Abs']
     goodMap = dict([(thing, 'inf' + thing) for thing in getdata])
 
     constants = {}
@@ -127,7 +162,7 @@ if __name__ == '__main__':
     temp = 300
     output_xs(outdir, temp, materials)
 
-    # create 1G cross-section files for Moltres
+    # create 1G cross-section files for moltres
     materials = {}
     materials['fuel'] = process_xs1g_diff(constants)
 

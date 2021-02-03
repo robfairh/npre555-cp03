@@ -13,17 +13,11 @@ This repository contains the following files necessary for reproducing this work
 ## sp3-diffusion
 
 * contains the input files necessary for running the one-dimensional test cases
-* to create the 1 group cross-section files for the SP3 solver and moltres run: ```python constants.py```
-
-
-
-* to create the 3 group cross-section files for the SP3 solver run: ```bash create-xs-sp3.sh```
-* to create the 3 group cross-section files for the diffusion solver run: ```bash create-xs-diff.sh```
-
-* to produce the ```.msh``` file open ```1D-fuel-reflec.geo``` with ```gmsh``` and generate the 1D mesh
-* to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
-* to run Moltres input files do: ```$MOLTRES/moltres-opt -i <inputfile>```
-* to plot results run: ```python postprocessing.py```
+* to run everything and obtain the results run: ```bash runfiles.sh```
+* to create the cross-section files only for the SP3 solver and moltres run: ```python constants.py```
+* to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
+* to run Moltres input files only do: ```$MOLTRES/moltres-opt -i <inputfile>```
+* to plot the results run: ```python postprocessing.py```
 
 
 ## C5G2-capilla
