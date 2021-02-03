@@ -138,7 +138,7 @@ def materials_het():
                 'SP0': np.array([0.560, 0.025, 0, 1.20]),
                }
     }
-    
+
     constants2 = prepare_xs(constants)
 
     return constants2
