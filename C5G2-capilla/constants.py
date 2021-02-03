@@ -5,6 +5,20 @@ import shutil
 
 def prepare_xs(constants):
     '''
+    This function prepares the cross-sections and outputs a dictionary
+    with all the information required by Cerberus.
+
+    Parameters:
+    ----------
+    constants: [dictionary]
+        cross-section data
+        primary keys: name of the material
+        secondary keys: constants
+    Returns:
+    --------
+    constants2: [dictionary]
+        primary keys: name of the material
+        secondary keys: constants required by Cerberus
     '''
 
     constants2 = {}
