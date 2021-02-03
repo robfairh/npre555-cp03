@@ -31,7 +31,6 @@ def makePropertiesDir(
             uniMap.append(tuple(line.split()))
     # this now maps material names to serpent universes
     uniMap = dict(uniMap)
-    print('unimap: ', uniMap)
 
     # list of material names
     inmats = list(uniMap.keys())
@@ -54,8 +53,6 @@ def makePropertiesDir(
             if mat in item:
                 currentMat = mat
                 break
-
-        
 
         strData = coeList[currentMat].branches[item].universes[
             uniMap[currentMat], 0, 0, None].gc[goodMap['BETA_EFF']]

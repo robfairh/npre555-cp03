@@ -12,10 +12,8 @@ This repository contains the following files necessary for reproducing this work
 
 ## sp3-diffusion
 
-* contains the input files necessary for running the one-dimensional test cases.
-
-
-* to create the 1 group cross-section files for the SP3 solver run: ```python constants.py``` ??
+* contains the input files necessary for running the one-dimensional test cases
+* to create the 1 group cross-section files for the SP3 solver and moltres run: ```python constants.py```
 
 
 

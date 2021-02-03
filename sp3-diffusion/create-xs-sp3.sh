@@ -17,7 +17,15 @@ echo 'fuel 9' >> universeMapping
 echo 'trefl B' >> universeMapping
 echo 'brefl T' >> universeMapping
 
+if [ -d "xs3g-sp3" ] 
+then
+    echo "Directory exists."
+	rm -R xs3g-sp3
+fi
+
+echo "Creating Directory."
 mkdir xs3g-sp3
+
 python extract-convert.py xs3g-sp3 mhtgr tempMapping universeMapping
 
 rm fuel.coe

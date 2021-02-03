@@ -115,7 +115,7 @@ if __name__ == '__main__':
         constants[data.upper()] = coeList.branches[item].universes[
             uni, 0, 0, None].infExp[goodMap[data]]
 
-    # create cross-section files for Cerberus
+    # create 1G cross-section files for Cerberus
     materials = {}
     materials['fuel'] = process_xs1g_sp3(constants)
 
@@ -127,7 +127,7 @@ if __name__ == '__main__':
     temp = 300
     output_xs(outdir, temp, materials)
 
-    # create cross-section files for Moltres
+    # create 1G cross-section files for Moltres
     materials = {}
     materials['fuel'] = process_xs1g_diff(constants)
 
@@ -138,3 +138,9 @@ if __name__ == '__main__':
 
     temp = 300
     output_xs(outdir, temp, materials)
+
+    # create 3G cross-section files for Cerberus
+    os.system('bash create-xs-sp3.sh')
+
+    # create 3G cross-section files for moltres
+    os.system('bash create-xs-diff.sh')
