@@ -18,6 +18,7 @@ This repository contains the following files necessary for reproducing this work
 * to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to run Moltres input files only do: ```$MOLTRES/moltres-opt -i <inputfile>```
 * to plot the results run: ```python postprocessing.py```
+* the script ```extract-convert.py``` could use some work
 
 
 ## C5G2-capilla
