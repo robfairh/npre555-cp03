@@ -239,12 +239,12 @@ def create_xs(outdir, temp, materials):
 if __name__ == "__main__":
     temp = 300
 
-    # # produces cross-sections for the heterogeneous case
-    # outdir = 'xs2g'
-    # if not os.path.exists(outdir):
-    #     os.mkdir(outdir)
-    # materials = materials_het()
-    # create_xs(outdir, temp, materials)
+    # produces cross-sections for the heterogeneous case
+    outdir = 'xs2g'
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
+    materials = materials_het()
+    create_xs(outdir, temp, materials)
 
     # produces cross-sections for the homogeneous case
     outdir = 'xs2g-homo'

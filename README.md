@@ -13,7 +13,6 @@ This repository contains the following files necessary for reproducing this work
 ## sp3-diffusion
 
 * contains the input files necessary for running the one-dimensional test cases
-* to run everything and obtain the results run: ```bash runfiles.sh```
 * to create the cross-section files only for the SP3 solver and moltres run: ```python constants.py```
 * to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to run Moltres input files only do: ```$MOLTRES/moltres-opt -i <inputfile>```
@@ -24,10 +23,12 @@ This repository contains the following files necessary for reproducing this work
 ## C5G2-capilla
 
 * contains the input files necessary for running the two-dimensional test case.
-* to create the cross-section files run: ```mkdir xs2g; mkdir xs2g-homo; python constants.py```
-* to produce the ```.msh``` file open ```2D.geo``` with ```gmsh``` and generate the 2D mesh
-* to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
+* to run everything and obtain the results run: ```bash runfiles.sh```
+* to create the cross-section files only run: ```python constants.py```
+* to produce the ```.msh``` file only run: ```gmsh -2 -o 2D.msh 2D.geo```
+* to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to plot results run: ```python postprocessing.py```
+
 
 
 ## C5G2-original
