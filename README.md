@@ -45,6 +45,8 @@ This repository contains the following files necessary for reproducing this work
 ## C5G2-original
 
 * contains the input files necessary for running the two-dimensional test case.
+* to run everything and obtain the results run: ```bash runfiles.sh```
+
 * to create the cross-section files run: ``` python constants.py ```
 * to produce the ```.msh``` file open ```2D.geo``` with ```gmsh``` and generate the 2D mesh
 * to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
@@ -67,5 +69,6 @@ Contains the necessary files for building the .pdf of the following publications
 
 ## things left to do
 
+* sp3-diffusion/extract-convert.py could use some work
 * sp3-diffusion/ C5G2-capilla/ and brantley-larsen-2d/ have similar post processing functions that could be unified.
 * same with constants.py

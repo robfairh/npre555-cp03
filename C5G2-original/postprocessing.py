@@ -12,6 +12,10 @@ import os
 def add_legend():
     '''
     Adds legends and dimensions to images of the geometry.
+
+    Return:
+    -------
+    None
     '''
 
     red = mpatches.Patch(color=(1., 0., 0.), label='8.7% MOX')
@@ -32,6 +36,7 @@ def add_legend():
     plt.axis('off')
     plt.savefig("bench-config2B", dpi=300, bbox_inches="tight")
     plt.close()
+    return None
 
 
 def bench_power():
@@ -277,7 +282,6 @@ def plot_radial_power_distribution(pitch, power, rel=False):
     ax = gca()
     pc.set_array(power)
     ax.add_collection(pc)
-    print(xmin, xmax, ymin, ymax)
     ax.set_xlim(ymin, xmax)
     ax.set_ylim(ymin, ymax)
 
@@ -699,57 +703,49 @@ if __name__ == "__main__":
     # plot_radial_power_distribution(21.42, power_rel, rel=True)
     # plt.savefig('distrib-moltres', dpi=300, bbox_inches="tight")
     # plt.close()
+    
+    # Assembly power distribution calculated by Cerberus
 
-    # uo2_p, _, _, uo2_r, _, _ = power_distrib_pin_by_pin('input-moltres.csv')
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
-    # plt.savefig('distrib-moltres-uo2a', dpi=300, bbox_inches="tight")
-    # plt.close()
+    # Assembly power distribution calculated by Moltres
 
-    # _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-moltres.csv')
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
-    # plt.savefig('distrib-moltres-uo2b', dpi=300, bbox_inches="tight")
-    # plt.close()
 
-    # _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-moltres.csv')
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, mox_r, rel=True)
-    # plt.savefig('distrib-moltres-mox', dpi=300, bbox_inches="tight")
-    # plt.close()
+    # Pin-by-pin power distribution calculated by Cerberus
+    _, _, _, uo2a_r, uo2b_r, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
+    print('uo2a max: ', np.max(uo2a_r))
+    plt.figure()
+    plot_radial_power_distribution(1.26, uo2a_r, rel=True)
+    plt.savefig('uo2a-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # uo2_p, _, _, uo2_r, _, _ = power_distrib_pin_by_pin('input-2g-power.csv')
-    # print('uo2a max: ', np.max(uo2_r))
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_p, rel=False)
-    # plt.savefig('uo2a-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    print('uo2b max: ', np.max(uo2b_r))
+    plt.figure()
+    plot_radial_power_distribution(1.26, uo2b_r, rel=True)
+    plt.savefig('uo2b-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
-    # plt.savefig('uo2a-r-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    print('mox max: ', np.max(mox_r))
+    plt.figure()
+    plot_radial_power_distribution(1.26, mox_r, rel=True)
+    plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # _, uo2_p, _, _, uo2_r, _ = power_distrib_pin_by_pin('input-2g-power.csv')
-    # print('uo2b max: ', np.max(uo2_r))
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_p, rel=False)
-    # plt.savefig('uo2b-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    # Pin-by-pin power distribution calculated by Moltres
+    _, _, _, uo2a_r, uo2b_r, mox_r = power_distrib_pin_by_pin('input-moltres.csv')
 
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, uo2_r, rel=True)
-    # plt.savefig('uo2b-r-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    plt.figure()
+    plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    plt.savefig('distrib-moltres-uo2a', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # _, _, mox_p, _, _, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
-    # print('mox max: ', np.max(mox_r))
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, mox_p, rel=False)
-    # plt.savefig('mox-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    plt.figure()
+    plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    plt.savefig('distrib-moltres-uo2b', dpi=300, bbox_inches="tight")
+    plt.close()
 
-    # plt.figure()
-    # plot_radial_power_distribution(1.26, mox_r, rel=True)
-    # plt.savefig('mox-r-pin-by-pin', dpi=300, bbox_inches="tight")
-    # plt.close()
+    plt.figure()
+    plot_radial_power_distribution(1.26, mox_r, rel=True)
+    plt.savefig('distrib-moltres-mox', dpi=300, bbox_inches="tight")
+    plt.close()
+
+# input-moltres.csv
+# input-2g-power.csv
