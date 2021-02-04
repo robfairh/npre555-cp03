@@ -1,16 +1,25 @@
 
 This study is based on:
 
-Capilla et al. Applications of the multidimensional equations to complex fuel assembly problems. 2009.
+[1] Capilla et al. Applications of the multidimensional equations to complex fuel assembly problems. 2009.
 
-# Heterogeneous case
+# Files
 
-* keff, Het = 0.9710591976
-* keff, ref = 0.96969
+* 2D.geo: geometry in bench-config.png
+* input-2g-het.i: SP3 input file w/ heterogeneous geometry
+* input-2g-hom.i: SP3 input file w/ homogeneous geometry
+
+
+# Results
+
+Heterogeneous case:
+
+* keff = 0.9710591976
+* keff, reference  = 0.96969
 * $\Delta_{rho}$ = 145 pcm
 
-# Homogeneous case
+Homogeneous case
 
-* keff, Hom = 0.9706070588
-* keff, ref = 0.96983
+* keff = 0.9706070588
+* keff, reference = 0.96983
 * $\Delta_{rho}$ = 83 pcm
