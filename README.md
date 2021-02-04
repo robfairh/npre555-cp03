@@ -31,6 +31,15 @@ This repository contains the following files necessary for reproducing this work
 
 
 
+## brantley-larsen-2d
+
+* contains the input files necessary for running the two-dimensional test case.
+* to run everything and obtain the results run: ```bash runfiles.sh```
+* open in gmsh ``` bl-2d-simple.geo``` and make 2D mesh.
+* make cross-section files by running ```python constants.py```
+
+
+
 ## C5G2-original
 
 * contains the input files necessary for running the two-dimensional test case.
@@ -53,3 +62,7 @@ Contains the necessary files for building the .pdf of the following publications
 * summary-studentconf-2021
 * summary-ans-annual-2021
 
+
+## things left to do
+
+* sp3-diffusion/ C5G2-capilla/ and brantley-larsen-2d/ have similar post processing functions that could be unified.

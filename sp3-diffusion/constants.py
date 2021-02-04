@@ -46,7 +46,7 @@ def process_xs1g_diff(constants):
 
 def process_xs1g_sp3(constants):
     '''
-    This function the 3 group constants to 1 group, and outputs
+    This function collapses the 3 group constants to 1 group, and outputs
     a dictionary with all the information required by Cerberus.
 
     Parameters:

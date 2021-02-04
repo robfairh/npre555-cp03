@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def plotcsv_frommoose_multi(file, save, diff=True, fix=True, G=3, dire='x'):
+def plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=3, dire='x'):
     '''
     Running MOOSE app produces a csv file with the flux values along a line.
     This function plots those values.
