@@ -26,7 +26,7 @@ def add_legend():
     blue = mpatches.Patch(color=(0., 0, 1.), label='Fission Chamber')
 
     cwd = os.getcwd()
-    fname = get_sample_data('%s/bench-config2.png' % (cwd))
+    fname = get_sample_data('%s/bench-config.png' % (cwd))
     image = plt.imread(fname)
     fig, ax = plt.subplots()
     ax.imshow(image)
@@ -668,46 +668,30 @@ if __name__ == "__main__":
 
     add_legend()
 
-    # save = 'output-fluxes'
-    # plt.figure()
-    # file = 'input-2g-het_line_0001.csv'
-    # plotcsv_frommoose_multi(file, save, hom=False, G=2, dire='x')
-    # file = 'input-2g-power_line_0001.csv'
-    # plotcsv_frommoose_multi(file, save, hom=True, G=2, dire='x')
-    # plt.savefig(save, dpi=300, bbox_inches="tight")
-
-    # save = 'output-flux-moltres'
-    # plt.figure()
-    # file = 'input-moltres_line_0001.csv'
-    # plotcsv_frommoose_groups(file, save, G=2, dire='x')
-    # plt.savefig(save, dpi=300, bbox_inches="tight")
-
-    # save = 'output-flux-both'
-    # plt.figure()
-    # file = 'input-2g-power_line_0001.csv'
-    # plotcsv_frommoose_multi(file, save, hom=True, G=2, dire='x')   
-    # file = 'input-moltres_line_0001.csv'
-    # plotcsv_frommoose_groups(file, save, G=2, dire='x')
-    # plt.savefig(save, dpi=300, bbox_inches="tight")
-
-    # power, power_rel = power_distrib('input-2g-power.csv')
-    # plt.figure()
-    # plot_radial_power_distribution(21.42, power)
-    # plot_radial_power_distribution(21.42, power_rel, rel=True)
-    # plt.savefig('distrib', dpi=300, bbox_inches="tight")
-    # plt.close()
-
-    # plt.figure()
-    # power, power_rel = power_distrib('input-moltres.csv')
-    # plot_radial_power_distribution(21.42, power)
-    # plot_radial_power_distribution(21.42, power_rel, rel=True)
-    # plt.savefig('distrib-moltres', dpi=300, bbox_inches="tight")
-    # plt.close()
-    
+    # comparison of Cerberus and Moltres fluxes
+    save = 'output-flux-both'
+    plt.figure()
+    file = 'input-2g-power_line_0001.csv'
+    plotcsv_frommoose_multi(file, save, hom=True, G=2, dire='x')   
+    file = 'input-moltres_line_0001.csv'
+    plotcsv_frommoose_groups(file, save, G=2, dire='x')
+    plt.savefig(save, dpi=300, bbox_inches="tight")
+ 
     # Assembly power distribution calculated by Cerberus
+    power, power_rel = power_distrib('input-2g-power.csv')
+    plt.figure()
+    plot_radial_power_distribution(21.42, power)
+    plot_radial_power_distribution(21.42, power_rel, rel=True)
+    plt.savefig('distrib', dpi=300, bbox_inches="tight")
+    plt.close()
 
     # Assembly power distribution calculated by Moltres
-
+    plt.figure()
+    power, power_rel = power_distrib('input-moltres.csv')
+    plot_radial_power_distribution(21.42, power)
+    plot_radial_power_distribution(21.42, power_rel, rel=True)
+    plt.savefig('distrib-moltres', dpi=300, bbox_inches="tight")
+    plt.close()
 
     # Pin-by-pin power distribution calculated by Cerberus
     _, _, _, uo2a_r, uo2b_r, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
@@ -733,12 +717,12 @@ if __name__ == "__main__":
     _, _, _, uo2a_r, uo2b_r, mox_r = power_distrib_pin_by_pin('input-moltres.csv')
 
     plt.figure()
-    plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    plot_radial_power_distribution(1.26, uo2a_r, rel=True)
     plt.savefig('distrib-moltres-uo2a', dpi=300, bbox_inches="tight")
     plt.close()
 
     plt.figure()
-    plot_radial_power_distribution(1.26, uo2_r, rel=True)
+    plot_radial_power_distribution(1.26, uo2b_r, rel=True)
     plt.savefig('distrib-moltres-uo2b', dpi=300, bbox_inches="tight")
     plt.close()
 
@@ -746,6 +730,3 @@ if __name__ == "__main__":
     plot_radial_power_distribution(1.26, mox_r, rel=True)
     plt.savefig('distrib-moltres-mox', dpi=300, bbox_inches="tight")
     plt.close()
-
-# input-moltres.csv
-# input-2g-power.csv
