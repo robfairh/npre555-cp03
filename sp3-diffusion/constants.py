@@ -115,7 +115,6 @@ def output_xs(outdir, temp, materials):
 
     for currentMat in materials.keys():
         for data in materials[currentMat].keys():
-
             with open(outdir + '/' + currentMat +
                       '_' + data + '.txt', 'a') as fh:
 

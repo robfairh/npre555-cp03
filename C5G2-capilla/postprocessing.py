@@ -21,6 +21,9 @@ def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
         Number of energy groups
     dire: ['x', 'y', 'z']
         direction of the detector
+    Returns:
+    --------
+    None
     '''
 
     file = pd.read_csv(file)
@@ -50,6 +53,7 @@ def plotcsv_frommoose_multi(file, save, hom=True, G=3, dire='x'):
     plt.legend(loc='upper right')
     plt.xlabel(dire + ' [cm]')
     plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$')
+    return None
 
 
 if __name__ == "__main__":

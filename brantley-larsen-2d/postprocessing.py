@@ -43,6 +43,7 @@ def add_legend():
                bbox_to_anchor=(1.0, 1.0),  fontsize=20)
     plt.savefig("mesh2", dpi=300, bbox_inches="tight")
     plt.close()
+    return None
 
 
 def plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=3, dire='x'):

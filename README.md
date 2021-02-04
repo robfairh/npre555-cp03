@@ -13,6 +13,7 @@ This repository contains the following files necessary for reproducing this work
 ## sp3-diffusion
 
 * contains the input files necessary for running the one-dimensional test cases
+* to produce the ```.msh``` file only run: ```gmsh -1 -o 1D-fuel-reflec.msh 1D-fuel-reflec.geo```
 * to create the cross-section files only for the SP3 solver and moltres run: ```python constants.py```
 * to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to run Moltres input files only do: ```$MOLTRES/moltres-opt -i <inputfile>```
@@ -24,19 +25,20 @@ This repository contains the following files necessary for reproducing this work
 
 * contains the input files necessary for running the two-dimensional test case.
 * to run everything and obtain the results run: ```bash runfiles.sh```
-* to create the cross-section files only run: ```python constants.py```
 * to produce the ```.msh``` file only run: ```gmsh -2 -o 2D.msh 2D.geo```
+* to create the cross-section files only run: ```python constants.py```
 * to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to plot results run: ```python postprocessing.py```
-
 
 
 ## brantley-larsen-2d
 
 * contains the input files necessary for running the two-dimensional test case.
 * to run everything and obtain the results run: ```bash runfiles.sh```
-* open in gmsh ``` bl-2d-simple.geo``` and make 2D mesh.
+* to produce the ```.msh``` file only run: ```gmsh -2 -o bl-2d-simple.msh bl-2d-simple.geo```
 * make cross-section files by running ```python constants.py```
+* to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
+* to plot results run: ```python postprocessing.py```
 
 
 
@@ -66,3 +68,4 @@ Contains the necessary files for building the .pdf of the following publications
 ## things left to do
 
 * sp3-diffusion/ C5G2-capilla/ and brantley-larsen-2d/ have similar post processing functions that could be unified.
+* same with constants.py

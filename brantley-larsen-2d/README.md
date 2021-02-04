@@ -7,6 +7,7 @@ This study is based on:
 # Files
 
 * bl-2d-simple.geo: geometry in brantley-larsen.png
+* bl-2d-simple-mesh.geo: geometry to create figure mesh.png
 * input.i: SP3 input file
 
 

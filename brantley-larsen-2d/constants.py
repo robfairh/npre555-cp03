@@ -14,264 +14,132 @@ def materials_het():
     materials: [dictionary]
         dictionary that contains the materials and their respective
         cross-sections.
-        * main keys:
-            - fuel
-            - moderator
+        * main keys: materials (fuel, moderator)
+        * secondary keys: constants (totxs, nsf, scxs)
+    '''
 
-        * secondary keys:
-            - totxs
-            - scxs
-            - nsf    '''
-
-    materials = {
+    constants = {
         'fuel': {
-                'totxs': np.array([1.5]),
-                'scxs': np.array([1.35]),
-                'nfxs': np.array([0.24]),
+                'TOT': np.array([1.5]),
+                'NSF': np.array([0.24]),
+                'SP0': np.array([1.35]),
                 },
         'moderator': {
-                'totxs': np.array([1.0]),
-                'scxs': np.array([0.93]),
-                'nfxs': np.array([0.0]),
+                'TOT': np.array([1.0]),
+                'NSF': np.array([0.0]),
+                'SP0': np.array([0.93]),
                      },
     }
 
-    return materials
+    constants2 = prepare_xs(constants)
+
+    return constants2
 
 
-def create_xs(outdir, temp, materials):
+def prepare_xs(constants):
+    '''
+    This function prepares the cross-sections and outputs a dictionary
+    with all the information required by Cerberus.
+
+    Parameters:
+    ----------
+    constants: [dictionary]
+        cross-section data
+        primary keys: name of the material
+        secondary keys: constants
+    Returns:
+    --------
+    constants2: [dictionary]
+        primary keys: name of the material
+        secondary keys: constants required by Cerberus
+    '''
+
+    constants2 = {}
+    for mat in constants.keys():
+        G = len(constants[mat]['TOT'])
+        totxs = constants[mat]['TOT']
+        try:
+            s0xs = constants[mat]['SP0']
+        except KeyError:
+            s0xs = np.zeros(G*G)
+        try:
+            s1xs = constants[mat]['SP1']
+        except KeyError:
+            s1xs = np.zeros(G*G)
+        try:
+            s2xs = constants[mat]['SP2']
+        except KeyError:
+            s2xs = np.zeros(G*G)
+        try:
+            s3xs = constants[mat]['SP3']
+        except KeyError:
+            s3xs = np.zeros(G*G)
+
+        rem0xs = totxs - s0xs.reshape(G, G).diagonal()
+        rem1xs = totxs - s1xs.reshape(G, G).diagonal()
+        rem2xs = totxs - s2xs.reshape(G, G).diagonal()
+        rem3xs = totxs - s3xs.reshape(G, G).diagonal()
+
+        constants2[mat] = {}
+        constants2[mat]['BETA_EFF'] = np.zeros(8)
+        constants2[mat]['CHID'] = np.zeros(G)
+        constants2[mat]['CHIP'] = np.zeros(G)
+        constants2[mat]['CHIT'] = np.zeros(G)
+        constants2[mat]['CHIT'][0] = 1.
+        constants2[mat]['COUPLEXSA'] = 2*rem0xs
+        constants2[mat]['COUPLEXSB'] = 2./5*rem0xs
+        constants2[mat]['DIFFCOEFA'] = 1./3/rem1xs
+        constants2[mat]['DIFFCOEFB'] = 9./35/rem3xs
+        try:
+            constants2[mat]['FISS'] = constants[mat]['FISS']
+        except KeyError:
+            constants2[mat]['FISS'] = constants[mat]['NSF']/2.4
+        constants2[mat]['INVV'] = np.zeros(G)
+        constants2[mat]['KAPPA'] = 200*np.ones(G)
+        constants2[mat]['LAMBDA'] = np.zeros(8)
+        try:
+            constants2[mat]['NSF'] = constants[mat]['NSF']
+        except KeyError:
+            constants2[mat]['NSF'] = np.zeros(G)
+        constants2[mat]['REMXSA'] = rem0xs
+        constants2[mat]['REMXSB'] = rem2xs + 4./5*rem0xs
+        constants2[mat]['SP0'] = s0xs
+
+    return constants2
+
+
+def output_xs(outdir, temp, materials):
     '''
     This function outputs the dictionary with the material cross-sections
-    into the SP3 App readable format.
+    into the Cerberus and moltres readable text files.
 
+    Parameters:
+    -----------
+    outdir: [string]
+        directory that will hold the cross-section files
+    temp: [float]
+        temperature at which the cross-sections were obtained
+    materials: [dictionary]
+        contains the cross-section informations
+        primary keys: name of the material
+        secondary keys: constants
+    Return:
+    -------
+    None
     '''
 
     for currentMat in materials.keys():
-
-        G = len(materials[currentMat]['totxs'])
-        if G > 1:
-            remxs = materials[currentMat]['totxs'] - \
-                materials[currentMat]['scxs'].reshape((G, G)).diagonal()
-        else:
-            remxs = materials[currentMat]['totxs'] - \
-                materials[currentMat]['scxs']
-
-        with open(outdir + '/' + currentMat +
-                  '_DIFFCOEFA.txt', 'a') as fh:
-
-            strData = 1./3./materials[currentMat]['totxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_DIFFCOEFB.txt', 'a') as fh:
-
-            strData = 9./35./materials[currentMat]['totxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_REMXSA.txt', 'a') as fh:
-
-            strData = remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_REMXSB.txt', 'a') as fh:
-
-            strData = materials[currentMat]['totxs'] + 4./5 * remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_COUPLEXSA.txt', 'a') as fh:
-
-            strData = 2 * remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_COUPLEXSB.txt', 'a') as fh:
-
-            strData = 2./5 * remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_NSF.txt', 'a') as fh:
-
-            strData = materials[currentMat]['nfxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_SP0.txt', 'a') as fh:
-
-            strData = materials[currentMat]['scxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        for coeff in ['CHIT', 'CHIP', 'CHID', 'FISS', 'KAPPA', 'INVV']:
+        for data in materials[currentMat].keys():
             with open(outdir + '/' + currentMat +
-                      '_' + coeff + '.txt', 'a') as fh:
+                      '_' + data + '.txt', 'a') as fh:
 
-                strData = np.array([1, 0])
+                strData = materials[currentMat][data]
                 strData = ' '.join(
                     [str(dat) for dat in strData]) if isinstance(
-                    strData, np.ndarray) else strData
+                    strData, np.ndarray) else str(strData)
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
-
-        for coefficient in ['BETA_EFF', 'lambda']:
-            with open(outdir + '/' + currentMat +
-                      '_' + coefficient.upper() + '.txt', 'a') as fh:
-
-                strData = np.array([0, 0, 0, 0, 0, 0, 0, 0])
-                strData = ' '.join(
-                    [str(dat) for dat in strData]) if isinstance(
-                    strData, np.ndarray) else strData
-                fh.write(str(temp) + ' ' + strData)
-                fh.write('\n')
-
-
-def create_xs_diag(outdir, temp, materials):
-    '''
-    This function outputs the dictionary with the material cross-sections
-    into the SP3 App readable format.
-
-    '''
-
-    for currentMat in materials.keys():
-
-        remxs = materials[currentMat]['totxs'] - \
-            materials[currentMat]['scxs'].reshape((2, 2)).diagonal()
-
-        with open(outdir + '/' + currentMat +
-                  '_DIFFCOEFA.txt', 'a') as fh:
-
-            strData = 1./3./materials[currentMat]['trxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_DIFFCOEFB.txt', 'a') as fh:
-
-            strData = 9./35./materials[currentMat]['totxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_REMXSA.txt', 'a') as fh:
-
-            strData = remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_REMXSB.txt', 'a') as fh:
-
-            strData = materials[currentMat]['totxs'] + 4./5 * remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_COUPLEXSA.txt', 'a') as fh:
-
-            strData = 2 * remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_COUPLEXSB.txt', 'a') as fh:
-
-            strData = 2./5 * remxs
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_NSF.txt', 'a') as fh:
-
-            strData = materials[currentMat]['nfxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        with open(outdir + '/' + currentMat +
-                  '_SP0.txt', 'a') as fh:
-
-            strData = materials[currentMat]['scxs']
-            strData = ' '.join(
-                [str(dat) for dat in strData]) if isinstance(
-                strData, np.ndarray) else strData
-            fh.write(str(temp) + ' ' + strData)
-            fh.write('\n')
-
-        for coeff in ['CHIT', 'CHIP', 'CHID', 'FISS', 'KAPPA', 'INVV']:
-            with open(outdir + '/' + currentMat +
-                      '_' + coeff + '.txt', 'a') as fh:
-
-                strData = np.array([1, 0])
-                strData = ' '.join(
-                    [str(dat) for dat in strData]) if isinstance(
-                    strData, np.ndarray) else strData
-                fh.write(str(temp) + ' ' + strData)
-                fh.write('\n')
-
-        for coefficient in ['BETA_EFF', 'lambda']:
-            with open(outdir + '/' + currentMat +
-                      '_' + coefficient.upper() + '.txt', 'a') as fh:
-
-                strData = np.array([0, 0, 0, 0, 0, 0, 0, 0])
-                strData = ' '.join(
-                    [str(dat) for dat in strData]) if isinstance(
-                    strData, np.ndarray) else strData
-                fh.write(str(temp) + ' ' + strData)
-                fh.write('\n')
+    return None
 
 
 if __name__ == "__main__":
@@ -283,4 +151,4 @@ if __name__ == "__main__":
         shutil.rmtree(outdir)
     os.mkdir(outdir)
     materials = materials_het()
-    create_xs(outdir, temp, materials)
+    output_xs(outdir, temp, materials)
