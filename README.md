@@ -48,8 +48,8 @@ This repository contains the following files necessary for reproducing this work
 * to run everything and obtain the results run: ```bash runfiles.sh```
 
 * to create the cross-section files run: ``` python constants.py ```
-* to produce the ```.msh``` file open ```2D.geo``` with ```gmsh``` and generate the 2D mesh
-* to run SP3 input files do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
+* to produce the ```.msh``` file only run: ```gmsh -2 -o 2D-power.msh 2D-power.geo```
+* to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
 * to plot results run: ```python postprocessing.py```
 
 
