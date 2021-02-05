@@ -27,7 +27,7 @@ def materials_het():
             - DIFFCOEF = difffusion coefficients
             - ABS = absorption cross-sections
             - NSF = production cross-sections
-            - SP0 = scattering cross-sections 
+            - SP0 = scattering cross-sections
     '''
 
     constants = {
@@ -102,11 +102,15 @@ def prepare_xs(constants, sp3=True, correct=False):
         cross-section data
         primary keys: name of the material
         secondary keys: constants
+    sp3: [bool]
+        True if creating SP3 constants
+    correct: [bool]
+        True if applying transport correction to SP3 constants
     Returns:
     --------
     constants2: [dictionary]
         primary keys: name of the material
-        secondary keys: constants required by Cerberus
+        secondary keys: constants required by Cerberus/Moltres
     '''
 
     constants2 = {}
@@ -177,21 +181,35 @@ def prepare_xs(constants, sp3=True, correct=False):
 def output_xs(outdir, temp, materials):
     '''
     This function outputs the dictionary with the material cross-sections
-    into the SP3 App readable format.
+    into the Cerberus and moltres readable text files.
 
+    Parameters:
+    -----------
+    outdir: [string]
+        directory that will hold the cross-section files
+    temp: [float]
+        temperature at which the cross-sections were obtained
+    materials: [dictionary]
+        contains the cross-section informations
+        primary keys: name of the material
+        secondary keys: constants
+    Return:
+    -------
+    None
     '''
+
     for currentMat in materials.keys():
         for data in materials[currentMat].keys():
-
             with open(outdir + '/' + currentMat +
                       '_' + data + '.txt', 'a') as fh:
 
                 strData = materials[currentMat][data]
                 strData = ' '.join(
                     [str(dat) for dat in strData]) if isinstance(
-                    strData, np.ndarray) else strData
+                    strData, np.ndarray) else str(strData)
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
+    return None
 
 
 if __name__ == "__main__":
@@ -225,7 +243,6 @@ if __name__ == "__main__":
         shutil.rmtree(outdir)
     os.mkdir(outdir)
 
-    materials = {}
     materials = materials_het()
     materials2 = prepare_xs(materials, sp3=False)
     output_xs(outdir, temp, materials2)
