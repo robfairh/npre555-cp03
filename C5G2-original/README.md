@@ -6,9 +6,7 @@ This study is based on:
 
 # Files:
 
-* 2D.geo: 2D geometry of the benchmark
 * 2D-power.geo: each fuel pin is a subdomain
-* input-2g-het.i: each material is a subdomain
 * input-2g-power.i: each fuel pin is a subdomain
 * input-moltres.i: each fuel pin is a subdomain
 
