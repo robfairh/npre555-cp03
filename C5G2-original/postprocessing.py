@@ -59,6 +59,9 @@ def plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=3, dire='x'):
         Number of energy groups
     dire: ['x', 'y', 'z']
         direction of the detector
+    Return:
+    -------
+    None
     '''
 
     file = pd.read_csv(file)
@@ -285,10 +288,18 @@ def power_distrib_pin_by_pin(file):
         name of the .csv file
     Return:
     -------
-    power: [array]
-        power generated in each assembly
-    power_rel: [array]
-        relative difference to reference values in Cavarec, 1994.
+    uo2a: [17x17 array]
+        power distribution of assembly uo2_A
+    uo2b: [17x17 array]
+        power distribution of assembly uo2_B
+    mox: [17x17 array]
+        power distribution of assembly mox
+    uo2a_rel: [array]
+        in uo2_A relative difference to reference values in Cavarec, 1994.
+    uo2b_rel: [array]
+        in uo2_B relative difference to reference values in Cavarec, 1994.
+    mox_rel: [array]
+        in mox relative difference to reference values in Cavarec, 1994.
     '''
 
     uo2a_r, uo2b_r, mox_r, tot_r = bench_power()
@@ -377,8 +388,12 @@ def plot_radial_power_distribution(pitch, power, compare=False, rel=False):
         contains the values in MW of the power produced in each fuel column
         the reactor model includes only a 1/6th of the reactor (only 11
         columns).
-    save: [string]
-        name of the figure
+    compare: [bool]
+        True if printing both power and relative error in same figure
+        False if printing only either the power or the relative error
+    rel: [bool]
+        True is plotting the relative error
+        False is plotting the power
     Return:
     -------
     None
