@@ -230,10 +230,10 @@ def bench_power():
     return uo2_A, uo2_B, mox, tot
 
 
-def power_distrib(file):
+def power_assembly(file):
     '''
     Running MOOSE app produces a csv file with the power generated in
-    different subdomains. This function gets the values in it.
+    different fuel assemblies. This function gets the values in it.
 
     Parameters:
     -----------
@@ -277,10 +277,10 @@ def power_distrib(file):
     return power, power_rel
 
 
-def power_distrib_pin_by_pin(file):
+def power_pin_by_pin(file):
     '''
-    Running MOOSE app produces a csv file.
-    This function gets the values in it.
+    Running MOOSE app produces a csv file with the power generated in
+    different fuel pins. This function gets the values in it.
 
     Parameters:
     -----------
@@ -318,26 +318,26 @@ def power_distrib_pin_by_pin(file):
     for i in range(17):
         for j in range(17):
             try:
-                uo2a[i, j] = np.array(file['uo2a_' + str(i+1) + '_' + \
-                    str(j+1)].tolist()[-1])
+                uo2a[i, j] = np.array(file['uo2a_' + str(i+1) + '_' +
+                                      str(j+1)].tolist()[-1])
             except KeyError:
                 uo2a[i, j] = 0
 
             try:
-                uo2b[i, j] = np.array(file['uo2b_' + str(i+1) + '_' + \
-                    str(j+1)].tolist()[-1])
+                uo2b[i, j] = np.array(file['uo2b_' + str(i+1) + '_' +
+                                      str(j+1)].tolist()[-1])
             except KeyError:
                 uo2b[i, j] = 0
 
             try:
-                moxa[i, j] = np.array(file['moxa_' + str(i+1) + '_' + \
-                    str(j+1)].tolist()[-1])
+                moxa[i, j] = np.array(file['moxa_' + str(i+1) + '_' +
+                                      str(j+1)].tolist()[-1])
             except KeyError:
                 moxa[i, j] = 0
 
             try:
-                moxb[i, j] = np.array(file['moxb_' + str(i+1) + '_' + \
-                    str(j+1)].tolist()[-1])
+                moxb[i, j] = np.array(file['moxb_' + str(i+1) + '_' +
+                                      str(j+1)].tolist()[-1])
             except KeyError:
                 moxb[i, j] = 0
 
@@ -476,7 +476,7 @@ if __name__ == "__main__":
     plt.close()
 
     # Assembly power distribution calculated by Cerberus
-    power, power_rel = power_distrib('input-power-correct.csv')
+    power, power_rel = power_assembly('input-power-correct.csv')
     plt.figure()
     plot_radial_power_distribution(21.42, power, compare=True)
     plot_radial_power_distribution(21.42, power_rel, compare=True, rel=True)
@@ -485,7 +485,7 @@ if __name__ == "__main__":
 
     # Assembly power distribution calculated by Moltres
     plt.figure()
-    power, power_rel = power_distrib('input-moltres.csv')
+    power, power_rel = power_assembly('input-moltres.csv')
     plot_radial_power_distribution(21.42, power, compare=True, )
     plot_radial_power_distribution(21.42, power_rel, compare=True, rel=True)
     plt.savefig('distrib-moltres', dpi=300, bbox_inches="tight")
@@ -493,7 +493,7 @@ if __name__ == "__main__":
 
     # Pin-by-pin power distribution calculated by Cerberus
     print('Cerberus results: ')
-    _, _, _, uo2a_r, uo2b_r, mox_r = power_distrib_pin_by_pin('input-power-correct.csv')
+    _, _, _, uo2a_r, uo2b_r, mox_r = power_pin_by_pin('input-power-correct.csv')
     print('uo2a max: ', np.max(uo2a_r))
     plt.figure()
     plot_radial_power_distribution(1.26, uo2a_r, compare=False, rel=True)
@@ -514,7 +514,7 @@ if __name__ == "__main__":
 
     # Pin-by-pin power distribution calculated by Moltres
     print('Moltres results: ')
-    _, _, _, uo2a_r, uo2b_r, mox_r = power_distrib_pin_by_pin('input-moltres.csv')
+    _, _, _, uo2a_r, uo2b_r, mox_r = power_pin_by_pin('input-moltres.csv')
     print('uo2a max: ', np.max(uo2a_r))
     plt.figure()
     plot_radial_power_distribution(1.26, uo2a_r, compare=False, rel=True)
