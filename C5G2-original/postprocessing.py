@@ -671,14 +671,14 @@ if __name__ == "__main__":
     # comparison of Cerberus and Moltres fluxes
     save = 'output-flux-both'
     plt.figure()
-    file = 'input-2g-power_line_0001.csv'
+    file = 'input-power-correct_line_0001.csv'
     plotcsv_frommoose_multi(file, save, hom=True, G=2, dire='x')   
     file = 'input-moltres_line_0001.csv'
     plotcsv_frommoose_groups(file, save, G=2, dire='x')
     plt.savefig(save, dpi=300, bbox_inches="tight")
  
     # Assembly power distribution calculated by Cerberus
-    power, power_rel = power_distrib('input-2g-power.csv')
+    power, power_rel = power_distrib('input-power-correct.csv')
     plt.figure()
     plot_radial_power_distribution(21.42, power)
     plot_radial_power_distribution(21.42, power_rel, rel=True)
@@ -694,7 +694,7 @@ if __name__ == "__main__":
     plt.close()
 
     # Pin-by-pin power distribution calculated by Cerberus
-    _, _, _, uo2a_r, uo2b_r, mox_r = power_distrib_pin_by_pin('input-2g-power.csv')
+    _, _, _, uo2a_r, uo2b_r, mox_r = power_distrib_pin_by_pin('input-power-correct.csv')
     print('uo2a max: ', np.max(uo2a_r))
     plt.figure()
     plot_radial_power_distribution(1.26, uo2a_r, rel=True)
@@ -716,16 +716,19 @@ if __name__ == "__main__":
     # Pin-by-pin power distribution calculated by Moltres
     _, _, _, uo2a_r, uo2b_r, mox_r = power_distrib_pin_by_pin('input-moltres.csv')
 
+    print('uo2a max: ', np.max(uo2a_r))
     plt.figure()
     plot_radial_power_distribution(1.26, uo2a_r, rel=True)
     plt.savefig('distrib-moltres-uo2a', dpi=300, bbox_inches="tight")
     plt.close()
 
+    print('uo2b max: ', np.max(uo2b_r))
     plt.figure()
     plot_radial_power_distribution(1.26, uo2b_r, rel=True)
     plt.savefig('distrib-moltres-uo2b', dpi=300, bbox_inches="tight")
     plt.close()
 
+    print('mox max: ', np.max(mox_r))
     plt.figure()
     plot_radial_power_distribution(1.26, mox_r, rel=True)
     plt.savefig('distrib-moltres-mox', dpi=300, bbox_inches="tight")
