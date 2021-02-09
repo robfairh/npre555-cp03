@@ -90,10 +90,8 @@ Extrude {0, 0, 60} {
   Layers{45}; Recombine;
 }
 
-Physical Volume("uo2a") = {1};
-Physical Volume("uo2b") = {5};
-Physical Volume("moxa") = {2};
-Physical Volume("moxb") = {4};
+Physical Volume("uo2") = {1, 5};
+Physical Volume("mox") = {2, 4};
 Physical Volume("reflec") = {3, 6, 9, 8, 7};
 
 Physical Surface("boundary") = {173, 195, 217, 213, 147, 81};
