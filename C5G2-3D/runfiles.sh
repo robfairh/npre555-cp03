@@ -10,3 +10,6 @@ conda activate moose
 
 # creates images
 python postprocessing.py
+
+
+# retrieve information from mine/

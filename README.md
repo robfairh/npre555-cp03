@@ -12,50 +12,44 @@ This repository contains the following files necessary for reproducing this work
 
 ## sp3-diffusion
 
-* contains the input files necessary for running the one-dimensional test cases
-* to produce the ```.msh``` file only run: ```gmsh -1 -o 1D-fuel-reflec.msh 1D-fuel-reflec.geo```
-* to create the cross-section files only for the SP3 solver and moltres run: ```python constants.py```
-* to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
-* to run Moltres input files only do: ```$MOLTRES/moltres-opt -i <inputfile>```
-* to plot the results run: ```python postprocessing.py```
-* the script ```extract-convert.py``` could use some work
+* contains the input files necessary for running a one-dimensional test case
+* to run everything and obtain the results run: ```bash runfiles.sh```
 
 
 ## C5G2-capilla
 
-* contains the input files necessary for running the two-dimensional test case.
+* contains the input files necessary for running a two-dimensional test case
 * to run everything and obtain the results run: ```bash runfiles.sh```
-* to produce the ```.msh``` file only run: ```gmsh -2 -o 2D.msh 2D.geo```
-* to create the cross-section files only run: ```python constants.py```
-* to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
-* to plot results run: ```python postprocessing.py```
 
 
 ## brantley-larsen-2d
 
-* contains the input files necessary for running the two-dimensional test case.
+* contains the input files necessary for running a two-dimensional test case
 * to run everything and obtain the results run: ```bash runfiles.sh```
-* to produce the ```.msh``` file only run: ```gmsh -2 -o bl-2d-simple.msh bl-2d-simple.geo```
-* make cross-section files by running ```python constants.py```
-* to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
-* to plot results run: ```python postprocessing.py```
 
 
 ## C5G2-original
 
-* contains the input files necessary for running the two-dimensional test case.
+* contains the input files necessary for running a two-dimensional test case
 * to run everything and obtain the results run: ```bash runfiles.sh```
-* to produce the ```.msh``` file only run: ```gmsh -2 -o 2D-power.msh 2D-power.geo```
-* to create the cross-section files run: ``` python constants.py ```
-* to run SP3 input files only do: ```../P3Moltres/p3moltres-opt -i <inputfile>```
-* to run Moltres input files only do: ```$MOLTRES/moltres-opt -i <inputfile>```
-* to plot results run: ```python postprocessing.py```
 
 
 ## C5G2-brantley
 
+* contains the input files necessary for running a two-dimensional test case
+* to run everything and obtain the results run: ```bash runfiles.sh```
+
 
 ## C5G2-3D
+
+* contains the input files necessary for running a three-dimensional test case
+* to run everything and obtain the results run: ```bash runfiles.sh```
+
+
+## C5G7-3D
+
+* contains the input files necessary for running a three-dimensional test case
+* it is too big and uses too much memory, I couldn't run it
 
 
 ## scripts
@@ -66,8 +60,8 @@ This repository contains the following files necessary for reproducing this work
 ## pubs/
 
 Contains the necessary files for building the .pdf of the following publications:
-* report-555/
-* presentation-555/
+* report-555
+* presentation-555
 * summary-studentconf-2021
 * summary-ans-annual-2021
 

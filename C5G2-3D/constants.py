@@ -3,133 +3,172 @@ import os
 from os import path
 import shutil
 
-# This data is missing the groups self scattering
 
-
-def update_dict(dictio, key, value):
-    ''' updates dictionary by adding a key with an associated value
+# This data was missing the groups self scattering
+def material_properties():
     '''
-    dictio[key] = value
-    return dictio
+    Cross-sections from Capilla. Applications of the multidimensional
+    PL equations to complex fuel assembly problems. 2009.
 
-
-def uo2_properties():
-    ''' Cross-sections from Ryu and Joo. Finite element method solution of the
-    simplified P3 equations for general geometry applications. 2012.
+    Returns:
+    --------
+    materials: [dictionary]
+        dictionary that contains the materials and their respective
+        cross-sections.
     '''
 
-    # uo2
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.029656, 0.092659])
-    mat = update_dict(mat, 'remxs', value)
-    value = np.array([0.00457, 0.11353])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from S11, S12, S21, S22 (S11, S22 from mine/)
-    value = np.array([0.5417301, 0.02043, 0.00, 1.01730104])
-    mat = update_dict(mat, 'ssxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
+    materials = {
+        'uo2': {
+             'DIFFCOEF': np.array([1.20, 0.40]),
+             'REMXS': np.array([0.029656, 0.092659]),
+             'NSF': np.array([0.00457, 0.11353]),
+             # from S11, S12, S21, S22 (S11, S22 from mine/)
+             'SP0': np.array([0.5417301, 0.02043, 0.00, 1.01730104])
+            },
 
-    mat2 = prepare_xs(mat)
-    return mat2
-
-
-def mox_properties():
-    # mox
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.029655, 0.23164])
-    mat = update_dict(mat, 'remxs', value)
-    value = np.array([0.0068524, 0.34450])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from S11, S12, S21, S22 (S11, S22 from mine/)
-    value = np.array([0.56844291, 0.015864, 0.00, 0.92557093])
-    mat = update_dict(mat, 'ssxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
-
-    mat2 = prepare_xs(mat)
-    return mat2
+        'mox': {
+             'DIFFCOEF': np.array([1.20, 0.40]),
+             'REMXS': np.array([0.029655, 0.23164]),
+             'NSF': np.array([0.0068524, 0.34450]),
+             # from S11, S12, S21, S22 (S11, S22 from mine/)
+             'SP0': np.array([0.56844291, 0.015864, 0.00, 0.92557093])
+            },
 
 
-def reflector_properties():
-    # reflector
-    mat = {}
-    value = np.array([1.20, 0.20])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.051, 0.04])
-    mat = update_dict(mat, 'remxs', value)
-    # from S11, S12, S21, S22 (S11, S22 from mine/)
-    value = np.array([0.56, 0.05, 0.00, 2.30])
-    mat = update_dict(mat, 'ssxs', value)
+        'reflec': {
+                 'DIFFCOEF': np.array([1.20, 0.20]),
+                 'REMXS': np.array([0.051, 0.04]),
+                 'NSF': np.array([0.00, 0.00]),
+                 # from S11, S12, S21, S22 (S11, S22 from mine/)
+                 'SP0': np.array([0.56, 0.05, 0.00, 2.30])
+               }
+    }
 
-    mat2 = prepare_xs(mat)
-    return mat2
+    # needs TOT xs
 
 
-def prepare_xs(mat):
-    mat2 = {}
+    return materials
 
-    G = len(mat['diff'])
 
-    totxs = mat['remxs'] + mat['ssxs'].reshape((2, 2)).diagonal()
+def prepare_xs(constants, sp3=True, correct=False):
+    '''
+    This function prepares the cross-sections and outputs a dictionary
+    with all the information required by Cerberus.
 
-    # mat2['DIFFCOEFA'] = 1./3./mat['totxs']
-    mat2['DIFFCOEFA'] = mat['diff']
+    Parameters:
+    ----------
+    constants: [dictionary]
+        cross-section data
+        primary keys: name of the material
+        secondary keys: constants
+    sp3: [bool]
+        True if creating SP3 constants
+    correct: [bool]
+        True if applying transport correction to SP3 constants
+    Returns:
+    --------
+    constants2: [dictionary]
+        primary keys: name of the material
+        secondary keys: constants required by Cerberus/Moltres
+    '''
 
-    mat2['DIFFCOEFB'] = 9./35./totxs
-    mat2['REMXSA'] = mat['remxs']
-    mat2['REMXSB'] = totxs + 4./5 * mat['remxs']
-    mat2['COUPLEXSA'] = 2 * mat['remxs']
-    mat2['COUPLEXSB'] = 2./5 * mat['remxs']
-    mat2['SP0'] = mat['ssxs']
+    constants2 = {}
+    for mat in constants.keys():
+        G = len(constants[mat]['TOT'])
+        totxs = constants[mat]['TOT']
+        try:
+            s0xs = constants[mat]['SP0']
+        except KeyError:
+            s0xs = np.zeros(G*G)
+        try:
+            s1xs = constants[mat]['SP1']
+        except KeyError:
+            s1xs = np.zeros(G*G)
+        try:
+            s2xs = constants[mat]['SP2']
+        except KeyError:
+            s2xs = np.zeros(G*G)
+        try:
+            s3xs = constants[mat]['SP3']
+        except KeyError:
+            s3xs = np.zeros(G*G)
 
-    try:
-        mat2['NSF'] = mat['nsfxs']
-    except KeyError:
-        mat2['NSF'] = np.zeros(G)
+        rem0xs = totxs - s0xs.reshape(G, G).diagonal()
+        rem1xs = totxs - s1xs.reshape(G, G).diagonal()
+        rem2xs = totxs - s2xs.reshape(G, G).diagonal()
+        rem3xs = totxs - s3xs.reshape(G, G).diagonal()
 
-    try:
-        mat2['CHIT'] = mat['chi']
-    except KeyError:
-        mat2['CHIT'] = np.zeros(G)
+        constants2[mat] = {}
+        constants2[mat]['BETA_EFF'] = np.zeros(8)
+        constants2[mat]['CHID'] = np.zeros(G)
+        constants2[mat]['CHIP'] = np.zeros(G)
+        constants2[mat]['CHIT'] = np.zeros(G)
+        constants2[mat]['CHIT'][0] = 1.
+        try:
+            constants2[mat]['FISS'] = constants[mat]['FISS']
+        except KeyError:
+            constants2[mat]['FISS'] = constants[mat]['NSF']/2.4
+        constants2[mat]['INVV'] = np.zeros(G)
+        constants2[mat]['KAPPA'] = 200*np.ones(G)
+        constants2[mat]['LAMBDA'] = np.zeros(8)
+        try:
+            constants2[mat]['NSF'] = constants[mat]['NSF']
+        except KeyError:
+            constants2[mat]['NSF'] = np.zeros(G)
+        constants2[mat]['SP0'] = s0xs
 
-    try:
-        mat2['FISS'] = mat['nsfxs'] / 2.4
-    except KeyError:
-        mat2['FISS'] = np.zeros(G)
+        if sp3 is True:
+            if correct is True:
+                try:
+                    constants2[mat]['DIFFCOEFA'] = 1./3/constants[mat]['TRXS']
+                except KeyError:
+                    constants2[mat]['DIFFCOEFA'] = constants[mat]['DIFFCOEF']
+            else:
+                constants2[mat]['DIFFCOEFA'] = 1./3/rem1xs
+            constants2[mat]['DIFFCOEFB'] = 9./35/rem3xs
+            constants2[mat]['REMXSA'] = rem0xs
+            constants2[mat]['REMXSB'] = rem2xs + 4./5*rem0xs
+            constants2[mat]['COUPLEXSA'] = 2*rem0xs
+            constants2[mat]['COUPLEXSB'] = 2./5*rem0xs
+        else:
+            constants2[mat]['DIFFCOEF'] = constants[mat]['DIFFCOEF']
+            constants2[mat]['REMXS'] = rem0xs
 
-    mat2['KAPPA'] = np.ones(G) * 200
-    mat2['CHIP'] = np.zeros(G)
-    mat2['CHID'] = np.zeros(G)
-    mat2['INVV'] = np.zeros(G)
-    mat2['BETA_EFF'] = np.zeros(8)
-    mat2['LAMBDA'] = np.zeros(8)
-
-    return mat2
+    return constants2
 
 
 def output_xs(outdir, temp, materials):
     '''
     This function outputs the dictionary with the material cross-sections
-    into the SP3 App readable format.
+    into the Cerberus and moltres readable text files.
 
+    Parameters:
+    -----------
+    outdir: [string]
+        directory that will hold the cross-section files
+    temp: [float]
+        temperature at which the cross-sections were obtained
+    materials: [dictionary]
+        contains the cross-section informations
+        primary keys: name of the material
+        secondary keys: constants
+    Return:
+    -------
+    None
     '''
+
     for currentMat in materials.keys():
         for data in materials[currentMat].keys():
-
             with open(outdir + '/' + currentMat +
                       '_' + data + '.txt', 'a') as fh:
 
                 strData = materials[currentMat][data]
                 strData = ' '.join(
                     [str(dat) for dat in strData]) if isinstance(
-                    strData, np.ndarray) else strData
+                    strData, np.ndarray) else str(strData)
                 fh.write(str(temp) + ' ' + strData)
                 fh.write('\n')
+    return None
 
 
 if __name__ == "__main__":
@@ -140,8 +179,6 @@ if __name__ == "__main__":
         shutil.rmtree(outdir)
     os.mkdir(outdir)
 
-    materials = {}
-    materials['uo2'] = uo2_properties()
-    materials['mox'] = mox_properties()
-    materials['reflec'] = reflector_properties()
-    output_xs(outdir, temp, materials)
+    materials = material_properties()
+    materials2 = prepare_xs(materials, sp3=True, correct=True)
+    output_xs(outdir, temp, materials2)
