@@ -44,6 +44,7 @@ This repository contains the following files necessary for reproducing this work
 
 * contains the input files necessary for running a three-dimensional test case
 * to run everything and obtain the results run: ```bash runfiles.sh```
+* to make figures ```geo-xz.png``` and ```geo-xy.png``` create mesh for ```3D-mesh.geo```, run ```bash ../scripts/convertmshtoexodus.sh 3D-mesh.msh``` and obtain the figure from ```temp_in.e```
 
 
 ## C5G7-3D
