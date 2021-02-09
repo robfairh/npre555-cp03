@@ -14,5 +14,5 @@ This study is based on:
 # Results
 
 * reference k_eff : 0.99962 (from [2]])
-* my SP3 k_eff : 1.0003621950
+* my SP3 k_eff : 1.0003622180
 * delta_rho : 74 pcm
