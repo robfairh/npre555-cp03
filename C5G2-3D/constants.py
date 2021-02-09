@@ -12,12 +12,27 @@ def material_properties():
 
     Returns:
     --------
-    materials: [dictionary]
+    constants: [dictionary]
         dictionary that contains the materials and their respective
         cross-sections.
+        * main keys:
+            - uo2 - U - UO2 Fuel
+            - mox3 - P1 - 4.3% MOX Fuel (outer)
+            - mox2 - P2 - 7.0% MOX Fuel
+            - mox1 - P3 - 8.7% MOX Fuel (inner)
+            - gtub - X - Guide Tube
+            - reflec - R - Reflector
+            - fchamb - C - Moveable Fission Chamber
+
+        * secondary keys:
+            - DIFFCOEF = difffusion coefficients
+            - REMXS = removal cross-sections
+            - NSF = production cross-sections
+            - SP0 = scattering cross-sections
+            - TOT = total cross-sections
     '''
 
-    materials = {
+    constants = {
         'uo2': {
              'DIFFCOEF': np.array([1.20, 0.40]),
              'REMXS': np.array([0.029656, 0.092659]),
@@ -34,7 +49,6 @@ def material_properties():
              'SP0': np.array([0.56844291, 0.015864, 0.00, 0.92557093])
             },
 
-
         'reflec': {
                  'DIFFCOEF': np.array([1.20, 0.20]),
                  'REMXS': np.array([0.051, 0.04]),
@@ -44,10 +58,13 @@ def material_properties():
                }
     }
 
-    # needs TOT xs
+    for mat in constants.keys():
+        remxs = constants[mat]['REMXS']
+        G = len(remxs)
+        scatt = constants[mat]['SP0'].reshape(G, G)
+        constants[mat]['TOT'] = remxs + scatt.diagonal()
 
-
-    return materials
+    return constants
 
 
 def prepare_xs(constants, sp3=True, correct=False):

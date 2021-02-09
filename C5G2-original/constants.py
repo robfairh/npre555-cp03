@@ -11,7 +11,7 @@ def materials_het():
 
     Returns:
     --------
-    materials: [dictionary]
+    constants: [dictionary]
         dictionary that contains the materials and their respective
         cross-sections.
         * main keys:
@@ -28,6 +28,7 @@ def materials_het():
             - ABS = absorption cross-sections
             - NSF = production cross-sections
             - SP0 = scattering cross-sections
+            - TOT = total cross-sections
     '''
 
     constants = {
