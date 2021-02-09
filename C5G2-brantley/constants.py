@@ -279,18 +279,8 @@ def create_xs_diag(outdir, temp, materials):
 if __name__ == "__main__":
     temp = 300
 
-    # # produces cross-sections for the heterogeneous case
-    # outdir = 'xs2g'
-    # if os.path.exists(outdir):
-    #     shutil.rmtree(outdir)
-    # os.mkdir(outdir)
-    # materials = materials_het()
-    # create_xs(outdir, temp, materials)
-    # materials = materials_het_diag()
-    # create_xs_diag(outdir, temp, materials)
-
     # produces cross-sections for the homogeneous case
-    outdir = 'xs2g-homoB'
+    outdir = 'xs2g-homo'
     if os.path.exists(outdir):
         shutil.rmtree(outdir)
     os.mkdir(outdir)

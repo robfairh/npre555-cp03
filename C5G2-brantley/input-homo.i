@@ -7,7 +7,7 @@
 []
 
 [Mesh]
-  file = 2Da.msh
+  file = 2D.msh
 []
 
 [Variables]
@@ -269,7 +269,7 @@
 [Outputs]
   perf_graph = true
   print_linear_residuals = true
-  file_base = 'input-2g-homo'
+  file_base = 'input-homo'
   execute_on = timestep_end
   exodus = true
   csv = true
