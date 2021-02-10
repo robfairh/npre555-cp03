@@ -4,6 +4,8 @@ from os import path
 import shutil
 
 '''
+Cross-sections from Cavarec, 2014..
+
 Materials:
 - uo2 - U - UO2 Fuel
 - mox3 - P1 - 4.3% MOX Fuel (outer)
@@ -15,132 +17,87 @@ Materials:
 
 '''
 def uo2_properties():
-    ''' Cross-sections from Ryu and Joo. Finite element method solution of the
-    simplified P3 equations for general geometry applications. 2012.
-    '''
-
-    # uo2
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.010, 0.100])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.005, 0.125])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.54, 0.02], [0.00, 1.00]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
+    mat = {
+        'diff': np.array([1.20, 0.40]),
+        'absxs': np.array([0.010, 0.100]),
+        'nsfxs': np.array([0.005, 0.125]),
+        # from SS: S11, S22 and SR: S12, S21 
+        'scxs': np.array([0.54, 0.02, 0.00, 1.00])
+    }
 
     return mat
 
 
 def mox1_properties():
-    # mox1
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.015, 0.300])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.0075, 0.45])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.52, 0.015], [0.00, 0.76]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
+    mat = {
+        'diff': np.array([1.20, 0.40]),
+        'absxs': np.array([0.015, 0.300]),
+        'nsfxs': np.array([0.0075, 0.45]),
+        # from SS: S11, S22 and SR: S12, S21 
+        'scxs': np.array([0.52, 0.015, 0.00, 0.76])
+    }
 
     return mat
 
 
 def mox2_properties():
-    # mox2
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.015, 0.250])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.0075, 0.375])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.52, 0.015], [0.00, 0.83]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
+    mat = {
+        'diff': np.array([1.20, 0.40]),
+        'absxs': np.array([0.015, 0.250]),
+        'nsfxs': np.array([0.0075, 0.375]),
+        # from SS: S11, S22 and SR: S12, S21 
+        'scxs': np.array(0.52, 0.015, 0.00, 0.83)
+    }
 
     return mat
 
 
 def mox3_properties():
-    # mox3
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.015, 0.200])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([0.0075, 0.300])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.52, 0.015], [0.00, 0.90]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
+    mat = {
+        'diff': np.array([1.20, 0.40]),
+        'absxs': np.array([0.015, 0.200]),
+        'nsfxs': np.array([0.0075, 0.300]),
+        # from SS: S11, S22 and SR: S12, S21 
+        'scxs': np.array([0.52, 0.015, 0.00, 0.90])
+    }
 
     return mat
 
 
 def fission_properties():
-    # fission
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.001, 0.02])
-    mat = update_dict(mat, 'absxs', value)
-    value = np.array([1e-7, 3e-6])
-    mat = update_dict(mat, 'nsfxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.56, 0.025], [0.00, 1.20]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
-    value = np.array([1.0, 0.0])
-    mat = update_dict(mat, 'chi', value)
+    mat = {
+        'diff': np.array([1.20, 0.40]),
+        'absxs': np.array([0.001, 0.02]),
+        'nsfxs': np.array([1e-7, 3e-6]),
+        # from SS: S11, S22 and SR: S12, S21 
+        'scxs': np.array([0.56, 0.025, 0.00, 1.20])
+    }
 
     return mat
 
 
 def guide_properties():
-    # guide
-    mat = {}
-    value = np.array([1.20, 0.40])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.001, 0.02])
-    mat = update_dict(mat, 'absxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.56, 0.025], [0.00, 1.20]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
+    mat = {
+        'diff': np.array([1.20, 0.40]),
+        'absxs': np.array([0.001, 0.02]),
+        'nsfxs': np.array([0.0, 0.0]),
+        # from SS: S11, S22 and SR: S12, S21 
+        'scxs': np.array([0.56, 0.025, 0.00, 1.20])
+    }
 
     return mat
 
 
 def reflector_properties():
-    # reflector
-    mat = {}
-    value = np.array([1.20, 0.20])
-    mat = update_dict(mat, 'diff', value)
-    value = np.array([0.001, 0.04])
-    mat = update_dict(mat, 'absxs', value)
-    # from SR: S12, S21 and SS: S11, S22
-    value = np.array([[0.56, 0.05], [0.00, 2.30]])
-    value = np.reshape(value, 4)
-    mat = update_dict(mat, 'scxs', value)
+    mat = {
+        'diff': np.array([1.20, 0.40]),
+        'absxs': np.array([0.001, 0.04]),
+        'nsfxs': np.array([0.0, 0.0]),
+        # from SS: S11, S22 and SR: S12, S21 
+        'scxs': np.array([0.56, 0.05, 0.00, 2.30])
+    }
 
-    return prepare_xs(mat)
+    return mat
 
 
 def homogenizer(XS, vi):
@@ -148,19 +105,17 @@ def homogenizer(XS, vi):
     HXS = {'diff': np.zeros(2),
            'absxs': np.zeros(2),
            'nsfxs': np.zeros(2),
-           'chi': np.array([1., 0.]),
            'scxs': np.zeros(4)
            }
 
     for data in HXS.keys():
-        if data != 'chi':
-            value = 0
-            for count, mat in enumerate(XS.keys()):
-                try:
-                    value += XS[mat][data] * vi[count]
-                except KeyError:
-                    value += 0
-            HXS[data] = value
+        value = 0
+        for count, mat in enumerate(XS.keys()):
+            try:
+                value += XS[mat][data] * vi[count]
+            except KeyError:
+                value += 0
+        HXS[data] = value
 
     return HXS
 
@@ -176,7 +131,7 @@ def homogenizes_uo2():
 
     mat = homogenizer(XS, V)
     print(mat)
-    return prepare_xs(mat)
+    return None
 
 
 def homogenizes_mox():
@@ -192,18 +147,11 @@ def homogenizes_mox():
     
     mat = homogenizer(XS, V)
     print(mat)
-    return prepare_xs(mat)
+    return None
 
 
 if __name__ == "__main__":
-    temp = 300
 
-    outdir = 'xs2g-homo'
-    if os.path.exists(outdir):
-        shutil.rmtree(outdir)
-    os.mkdir(outdir)
-
-    materials = {}
-    materials['uo2'] = homogenizes_uo2()
-    materials['mox'] = homogenizes_mox()
-    materials['reflec'] = reflector_properties()
+    homogenizes_uo2()
+    homogenizes_mox()
+    reflector_properties()
