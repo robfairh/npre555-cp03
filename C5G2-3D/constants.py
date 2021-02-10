@@ -4,7 +4,6 @@ from os import path
 import shutil
 
 
-# This data was missing the groups self scattering
 def material_properties():
     '''
     Cross-sections from Capilla. Applications of the multidimensional
@@ -37,7 +36,7 @@ def material_properties():
              'DIFFCOEF': np.array([1.20, 0.40]),
              'REMXS': np.array([0.029656, 0.092659]),
              'NSF': np.array([0.00457, 0.11353]),
-             # from S11, S12, S21, S22 (S11, S22 from mine/)
+             # from S11, S12, S21, S22 (S11, S22 from selfscatt.py)
              'SP0': np.array([0.5417301, 0.02043, 0.00, 1.01730104])
             },
 
@@ -45,7 +44,7 @@ def material_properties():
              'DIFFCOEF': np.array([1.20, 0.40]),
              'REMXS': np.array([0.029655, 0.23164]),
              'NSF': np.array([0.0068524, 0.34450]),
-             # from S11, S12, S21, S22 (S11, S22 from mine/)
+             # from S11, S12, S21, S22 (S11, S22 from selfscatt.py)
              'SP0': np.array([0.56844291, 0.015864, 0.00, 0.92557093])
             },
 
@@ -53,7 +52,7 @@ def material_properties():
                  'DIFFCOEF': np.array([1.20, 0.20]),
                  'REMXS': np.array([0.051, 0.04]),
                  'NSF': np.array([0.00, 0.00]),
-                 # from S11, S12, S21, S22 (S11, S22 from mine/)
+                 # from S11, S12, S21, S22 (S11, S22 from selfscatt.py)
                  'SP0': np.array([0.56, 0.05, 0.00, 2.30])
                }
     }
