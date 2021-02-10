@@ -17,6 +17,7 @@ Materials:
 
 '''
 
+
 def uo2_properties():
     '''
     Returns:
@@ -28,7 +29,7 @@ def uo2_properties():
         'DIFFCOEF': np.array([1.20, 0.40]),
         'ABS': np.array([0.010, 0.100]),
         'NSF': np.array([0.005, 0.125]),
-        # from SS: S11, S22 and SR: S12, S21 
+        # from SS: S11, S22 and SR: S12, S21
         'SP0': np.array([0.54, 0.02, 0.00, 1.00])
     }
     return mat
@@ -45,7 +46,7 @@ def mox1_properties():
         'DIFFCOEF': np.array([1.20, 0.40]),
         'ABS': np.array([0.015, 0.300]),
         'NSF': np.array([0.0075, 0.45]),
-        # from SS: S11, S22 and SR: S12, S21 
+        # from SS: S11, S22 and SR: S12, S21
         'SP0': np.array([0.52, 0.015, 0.00, 0.76])
     }
     return mat
@@ -62,7 +63,7 @@ def mox2_properties():
         'DIFFCOEF': np.array([1.20, 0.40]),
         'ABS': np.array([0.015, 0.250]),
         'NSF': np.array([0.0075, 0.375]),
-        # from SS: S11, S22 and SR: S12, S21 
+        # from SS: S11, S22 and SR: S12, S21
         'SP0': np.array([0.52, 0.015, 0.00, 0.83])
     }
     return mat
@@ -79,7 +80,7 @@ def mox3_properties():
         'DIFFCOEF': np.array([1.20, 0.40]),
         'ABS': np.array([0.015, 0.200]),
         'NSF': np.array([0.0075, 0.300]),
-        # from SS: S11, S22 and SR: S12, S21 
+        # from SS: S11, S22 and SR: S12, S21
         'SP0': np.array([0.52, 0.015, 0.00, 0.90])
     }
     return mat
@@ -96,7 +97,7 @@ def fission_properties():
         'DIFFCOEF': np.array([1.20, 0.40]),
         'ABS': np.array([0.001, 0.02]),
         'NSF': np.array([1e-7, 3e-6]),
-        # from SS: S11, S22 and SR: S12, S21 
+        # from SS: S11, S22 and SR: S12, S21
         'SP0': np.array([0.56, 0.025, 0.00, 1.20])
     }
     return mat
@@ -113,7 +114,7 @@ def guide_properties():
         'DIFFCOEF': np.array([1.20, 0.40]),
         'ABS': np.array([0.001, 0.02]),
         'NSF': np.array([0.0, 0.0]),
-        # from SS: S11, S22 and SR: S12, S21 
+        # from SS: S11, S22 and SR: S12, S21
         'SP0': np.array([0.56, 0.025, 0.00, 1.20])
     }
 
@@ -131,7 +132,7 @@ def reflector_properties():
         'DIFFCOEF': np.array([1.20, 0.40]),
         'ABS': np.array([0.001, 0.04]),
         'NSF': np.array([0.0, 0.0]),
-        # from SS: S11, S22 and SR: S12, S21 
+        # from SS: S11, S22 and SR: S12, S21
         'SP0': np.array([0.56, 0.05, 0.00, 2.30])
     }
 
@@ -174,7 +175,7 @@ def homogenizer(XS, vi):
 
 def homogenizes_uo2():
     '''
-    This function specifies the volume fractions of the materials in the 
+    This function specifies the volume fractions of the materials in the
     UO2 assembly and homogenizes the cross-sections.
 
     Returns:
@@ -184,7 +185,7 @@ def homogenizes_uo2():
     '''
 
     # uo2, gtube, fchamb
-    V = np.array([ 17*17-25, 24, 1])/(17*17)
+    V = np.array([17*17-25, 24, 1])/(17*17)
 
     XS = {}
     XS['uo2'] = uo2_properties()
@@ -197,7 +198,7 @@ def homogenizes_uo2():
 
 def homogenizes_mox():
     '''
-    This function specifies the volume fractions of the materials in the 
+    This function specifies the volume fractions of the materials in the
     MOX assembly and homogenizes the cross-sections.
 
     Returns:
@@ -207,15 +208,15 @@ def homogenizes_mox():
     '''
 
     # mox1, mox2, mox3, gtube, fchamb
-    V = np.array([ 100, 123, 66, 24, 1])/(17*17)
+    V = np.array([100, 123, 66, 24, 1])/(17*17)
 
     XS = {}
     XS['mox1'] = mox1_properties()
     XS['mox2'] = mox2_properties()
-    XS['mox3'] = mox3_properties()  
+    XS['mox3'] = mox3_properties()
     XS['gtube'] = guide_properties()
     XS['fcham'] = fission_properties()
-    
+
     mat = homogenizer(XS, V)
     return mat
 
