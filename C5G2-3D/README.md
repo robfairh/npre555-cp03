@@ -1,14 +1,15 @@
+This study is based on:
+
+[1] Ryu and Joo. Finite element method solution of the simplified P 3 equations for general geometry applications. 2013.
+
+# Files
+
+* 3D.geo: 3D geometry to produce the mesh
+* 3D-mesh.geo: 2D geometry to produce figures
+* input.i: Cerberus input file
+
+
+# Results
 
 * K Reference = 0.91974
-
-* Mine:
-
-* Layers = 10/30/10, Elements: 29160, Nodes: 32144 --> keff = 0.9217631063 (239)
-
-* Layers = 10/30/10, Elements: 105840, Nodes: 112789  --> keff = 0.92090639643 (137)
-
-
-
-* Ryu: 
-
-Layers = 10/30/10, Elements: 105840, Nodes: 112789, keff = 0.91978928698706 (6)
+* My SP3 keff = 0.91978928698706 (6)

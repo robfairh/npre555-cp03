@@ -270,25 +270,25 @@
     execute_on = timestep_end
     outputs = 'csv console'
   [../]
-  [./uo2a_fission_heat]
+  [./uo2a_tot]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'
     block = 'uo2a'
   [../]
-  [./uo2b_fission_heat]
+  [./uo2b_tot]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'
     block = 'uo2b'
   [../]
-  [./moxa_fission_heat]
+  [./moxa_tot]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'
     block = 'moxa'
   [../]
-  [./moxb_fission_heat]
+  [./moxb_tot]
     type = ElmIntegTotFissHeatPostprocessor
     execute_on = timestep_end
     outputs = 'csv console'

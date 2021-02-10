@@ -102,8 +102,8 @@ def bench_power():
 
     C5 MOX Benchmark configuration:
     _________________________
-    | uo2_A |  mox  |   R   |
-    |  mox  | uo2_B |   R   |
+    |  uo2a |  mox  |   R   |
+    |  mox  |  uo2b |   R   |
     |   R   |   R   |   R   |
 
     Returns:
@@ -118,7 +118,7 @@ def bench_power():
         total power of the reactor
     '''
 
-    uo2_A = np.array([[1341, 1344, 1349, 1354, 1358, 1358, 1348, 1338, 1326,
+    uo2a = np.array([[1341, 1344, 1349, 1354, 1358, 1358, 1348, 1338, 1326,
                      1309, 1291, 1270, 1237, 1192, 1131, 1042, 899],
                      [1344, 1349, 1359, 1370, 1384, 1394, 1371, 1360, 1360,
                      1331, 1313, 1304, 1260, 1206, 1139, 1045, 899],
@@ -188,7 +188,7 @@ def bench_power():
                    [1290, 1179, 1121, 1082, 1048, 1009,  961,  911,  863,
                    810, 757, 707, 654, 608, 583, 610, 755]])
 
-    uo2_B = np.array([[628, 635, 626, 612, 594, 572, 546, 518, 490, 460, 430,
+    uo2b = np.array([[628, 635, 626, 612, 594, 572, 546, 518, 490, 460, 430,
                      401, 371, 344, 327, 331, 377],
                      [635, 677, 685, 678, 665, 648, 612, 580, 554, 515, 481,
                      453, 416, 384, 362, 361, 399],
@@ -223,11 +223,11 @@ def bench_power():
                      [377, 399, 401, 393, 381, 365, 346, 326, 306, 286, 265,
                      245, 225, 206, 189, 179, 178]])
 
-    uo2_A = uo2_A * 1e-6
-    uo2_B = uo2_B * 1e-6
+    uo2a = uo2a * 1e-6
+    uo2b = uo2b * 1e-6
     mox = mox * 1e-6
-    tot = np.sum(uo2_A + uo2_B + 2*mox)
-    return uo2_A, uo2_B, mox, tot
+    tot = np.sum(uo2a + uo2b + 2*mox)
+    return uo2a, uo2b, mox, tot
 
 
 def power_assembly(file):
@@ -244,7 +244,7 @@ def power_assembly(file):
     power: [array]
         power generated in each assembly
     power_rel: [array]
-        relative difference to reference values in Cavarec, 1994.
+        relative difference to reference values
     '''
 
     uo2a_r, uo2b_r, mox_r, tot_r = bench_power()
@@ -486,7 +486,7 @@ if __name__ == "__main__":
     # Assembly power distribution calculated by Moltres
     plt.figure()
     power, power_rel = power_assembly('input-moltres.csv')
-    plot_radial_power_distribution(21.42, power, compare=True, )
+    plot_radial_power_distribution(21.42, power, compare=True)
     plot_radial_power_distribution(21.42, power_rel, compare=True, rel=True)
     plt.savefig('distrib-moltres', dpi=300, bbox_inches="tight")
     plt.close()

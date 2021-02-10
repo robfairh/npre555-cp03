@@ -1,4 +1,3 @@
-
 This study is based on:
 
 [1] Cavarec, Perron, Verwaerde, West. Benchmark Calculations of Power Distribution within Assemblies. 1994.

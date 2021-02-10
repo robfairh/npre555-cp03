@@ -15,6 +15,9 @@ import matplotlib.ticker as ticker
 def add_legend():
     '''
     Adds legends and dimensions to images of the geometry.
+    Return:
+    -------
+    None
     '''
 
     uo2 = mpatches.Patch(color=(0.85, 0.85, 0.85), label='UO2')
@@ -78,55 +81,87 @@ def add_legend():
                bbox_to_anchor=(1.0, 1.0),  fontsize=20)
     plt.savefig("geo-xz2", dpi=300, bbox_inches="tight")
     plt.close()
+    return None
 
 
-def power_distrib(file):
+def bench_power():
+    ''' This function contains the assembly power distribution of the C5 3D
+    MOX Benchmark. Values from Ryu and Joo. Finite element method solution of
+    the simplified P 3 equations for general geometry applications. 2013.
+
+    2D configuration:
+    _________________________
+    | uo2_A |  mox  |   R   |
+    |  mox  | uo2_B |   R   |
+    |   R   |   R   |   R   |
+
+    Returns:
+    --------
+    uo2a: [17 x 17 array of float]
+        power distribution of assembly uo2_A
+    uo2b: [17 x 17 array of float]
+        power distribution of assembly uo2_B
+    mox: [17 x 17 array of float]
+        power distribution of assembly mox
+    tot: [float]
+        total power of the reactor
     '''
-    Running MOOSE app produces a csv file.
-    This function gets the values in it.
+
+    uo2a = 1.340
+    uo2b = 0.474
+    mox = 1.093
+    tot = uo2a + uo2b + 2*mox
+    return uo2a, uo2b, mox, tot
+
+
+def power_assembly(file):
+    '''
+    Running MOOSE app produces a csv file with the power generated in
+    different fuel assemblies. This function gets the values in it.
 
     Parameters:
     -----------
     file: [string]
         name of the .csv file
-    save: [string]
-        name of the figure
+    Return:
+    -------
+    power: [array]
+        power generated in each assembly
+    power_rel: [array]
+        relative difference to reference values
     '''
 
-    uo2a_r = 1.340
-    uo2b_r = 0.474
-    mox_r = 1.093
-    tot_r = uo2a_r + uo2b_r + 2*mox_r
+    uo2a_r, uo2b_r, mox_r, tot_r = bench_power()
 
     file = pd.read_csv(file)
-    uo2a = np.array(file['uo2a_fission_heat'].tolist()[-1])
-    uo2b = np.array(file['uo2b_fission_heat'].tolist()[-1])
-    moxa = np.array(file['moxa_fission_heat'].tolist()[-1])
-    moxb = np.array(file['moxb_fission_heat'].tolist()[-1])
     tot = np.array(file['total_fission_heat'].tolist()[-1])
-
+    uo2a = np.array(file['uo2a_tot'].tolist()[-1])
+    uo2b = np.array(file['uo2b_tot'].tolist()[-1])
+    moxa = np.array(file['moxa_tot'].tolist()[-1])
+    moxb = np.array(file['moxb_tot'].tolist()[-1])
     norm = 1/tot * tot_r
 
     uo2a *= norm
     uo2b *= norm
     moxa *= norm
     moxb *= norm
+
+    uo2a_r = np.sum(uo2a_r)
+    uo2b_r = np.sum(uo2b_r)
+    mox_r = np.sum(mox_r)
     mox = (moxa + moxb)/2
-   
+
     uo2a_rel = (uo2a - uo2a_r) / uo2a_r * 100
     uo2b_rel = (uo2b - uo2b_r) / uo2b_r * 100
     mox_rel = (mox - mox_r) / mox_r * 100
 
-    print('uo2a [%]: ', uo2a_rel)
-    print('uo2b [%]: ', uo2b_rel)
-    print('mox [%]: ', mox_rel)
-
     power = np.array([uo2a, mox, mox, uo2b])
     power_rel = np.array([uo2a_rel, mox_rel, mox_rel, uo2b_rel])
-    return power, np.absolute(power_rel)
+    power_rel = np.absolute(power_rel)
+    return power, power_rel
 
 
-def plot_radial_power_distribution(pitch, power, rel=False):
+def plot_radial_power_distribution(pitch, power, compare=False, rel=False):
     '''
     Plots radial power distribution.
     Parameters:
@@ -137,8 +172,15 @@ def plot_radial_power_distribution(pitch, power, rel=False):
         contains the values in MW of the power produced in each fuel column
         the reactor model includes only a 1/6th of the reactor (only 11
         columns).
-    save: [string]
-        name of the figure
+    compare: [bool]
+        True if printing both power and relative error in same figure
+        False if printing only either the power or the relative error
+    rel: [bool]
+        True is plotting the relative error
+        False is plotting the power
+    Return:
+    -------
+    None
     '''
 
     P = pitch
@@ -149,8 +191,8 @@ def plot_radial_power_distribution(pitch, power, rel=False):
     for j in range(side):
         for i in range(side):
             coord.append(np.array([i*P+P/2, j*P+P/2]))
-    coord = np.array(coord)
 
+    coord = np.array(coord)
     patches = []
     xmax, ymax = [-np.inf, ] * 2
     xmin, ymin = [np.inf, ] * 2
@@ -165,46 +207,53 @@ def plot_radial_power_distribution(pitch, power, rel=False):
         ymax = max(ymax, vmaxs[1])
         ymin = min(ymin, vmins[1])
 
-    if rel is False:
-        patches = np.array(patches, dtype=object)
-        pc = PatchCollection(patches)
+    patches = np.array(patches, dtype=object)
+    pc = PatchCollection(patches)
 
-        ax = gca()
+    ax = gca()
+    ax.set_xlim(ymin, xmax)
+    ax.set_ylim(ymin, ymax)
+
+    if compare is True:
+        if rel is False:
+            pc.set_array(power)
+            ax.add_collection(pc)
+            cbar = plt.colorbar(pc)
+            cbar.ax.set_ylabel('Power [W]', fontsize=18)
+            cbar.ax.tick_params(labelsize=18)
+            for i in range(len(coord)):
+                plt.text(x=coord[i][0]-F/4, y=coord[i][1]+F/5,
+                         s=np.round(power[i], 3), fontsize=20, color='w',
+                         fontweight=800)
+        else:
+            for i in range(len(coord)):
+                plt.text(x=coord[i][0]-F/4, y=coord[i][1]-F/5,
+                         s=np.round(power[i], 2), fontsize=20, color='w',
+                         fontweight=800)
+    else:
         pc.set_array(power)
         ax.add_collection(pc)
-        ax.set_xlim(xmin, xmax)
-        ax.set_ylim(ymin, ymax)
-        ax.tick_params(axis="x", labelsize=18)
-        ax.tick_params(axis="y", labelsize=18)
-
         cbar = plt.colorbar(pc)
-        cbar.ax.set_ylabel('Power [W]', fontsize=18)
         cbar.ax.tick_params(labelsize=18)
-        for i in range(len(coord)):
-            plt.text(x=coord[i][0]-F/4, y=coord[i][1]+F/5,
-                     s=np.round(power[i], 3), fontsize=24, color='w',
-                     fontweight=800)
+        if rel is False:
+            cbar.ax.set_ylabel('Power [W]', fontsize=18)
+        else:
+            cbar.ax.set_ylabel('Relative error [%]', fontsize=18)
 
-    else:
-        # cbar.ax.set_ylabel('Relative error [%]')
-        for i in range(len(coord)):
-            plt.text(x=coord[i][0]-F/4, y=coord[i][1]-F/5,
-                     s=np.round(power[i], 2), fontsize=24, color='w',
-                     fontweight=800)
-
-
-    # plt.axis('equal')
+    ax.tick_params(axis="x", labelsize=18)
+    ax.tick_params(axis="y", labelsize=18)
     plt.xlabel('X [cm]', fontsize=18)
     plt.ylabel('Y [cm]', fontsize=18)
+    return None
 
 
 if __name__ == "__main__":
 
     add_legend()
 
-    power, power_rel = power_distrib('input.csv')
+    power, power_rel = power_assembly('input.csv')
     plt.figure()
-    plot_radial_power_distribution(21.42, power)
-    plot_radial_power_distribution(21.42, power_rel, rel=True)
+    plot_radial_power_distribution(21.42, power, compare=True)
+    plot_radial_power_distribution(21.42, power_rel, compare=True, rel=True)
     plt.savefig('C5G23D-distrib', dpi=300, bbox_inches="tight")
     plt.close()
