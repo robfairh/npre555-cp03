@@ -103,7 +103,7 @@ def materials_het():
     constants['moder']['TOT'] = np.array([2.3007e-1, 7.7646e-1, 1.4842, 1.5052, 1.5592, 2.0254, 3.3057])
     constants['moder']['TRXS'] = np.array([1.59206e-1, 4.1297e-1, 5.9031e-1, 5.8435e-1, 7.18e-1, 1.25445, 2.65038])
     constants['moder']['ABS'] = np.array([6.0105e-4, 1.5793e-5, 3.3716e-4, 1.9406e-3, 5.7416e-3, 1.5001e-2, 3.7239e-2])
-    constants['moder']['CAP'] = constants['reflec']['ABS']
+    constants['moder']['CAP'] = constants['moder']['ABS']
     constants['moder']['CHIT'] = np.zeros(7)
     constants['moder']['SP0'] = np.array([[4.44777e-2, 1.134e-1, 7.2347e-4, 3.7499e-6, 5.3184e-8, 0.0, 0.0], [0.0, 2.82334e-1, 1.2994e-1, 6.234e-4, 4.8002e-5, 7.4486e-6, 1.0455e-6], [0.0, 0.0, 3.45256e-1, 2.2457e-1, 1.6999e-2, 2.6443e-3, 5.0344e-4], [0.0, 0.0, 0.0, 9.10284e-2, 4.1551e-1, 6.3732e-2, 1.2139e-2], [0.0, 0.0, 0.0, 7.1437e-5, 1.39138e-1, 5.1182e-1, 6.1229e-2], [0.0, 0.0, 0.0, 0.0, 2.2157e-3, 6.99913e-1, 5.3732e-1], [0.0, 0.0, 0.0, 0.0, 0.0, 1.32440e-1, 2.4807]])
     constants['moder']['SP0'] = np.reshape(constants['moder']['SP0'], 7*7)
@@ -174,18 +174,22 @@ def prepare_xs(constants, sp3=True, correct=False):
         try:
             constants2[mat]['FISS'] = constants[mat]['FISS']
         except KeyError:
-            constants2[mat]['FISS'] = constants[mat]['NSF']/2.4
+            try:
+                constants2[mat]['FISS'] = constants[mat]['NSF']/2.4
+            except KeyError:
+                constants2[mat]['FISS'] = np.zeros(G)
+
         constants2[mat]['INVV'] = np.zeros(G)
         constants2[mat]['KAPPA'] = 200*np.ones(G)
         constants2[mat]['LAMBDA'] = np.zeros(8)
+
         try:
             constants2[mat]['NSF'] = constants[mat]['NSF']
         except KeyError:
-        	try:
-        		constants2[mat]['NSF'] = constants[mat]['NU'] * constants[mat]['FISS']
-        	except KeyError:
-            	constants2[mat]['NSF'] = np.zeros(G)
-
+            try:
+                constants2[mat]['NSF'] = constants[mat]['NU'] * constants[mat]['FISS']
+            except KeyError:
+                constants2[mat]['NSF'] = np.zeros(G)
         constants2[mat]['SP0'] = s0xs
 
         if sp3 is True:
@@ -252,4 +256,4 @@ if __name__ == "__main__":
 
     materials = materials_het()
     materials2 = prepare_xs(materials, sp3=True, correct=False)
-    create_xs(outdir, temp, materials)
+    output_xs(outdir, temp, materials2)
