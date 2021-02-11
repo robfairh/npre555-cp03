@@ -51,6 +51,7 @@ This repository contains the following files necessary for reproducing this work
 ## C5G7-3D
 
 * contains the input files necessary for running a three-dimensional test case
+* to run everything run: ```bash runfiles.sh```
 * it is too big and uses too much memory, I couldn't run it
 
 
@@ -72,4 +73,4 @@ Contains the necessary files for building the .pdf of the following publications
 
 * sp3-diffusion/extract-convert.py could use some work
 * sp3-diffusion/ C5G2-capilla/ and brantley-larsen-2d/ have similar post processing functions that could be unified.
-* same with constants.py
+* same for constants.py. use constants.py from 'C5G7-benchmark'
