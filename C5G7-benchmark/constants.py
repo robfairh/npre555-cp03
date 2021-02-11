@@ -6,8 +6,7 @@ import shutil
 
 def materials_het():
     '''
-    Cross-sections from Cavarec et al. Benchmark Calculations
-    of Power Distributions within Assemblies. 1994.
+    Cross-sections from OECD/NEA. Benchmark on Deterministic Transport Calculations Without Spatial Homogenisation A 2-D/3-D MOX Fuel Assembly Benchmark. 2003.
 
     Returns:
     --------
@@ -15,21 +14,24 @@ def materials_het():
         dictionary that contains the materials and their respective
         cross-sections.
         * main keys:
-            - uo2 - U - UO2 Fuel
-            - mox3 - P1 - 4.3% MOX Fuel (outer)
-            - mox2 - P2 - 7.0% MOX Fuel
-            - mox1 - P3 - 8.7% MOX Fuel (inner)
-            - gtub - X - Guide Tube
-            - fchamb - C - Moveable Fission Chamber
-            - moder - M - moderator
-            - reflec - R - Reflector
+            - uo2 - UO2 Fuel
+            - mox1 - 8.7% MOX Fuel (inner)
+            - mox2 - 7.0% MOX Fuel
+            - mox3 - 4.3% MOX Fuel (outer)
+            - gtub - Guide Tube
+            - fchamb - Moveable Fission Chamber
+            - moder - Moderator
+            - reflec - Reflector
 
         * secondary keys:
-            - DIFFCOEF = difffusion coefficients
-            - ABS = absorption cross-sections
-            - NSF = production cross-sections
-            - SP0 = scattering cross-sections
             - TOT = total cross-sections
+            - TRXS = transport cross-section
+            - ABS = absorption cross-sections
+            - CAP = capture cross-sections
+            - FISS = fission cross-section
+            - NU = average neutron production per fission
+            - CHIT = fission energy distribution
+            - SP0 = scattering cross-sections
     '''
 
     constants = {}
@@ -108,18 +110,6 @@ def materials_het():
 
     constants['reflec'] = {}
     constants['reflec'] = constants['moder']
-
-    # 'DIFFCOEF': np.array([1.20, 0.20]),
-    # 'ABS': np.array([0.001, 0.04]),
-    # 'NSF': np.array([0., 0.]),
-    # # combines SS and SR: SS1, SR1, SR2, SS2
-    # 'SP0': np.array([0.56, 0.05, 0.0, 2.30]),
-
-    for mat in constants.keys():
-        absxs = constants[mat]['ABS']
-        G = len(absxs)
-        scatt = constants[mat]['SP0'].reshape(G, G)
-        constants[mat]['TOT'] = absxs + np.sum(scatt, axis=1)
 
     return constants
 

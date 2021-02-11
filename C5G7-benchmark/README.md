@@ -1,11 +1,9 @@
+This study is based on:
 
-To reproduce the results:
--------------------------
+[1] Benchmark on Deterministic Transport Calculations Without Spatial Homogenisation A 2-D/3-D MOX Fuel Assembly Benchmark. OECD/NEA. 2003.
 
-* To create mesh: open ```3D.geo``` in gmsh and create 3D mesh
-
+# Files:
 
 
-Geometry:
----------
+# Results:
 
