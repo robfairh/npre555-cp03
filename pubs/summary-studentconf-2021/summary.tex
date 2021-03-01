@@ -301,21 +301,21 @@ For the method with transport correction, we used the reference value from the b
 \end{table}
 
 % discussion about the transport correction
-The results obtained with the $SP_3$ solver are within 145 pcm of the reference values.
+The eigenvalues obtained with the $SP_3$ solver are within 145 pcm of the reference values.
 However, the difference between the reference values of the different schemes is 3535 pcm, suggesting that the use of the transport correction is necessary.
 % examples of codes using the diagonal transport correction PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}
 
-Figure \ref{fig:power-distrib} presents the power distribution and the relative difference to the reference provided by the benchmark \cite{cavarec_benchmark_1994}.
-For conciseness, we only calculated the power distribution using the transport correction.
-The benchmark specifies the power distribution pin-by-pin, but to simplify displaying the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly.
 % discuss results
-The results of the power distribution are within 1\% difference.
+Our calculations included the pin power distribution, whose reference values the benchmark specifies \cite{cavarec_benchmark_1994}.
+For conciseness, we only calculated the power distribution using the transport correction.
+To simplify displaying the results, Figure \ref{fig:power-distrib} presents the assembly power distribution with the largest pin power relative difference in each assembly.
+The MOX assembly hosts the largest pin power relative different, its value being 1.8\%.
 
 \begin{figure}[htbp!] %or H 
     \centering
     \includegraphics[width=0.95\linewidth]{figures/distrib.png}
     \hfill
-    \caption{Power distribution in the C5 MOX Benchmark. Top: power distribution. Bottom: relative difference to reference values expressed in \%.}
+    \caption{Assembly power distribution in the C5 MOX Benchmark. Top: Assembly power distribution. Bottom: pin power relative difference expressed in \%.}
     \label{fig:power-distrib}
 \end{figure}
 
@@ -327,7 +327,7 @@ As part of this work, we implemented the kernels to solve the steady-state $SP_3
 Additionally, we carried out two exercises whose reference results were known.
 The first exercise solved a one-group eigenvalue problem with a simple geometry, with a result within 12 pcm.
 The second exercise studied the C5 MOX Benchmark, solving it using different approaches and obtaining results within 145 pcm.
-The calculated power distribution values were within 1\% error from the reference.
+The calculated pin power values were within 2\% error from the reference.
 
 While the $SP_3$ equations solve the neutronics equations in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate this application to existing applications.
 MOOSE-based applications share the same API making their integration straightforward.
