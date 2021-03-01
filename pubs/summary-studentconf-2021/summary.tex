@@ -77,7 +77,6 @@ MOOSE is an open-source \gls{FEM} framework that supports the development of app
 
 All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
 While the $SP_3$ equations solve the neutronics in a nuclear reactor, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
-% Additionally, the framework and its applications use \gls{MPI} for parallel communication allowing for deployment on massively-parallel cluster-computing platforms.
 
 % lit - review: the SPN approximation
 The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
@@ -311,7 +310,7 @@ Figure \ref{fig:power-distrib} presents the power distribution and the relative 
 For conciseness, we only calculated the power distribution using the transport correction.
 The benchmark specifies the power distribution pin-by-pin, but to simplify displaying the results, Figure \ref{fig:power-distrib} presents the power distribution in each assembly.
 % discuss results
-The results of the power distribution are within the 1\% difference.
+The results of the power distribution are within 1\% difference.
 
 \begin{figure}[htbp!] %or H 
     \centering
@@ -327,9 +326,9 @@ The results of the power distribution are within the 1\% difference.
 MOOSE is a computational framework that solves systems of nonlinear differential equations.
 As part of this work, we implemented the kernels to solve the steady-state $SP_3$ equations in a MOOSE-based application.
 Additionally, we carried out two exercises whose reference results were known.
-The first exercise solved a one-group eigenvalue problem with a simple geometry, with a result within the 12 pcm.
-The second exercise studied the C5 MOX Benchmark, solving it using different approaches and obtaining results within the 145 pcm.
-The calculated power distribution values were within the 1\% error from the reference.
+The first exercise solved a one-group eigenvalue problem with a simple geometry, with a result within 12 pcm.
+The second exercise studied the C5 MOX Benchmark, solving it using different approaches and obtaining results within 145 pcm.
+The calculated power distribution values were within 1\% error from the reference.
 
 While the $SP_3$ equations solve the neutronics in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate this application to existing applications.
 MOOSE-based applications share the same API making their integration straightforward.
