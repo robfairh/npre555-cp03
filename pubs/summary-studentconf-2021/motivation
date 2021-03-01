@@ -1,0 +1,35 @@
+
+capilla_applications_2009:
+
+The mutigroup diffusion equation does not provide good results for complex fuel assemblies or pin-by-pin mesh applications.
+
+
+brantley_simplifiedP3_2000:
+
+The SP N approximation has the advantages that there are fewer equations than with the full PN approximation.
+
+I believe the motivation is to give the SPN method a stronger theoretical basis.
+
+
+beckert_development_2007:
+
+Loading cores with higher content of MOX fuel, the increase of the fuel cycle length, and the consideration of new reactor types are challenging for the diffusion method.
+
+The SP3 method was developed to improve the accuracy of the DYN3D code.
+
+
+ryu_finite_2013:
+
+The simplified P 3 (SP 3) equations (Gelbard, 1962; Brantley and Larsen, 2000) can provide considerable accuracy improvement over the diffusion equation without requiring significant additional computational overhead or coding changes.
+
+
+
+
+Motivation for multi-physics calculations.
+SP3 solver provides a solution to the neutronics equations.
+
+Modeling and prediction of core thermal-fluid behavior are necessary for assessing the safety characteristics of a reactor.
+Knowing the power distribution is necessary.
+Neutronics calculations are necessary.
+
+cite MS thesis
