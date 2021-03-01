@@ -1,4 +1,6 @@
 
+To do:
+
 * Clarify that the method only solves SPN for N=3
 
 * Motivate SP3 implementation a little more strongly
@@ -7,10 +9,15 @@
 
 * Re-order introduction to improve the flow of ideas
 
-* Remove pcm numbers from the intro
 
-* Remove 'the' from 'within the 145 pcm'
 
-* solve the neutronics in -> solve the neutronics equations in
+Doing
 
 * Present pin-wise reaction rates ?
+
+
+Done
+
+* Remove 'the' from 'within the 145 pcm'
+* solve the neutronics in -> solve the neutronics equations in
+* Remove pcm numbers from the intro

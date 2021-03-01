@@ -76,15 +76,14 @@ MOOSE is an open-source \gls{FEM} framework that supports the development of app
 % These functions become inputs into PetSc solution routines.
 
 All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
-While the $SP_3$ equations solve the neutronics in a nuclear reactor, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
+While the $SP_3$ equations solve the neutronics equations in a nuclear reactor, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
 
 % lit - review: the SPN approximation
 The $P_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
 If $N \rightarrow \infty$, the solution of the $P_N$ equations tends to the exact transport solution.
 In three-dimensional geometries, the number of $P_N$ equations is proportional to $(N+1)^2$, whereas, in one-dimensional planar geometries, the number of $P_N$ equations is $(N+1)$.
 Gelbard \cite{gelbard_spherical_1960} proposed the $SP_N$ approximation by replacing the second derivatives in the one-dimensional planar $P_N$ equations with three-dimensional Laplacian operators.
-This approximation considerably reduces the number of equations conserving a reasonable accuracy.
-Capilla et al. \cite{capilla_applications_2009} studied a modified version of the C5 \gls{MOX} fuel Benchmark \cite{cavarec_benchmark_1994} introduced by Brantley and Larsen \cite{brantley_simplifiedP3_2000} comparing the $P_3$ and $SP_3$ methods, the difference between results being less than 40 pcm.
+This approximation considerably reduces the number of equations conserving a reasonable accuracy \cite{capilla_applications_2009}.
 
 The $SP_N$ approximation has the disadvantage that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
 Additionally, the theoretical basis of Gelbard's formulation of $SP_N$ approximation was weak.
@@ -330,7 +329,7 @@ The first exercise solved a one-group eigenvalue problem with a simple geometry,
 The second exercise studied the C5 MOX Benchmark, solving it using different approaches and obtaining results within 145 pcm.
 The calculated power distribution values were within 1\% error from the reference.
 
-While the $SP_3$ equations solve the neutronics in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate this application to existing applications.
+While the $SP_3$ equations solve the neutronics equations in a nuclear reactor, future work may develop other applications to solve the thermal-fluids or integrate this application to existing applications.
 MOOSE-based applications share the same API making their integration straightforward.
 
 
