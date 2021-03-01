@@ -25,11 +25,9 @@ The simplified P 3 (SP 3) equations (Gelbard, 1962; Brantley and Larsen, 2000) c
 
 
 
-Motivation for multi-physics calculations.
-SP3 solver provides a solution to the neutronics equations.
+Motivation for multi-physics calculations:
 
-Modeling and prediction of core thermal-fluid behavior are necessary for assessing the safety characteristics of a reactor.
-Knowing the power distribution is necessary.
-Neutronics calculations are necessary.
-
-cite MS thesis
+Multi-physics simulations are necessary for assessing the safety characteristics of a reactor \cite{fairhurst-agosta_multi-physics_2020}.
+Solving the neutronics equations provides information on the power distribution, which plays a crucial role in the thermal-fluids behavior of the reactor.
+Therefore, the right modeling of the neutron flux is necessary.
+While different methods for solving the neutronics are available in the open literature, we will focus on the $SP_3$ equations.

@@ -1,21 +1,12 @@
-
-To do:
-
-* Re-order introduction to improve the flow of ideas
-
-
-Doing
-
-* Motivate SP3 implementation a little more strongly
-	- Am I targeting a particular problem
-	- Will this primarily be useful for comparison with other methods
-
-* Clarify that the method only solves SPN for N=3
-
-
 Done
 
 * Remove 'the' from 'within the 145 pcm'
 * solve the neutronics in -> solve the neutronics equations in
 * Remove pcm numbers from the intro
 * Present pin-wise reaction rates
+* Motivate SP3 implementation a little more strongly
+
+Kind of done:
+
+* Clarify that the method only solves SPN for N=3 --> I think this is clear... the title says SP3, not SPN
+* Re-order introduction to improve the flow of ideas

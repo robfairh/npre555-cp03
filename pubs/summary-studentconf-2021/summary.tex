@@ -59,14 +59,18 @@ ref3@illinois.edu
 
 \section{Introduction}
 
+% Motivation
+Multi-physics simulations are necessary for assessing the safety characteristics of nuclear reactors \cite{fairhurst-agosta_multi-physics_2020}.
+Solving the neutronics equations provides information on the power distribution, which plays a crucial role in the thermal-fluids behavior of the reactor.
+Therefore, the right modeling of the neutron flux is necessary.
 % what I am doing
-This work presents the implementation of the Simplified $P_3$ ($SP_3$) equations \cite{gelbard_spherical_1960} in a \gls{MOOSE}-based application.
+This work presents the implementation and verification of the Simplified $P_3$ ($SP_3$) equations \cite{gelbard_spherical_1960} in a \gls{MOOSE}-based application as an alternative for solving the neutronics equations in a nuclear reactor.
+
 % MOOSE
 MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
 In a nuclear reactor, several partial differential equations describe its physical behavior.
 These equations are typically nonlinear, and they are often coupled to each other.
 MOOSE is an open-source \gls{FEM} framework that supports the development of applications for solving such systems.
-
 % MOOSE supports the development of applications for solving such systems.
 % MOOSE is an open-source \gls{FEM} framework.
 % The framework itself relies on LibMesh \cite{kirk_libmesh_2006} and PetSc \cite{balay_petsc_2016} for solving nonlinear equations.
@@ -74,7 +78,6 @@ MOOSE is an open-source \gls{FEM} framework that supports the development of app
 % Kernels are C++ classes containing methods for computing the residual and Jacobian contributions of individual pieces of the governing equations.
 % MOOSE and LibMesh translate them into residual and Jacobian functions.
 % These functions become inputs into PetSc solution routines.
-
 All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
 While the $SP_3$ equations solve the neutronics equations in a nuclear reactor, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
 
@@ -93,7 +96,7 @@ For these reasons, the method did not gain widespread use until the 2000s, when 
 
 In practice, the $SP_N$ equations are most accurate for diffusive problems or for problems in which the solution behaves nearly one-dimensionally and has weak tangential derivatives at material interfaces.
 For problems with strong, multidimensional transport effects, such as voids, streaming regions, or geometrically complex regions, the $SP_N$ solutions are less accurate \cite{downar_parcs_2004}.
-However, several results show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
+However, several results show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
 % why is SP_3 preferred over diffusion
 For example, the $SP_3$ approximation is preferable over the diffusion approximation for modeling reactors using MOX/UO$_2$ fuel assemblies.
 MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies, and consequently, their thermal flux is lower while their power production higher.
@@ -185,7 +188,7 @@ The simulation convergence criterion was $10^{-8}$ for the neutron flux.
 
 \begin{figure}[H] %or H 
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/mesh2.png}
+    \includegraphics[width=0.75\linewidth]{figures/mesh2.png}
     \hfill
     \caption{Geometry of the one group eigenvalue problem. Fuel in red. Moderator in gray.}
     \label{fig:2D}
@@ -252,7 +255,7 @@ The benchmark \cite{cavarec_benchmark_1994} specifies the cross-sections, which 
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.85\linewidth]{figures/bench-config2.png}
+    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.75\linewidth]{figures/bench-config2.png}
     \hfill
     \caption{Structure of the UO$_2$ assembly. Image reproduced from \cite{capilla_applications_2009}.}
     \label{fig:bench2}
@@ -271,7 +274,7 @@ When no anisotropic component of the scattering cross-section is available, the 
 \begin{figure}[h] %or H 
     \centering
     % \includegraphics[width=0.95\linewidth]{figures/bench-config3.png}
-    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.85\linewidth]{figures/bench-config3.png}
+    \includegraphics[trim=0 0 0 2.1cm, clip=true, width=0.75\linewidth]{figures/bench-config3.png}
     \hfill
     \caption{Structure of the MOX assembly. Image reproduced from \cite{capilla_applications_2009}.}
     \label{fig:bench3}
