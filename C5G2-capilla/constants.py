@@ -231,6 +231,7 @@ if __name__ == "__main__":
 
     materials = materials_het()
     output_xs(outdir, temp, materials)
+    print('Created heterogeneous set')
 
     # creates cross-sections for the homogeneous case
     outdir = 'xs2g-homo'
@@ -240,3 +241,4 @@ if __name__ == "__main__":
 
     materials = materials_hom()
     output_xs(outdir, temp, materials)
+    print('Created homogeneous set')

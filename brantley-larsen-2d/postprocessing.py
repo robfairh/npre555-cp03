@@ -27,7 +27,7 @@ def add_legend():
     ax.xaxis.set_major_formatter(ticks_x)
     xticks = np.arange(0, np.floor(xlength)+1, 5)/scalex
     ax.set_xticks(xticks)
-    ax.tick_params(axis="x", labelsize=16)
+    ax.tick_params(axis="x", labelsize=18)
 
     ylength = 20
     scaley = ylength/567
@@ -35,12 +35,12 @@ def add_legend():
     ax.yaxis.set_major_formatter(ticks_y)
     yticks = np.arange(0, np.floor(ylength)+1, 5)/scaley
     ax.set_yticks(yticks)
-    ax.tick_params(axis="y", labelsize=16)
+    ax.tick_params(axis="y", labelsize=18)
 
-    ax.set_xlabel('x [cm]', fontsize=16)
-    ax.set_ylabel('y [cm]', fontsize=16)
+    ax.set_xlabel('X [cm]', fontsize=18)
+    ax.set_ylabel('Y [cm]', fontsize=18)
     plt.legend(handles=[red, gray], loc="upper left",
-               bbox_to_anchor=(1.0, 1.0),  fontsize=20)
+               bbox_to_anchor=(1.0, 1.0),  fontsize=22)
     plt.savefig("mesh2", dpi=300, bbox_inches="tight")
     plt.close()
     return None
@@ -103,8 +103,8 @@ if __name__ == "__main__":
 
     add_legend()
 
-    save = 'output'
-    plt.figure()
-    file = 'input_line_0001.csv'
-    plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=1, dire='x')
-    plt.savefig(save, dpi=300, bbox_inches="tight")
+    # save = 'output'
+    # plt.figure()
+    # file = 'input_line_0001.csv'
+    # plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=1, dire='x')
+    # plt.savefig(save, dpi=300, bbox_inches="tight")

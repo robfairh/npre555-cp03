@@ -59,26 +59,13 @@ ref3@illinois.edu
 
 \section{Introduction}
 
-% what I am doing
-This work presents the implementation of the Simplified P$_3$ (SP$_3$) equations \cite{gelbard_spherical_1960} in the \gls{MOOSE}-based application Cerberus.
-% MOOSE
-MOOSE \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
-In a nuclear reactor, several partial differential equations describe its physical behavior.
-These equations are typically nonlinear, and they are often coupled to each other.
-MOOSE is an open-source \gls{FEM} framework that supports the development of applications for solving such systems.
+% What am I doing here
+Multi-physics simulations are necessary for assessing the safety characteristics of nuclear reactors.
+Solving the neutronics equations provides information on the power distribution, which plays a crucial role in the thermal-fluids behavior of the reactor \cite{fairhurst-agosta_multi-physics_2020}.
+Therefore, the right modeling of the neutron flux is essential.
+This work presents the implementation and verification of the Simplified P$_3$ (SP$_3$) equations \cite{gelbard_spherical_1960} in the \gls{MOOSE}-based application Cerberus.
 
-% MOOSE supports the development of applications for solving such systems.
-% MOOSE is an open-source \gls{FEM} framework.
-% The framework itself relies on LibMesh \cite{kirk_libmesh_2006} and PetSc \cite{balay_petsc_2016} for solving nonlinear equations.
-% MOOSE-based applications define weak forms of the governing equations and modularize the physics expressions into "kernels."
-% Kernels are C++ classes containing methods for computing the residual and Jacobian contributions of individual pieces of the governing equations.
-% MOOSE and LibMesh translate them into residual and Jacobian functions.
-% These functions become inputs into PetSc solution routines.
-
-All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
-While Cerberus solves the neutronics in a nuclear reactor using the multi-group steady-state SP$_3$ equations, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
-% Additionally, the framework and its applications use \gls{MPI} for parallel communication allowing for deployment on massively-parallel cluster-computing platforms.
-
+% Why SP3
 % lit - review: the SPN approximation
 The P$_N$ method \cite{davidson_neutron_1957} discretizes the transport equation by expanding the angular dependence of the neutron flux in spherical harmonics, considering up to order $N$ polynomials.
 If $N \rightarrow \infty$, the solution of the P$_N$ equations tends to the exact transport solution.
@@ -93,20 +80,35 @@ For these reasons, the method did not gain widespread use until the 2000s, when 
 % For these reasons, the method did not gain widespread use until the 2000s, when thanks to Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution, the method gained a stronger theoretical basis.
 % Although Gelbard proposed the $SP_N$ approximation in the 60s, the method did not have a strong theoretical basis until the 90s with Pomraning \cite{pomraning_asymptotic_1993}, Brantley, and Larsen's \cite{brantley_simplifiedP3_2000} contribution.
 % Additionally, the $SP_N$ approximation has the disadvantage that the solution does not usually converge to the true transport solution as $N \rightarrow \infty$.
+% lit - review: software using the SPN approximation
+The SP$_3$ approximation gained usage throughout the last couple of decades, and currently, different software uses it to solve the neutron transport equation.
+% Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
+Some examples are PARCS \cite{downar_parcs_2004} and DYN3D \cite{beckert_development_2007}.
 
 In practice, the SP$_N$ equations are most accurate for diffusive problems or for problems in which the solution behaves nearly one-dimensionally and has weak tangential derivatives at material interfaces.
 % For problems with strong, multidimensional transport effects, such as voids, streaming regions, or geometrically complex regions, the $SP_N$ solutions are less accurate \cite{downar_parcs_2004}.
 % However, several results show that the $SP_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{fliscounakis_potential_2012} \cite{ryu_finite_2013} \cite{khosravi_mirzaee_reactor_2019} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
-Several results show that the SP$_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{ryu_finite_2013} with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
+Several results show that the SP$_N$ approximation yields more accurate solutions than the diffusion approximation \cite{mui_modified_1987} \cite{beckert_development_2007} \cite{ryu_finite_2013}, with considerably less computational expense than the discrete ordinates ($S_N$) method \cite{brantley_simplifiedP3_2000}.
 % why is SP_3 preferred over diffusion
 For example, the SP$_3$ approximation is preferable over the diffusion approximation for modeling reactors using MOX/UO$_2$ fuel assemblies.
 MOX fuel assemblies have higher thermal absorption and fission cross-sections than UO$_2$ fuel assemblies, and consequently, their thermal flux is lower while their power production higher.
 Modeling these characteristics using the diffusion approximation may be challenging \cite{brantley_simplifiedP3_2000} \cite{capilla_applications_2009}.
 
-% lit - review: software using the SPN approximation
-The SP$_3$ approximation gained usage throughout the last couple of decades, and currently, different software uses it to solve the neutron transport equation.
-% Some of those software are SCOPE2 \cite{tatsumi_object-oriented_2002}, PARCS \cite{downar_parcs_2004}, DYN3D \cite{beckert_development_2007}, SIMULATE-5 \cite{bahadir_studsviks_2009}, and COCAGNE \cite{fliscounakis_potential_2012}.
-Some examples are PARCS \cite{downar_parcs_2004} and DYN3D \cite{beckert_development_2007}.
+% Why MOOSE
+\gls{MOOSE} \cite{gaston_moose_2009} is a computational framework that supports engineering analysis applications.
+In a nuclear reactor, several partial differential equations describe its physical behavior.
+These equations are typically nonlinear, and they are often coupled to each other.
+MOOSE is an open-source \gls{FEM} framework that supports the development of applications for solving such systems.
+RattleSnake \cite{wang_rattlesnake_2019} is the primary tool for solving the linearized Boltzmann neutron transport equation within MOOSE \cite{fairhurst-agosta_multi-physics_2020}.
+Currently, RattleSnake does not have an SP$_3$ solver within its capabilities.
+Cerberus solves the multi-group steady-state SP$_3$ equations, introducing an alternative for solving the neutronics equations in a nuclear reactor.
+All the software built on the MOOSE framework shares the same \gls{API}, facilitating relatively easy coupling between different phenomena.
+While Cerberus solves the neutronics equations, other applications may solve the thermal-fluids, and given they share the same API; their integration is straightforward.
+
+% Why is Cerberus necessary
+Cerberus is open-source, contrasting previous neutronics applications, which operated under restrictive licenses.
+Additionally, being open source enables anyone to look for and fix any flaws, promoting a wider collaboration/usage within the nuclear engineering community.
+
 
 \section{Methodology}
 
@@ -189,7 +191,7 @@ Table \ref{tab:keff-1st} compares the eigenvalue obtained with Cerberus and the 
 
 \begin{figure}[htbp!] %or H 
     \centering
-    \includegraphics[width=0.85\linewidth]{figures/mesh2.png}
+    \includegraphics[width=0.7\linewidth]{figures/mesh2.png}
     \hfill
     \caption{Geometry of the one group eigenvalue problem.}
     \label{fig:2D}
@@ -244,7 +246,7 @@ This section describes the benchmark exercise and presents Cerberus results.
 
 \begin{figure}[H] %or htbp!
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/geo-xy2.png}
+    \includegraphics[width=0.75\linewidth]{figures/geo-xy2.png}
     \hfill
     \caption{C5 MOX Benchmark configuration.}
     \label{fig:bench1}
