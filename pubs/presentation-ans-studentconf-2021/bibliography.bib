@@ -1,0 +1,148 @@
+
+@article{brantley_simplifiedP3_2000,
+	title = {The {Simplified} {P3} {Approximation}},
+	journal = {Nuclear Science and Engineering},
+	author = {Brantley, P.S. and Larsen, E.W.},
+	year = {2000},
+	doi = {10.13182/NSE134-01},
+	url = {https://doi.org/10.13182/NSE134-01},
+}
+
+@techreport{gelbard_spherical_1960,
+	type = {Technical {Report}},
+	title = {Application of spherical harmonics methods to reactor problems},
+	author = {Gelbard, E.M.},
+	institution = {Bettis Atomic Power Laboratory},
+	number = {WAPD-BT-20},
+	year = {1960}
+}
+
+@book{davidson_neutron_1957,
+	address = {London},
+	title = {Neutron {Transport} {Theory}},
+	publisher = {Oxford University Press},
+	author = {Davidson, B.},
+	year = {1957}
+}
+
+@article{beckert_development_2007,
+	title = {Development and verification of a nodal approach for solving the multigroup {P3} equations},
+	journal = {Annals of Nuclear Energy},
+	author = {Beckert, C. and Grundmann, U.},
+	year = {2007}
+}
+
+@article{capilla_applications_2009,
+	title = {Applications of the multidimensional equations to complex fuel assembly problems},
+	volume = {36},
+	issn = {03064549},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S0306454909002680},
+	doi = {10.1016/j.anucene.2009.08.008},
+	abstract = {For the analysis of reactors with complex fuel assemblies or ﬁne mesh applications as pin by pin neutron ﬂux reconstruction, the usual approximation of the neutron transport equation by the multigroup diffusion equation does not provide good results. A classical approach to solve the neutron transport equation is to apply the spherical harmonics method obtaining a ﬁnite approximation known as the PL equations. In this line, a nodal collocation method for the discretization of these equations on a rectangular mesh is used in this paper to analyse reactors with MOX fuel assemblies. Although the 3D PL nodal collocation method becomes feasible due to the improvements in computer hardware, a complete treatment of the detailed structure of the fuel assemblies in actual three-dimensional geometry is still prohibitive, thus, an assembly homogenization method is necessary. A homogenization method compatible with our multidimensional PL code is proposed and tested performing heterogeneous and homogenized calculations. In this work, we apply the method to 2D complex fuel assembly conﬁgurations.},
+	language = {en},
+	number = {10},
+	urldate = {2020-12-16},
+	journal = {Annals of Nuclear Energy},
+	author = {Capilla, M. and Ginestar, D. and Verdú, G.},
+	month = oct,
+	year = {2009},
+	pages = {1624--1634},
+}
+
+@techreport{oecdnea_benchmark_2003,
+	type = {Technical {Report}},
+	title = {Benchmark on {Deterministic} {Transport} {Calculations} {Without} {Spatial} {Homogenisation}: {A} 2-{D}/3-{D} {MOX} {Fuel} {Assembly} {Benchmark}},
+	number = {NEA/NSC/DOC(2003)16},
+	institution = {OECD},
+	author = {OECD/NEA},
+	year = {2003},
+}
+
+@article{lindsay_introduction_2018,
+	title = {Introduction to {Moltres}: {An} application for simulation of {Molten} {Salt} {Reactors}},
+	volume = {114},
+	issn = {03064549},
+	shorttitle = {Introduction to {Moltres}},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S0306454917304760},
+	doi = {10.1016/j.anucene.2017.12.025},
+	abstract = {Moltres is a new physics application for modeling coupled physics in ﬂuid-fuelled, molten salt reactors. This paper describes its neutronics model, thermal hydraulics model, and their coupling in the MOOSE framework. Neutron and precursor equations are implemented using an action system that allows use of an arbitrary number of groups with no change in the input card. Results for many-channel conﬁgurations in 2D-axisymmetric and 3D coordinates are presented and compared against other coupled models as well as the Molten Salt Reactor Experiment.},
+	language = {en},
+	urldate = {2020-06-26},
+	journal = {Annals of Nuclear Energy},
+	author = {Lindsay, Alexander and Ridley, Gavin and Rykhlevskii, Andrei and Huff, Kathryn},
+	month = apr,
+	year = {2018},
+	pages = {530--540},
+	file = {Lindsay et al. - 2018 - Introduction to Moltres An application for simula.pdf:/home/roberto/Zotero/storage/2CFNUVFZ/Lindsay et al. - 2018 - Introduction to Moltres An application for simula.pdf:application/pdf}
+}
+
+@book{duderstadt_nuclear_1976,
+	address = {New York},
+	edition = {1 edition},
+	title = {Nuclear {Reactor} {Analysis}},
+	isbn = {978-0-471-22363-4},
+	abstract = {Classic textbook for an introductory course in nuclear reactor analysis that introduces the nuclear engineering student to the basic scientific principles of nuclear fission chain reactions and lays a foundation for the subsequent application of these principles to the nuclear design and analysis of reactor cores. This text introduces the student to the fundamental principles governing nuclear fission chain reactions in a manner that renders the transition to practical nuclear reactor design methods most natural. The authors stress throughout the very close interplay between the nuclear analysis of a reactor core and those nonnuclear aspects of core analysis, such as thermal-hydraulics or materials studies, which play a major role in determining a reactor design.},
+	language = {English},
+	publisher = {Wiley},
+	author = {Duderstadt, James J. and Hamilton, Louis J.},
+	month = jan,
+	year = {1976}
+}
+
+@article{gaston_moose_2009,
+	title = {{MOOSE}: {A} parallel computational framework for coupled systems of nonlinear equations},
+	volume = {239},
+	issn = {00295493},
+	shorttitle = {{MOOSE}},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S0029549309002635},
+	doi = {10.1016/j.nucengdes.2009.05.021},
+	abstract = {Systems of coupled, nonlinear partial differential equations often arise in simulation of nuclear processes. MOOSE: Multiphysics Object Oriented Simulation Environment, a parallel computational framework targeted at solving these systems, is presented. As opposed to traditional data-ﬂow oriented computational frameworks, MOOSE is founded on the mathematical principle of Jacobian-free Newton-Krylov (JFNK) solution methods. Utilizing the mathematical structure present in JFNK, physics are modularized into “Kernels” allowing for rapid production of new simulation tools. In addition, systems are solved fully coupled and fully implicit employing physics based preconditioning which allows for great ﬂexibility even with large variance in time scales. A summary of the mathematics, an inspection of the structure of MOOSE, and several representative solutions from applications built on the framework are presented.},
+	language = {en},
+	number = {10},
+	urldate = {2020-07-08},
+	journal = {Nuclear Engineering and Design},
+	author = {Gaston, Derek and Newman, Chris and Hansen, Glen and Lebrun-Grandié, Damien},
+	month = oct,
+	year = {2009},
+	pages = {1768--1778},
+	file = {Gaston et al. - 2009 - MOOSE A parallel computational framework for coup.pdf:/home/roberto/Zotero/storage/34CJNJ9N/Gaston et al. - 2009 - MOOSE A parallel computational framework for coup.pdf:application/pdf}
+}
+
+@article{kirk_libmesh_2006,
+	title = {{libMesh} : a {C}++ library for parallel adaptive mesh refinement/coarsening simulations},
+	volume = {22},
+	issn = {0177-0667, 1435-5663},
+	shorttitle = {{libMesh}},
+	url = {http://link.springer.com/10.1007/s00366-006-0049-3},
+	doi = {10.1007/s00366-006-0049-3},
+	abstract = {In this paper we describe the libMesh (http://libmesh.sourceforge.net)framework for parallel adaptive ﬁnite element applications. libMesh is an open-source software library that has been developed to facilitate serial and parallel simulation of multiscale, multiphysics applications using adaptive mesh reﬁnement and coarsening strategies. The main software development is being carried out in the CFDLab (http://cfdlab.ae.utexas.edu) at the University of Texas, but as with other open-source software projects; contributions are being made elsewhere in the US and abroad. The main goals of this article are: (1) to provide a basic reference source that describes libMesh and the underlying philosophy and software design approach; (2) to give sufﬁcient detail and references on the adaptive mesh reﬁnement and coarsening (AMR/ C) scheme for applications analysts and developers; and (3) to describe the parallel implementation and data structures with supporting discussion of domain decomposition, message passing, and details related to dynamic repartitioning for parallel AMR/C. Other aspects related to C++ programming paradigms, reusability for diverse applications, adaptive modeling, physics-independent error indicators, and similar concepts are brieﬂy discussed. Finally, results from some applications using the library are presented and areas of future research are discussed.},
+	language = {en},
+	number = {3-4},
+	urldate = {2020-08-20},
+	journal = {Engineering with Computers},
+	author = {Kirk, Benjamin S. and Peterson, John W. and Stogner, Roy H. and Carey, Graham F.},
+	month = dec,
+	year = {2006},
+	pages = {237--254},
+	file = {Kirk et al. - 2006 - libMesh  a C++ library for parallel adaptive mesh.pdf:/home/roberto/Zotero/storage/A94AUHE5/Kirk et al. - 2006 - libMesh  a C++ library for parallel adaptive mesh.pdf:application/pdf}
+}
+
+@techreport{balay_petsc_2016,
+	address = {Lemont, IL},
+	title = {{PETSc} {Users} {Manual}},
+	url = {https://publications.anl.gov/anlpubs/2016/05/127241.pdf},
+	number = {ANL-95/11 Rev 3.14},
+	institution = {Argonne National Laboratory (ANL)},
+	author = {Balay and Brune and Buschelman and Gropp and Karpeyev and Knepley and Curfman McInnes and Rupp and Smith and Zhang},
+	month = apr,
+	year = {2016}
+}
+
+@misc{inl_workshop_2020,
+	title = {MOOSE {Workshop} {Slides}},
+	note = {https://mooseframework.inl.gov/workshop},
+	language = {en},
+	author = {INL},
+	month = dec,
+	year = {2020}
+}
