@@ -40,14 +40,12 @@ Assumptions \cite{brantley_simplifiedP3_2000}:
 \begin{frame}
 \frametitle{$P_3$ equations (3)}
 
-With the following definition:
+With the following definitions:
 \begin{align}
-    & D_{0,g} = \frac{1}{3 \Sigma_{1,g}} \notag \\
-    & D_{2,g} = \frac{9}{35 \Sigma_{3,g}} \notag \\
-    & \Phi_{0,g} = \phi_{0,g} + 2 \phi_{2,g} \notag \\
-    & \Phi_{2,g} = \phi_{2,g}. \notag
+    & D_{0,g} = \frac{1}{3 \Sigma_{1,g}}, \quad D_{2,g} = \frac{9}{35 \Sigma_{3,g}} \notag \\
+    & \Phi_{0,g} = \phi_{0,g} + 2 \phi_{2,g}, \quad \Phi_{2,g} = \phi_{2,g} \notag
 \end{align}
-\vspace{0.7cm}
+% \vspace{0.7cm}
 
 the equations become:
 \begin{align}
@@ -94,18 +92,18 @@ With the Marshak vacuum BCs \cite{beckert_development_2007}
 \begin{frame}
 \frametitle{MOOSE}
 \begin{columns}
-    \column[t]{4cm}
+    \column[t]{5cm}
   \begin{itemize}
       \item Computational framework for solving coupled equation systems.
-      \item MOOSE defines weak forms.
+      \item Input are the equation weak forms.
       \item MOOSE and LibMesh translate them into residual and Jacobian functions.
       \item PetSc solution routines solve the equations.
     \end{itemize}
 
-  \column[t]{6cm}
+  \column[t]{5cm}
   \begin{figure}[htbp!]
     \begin{center}
-      \includegraphics[width=6cm]{figures/moose}
+      \includegraphics[width=5cm]{figures/moose}
     \end{center}
     \caption{MOOSE framework. Image reproduced from \cite{inl_workshop_2020}.}
   \end{figure}
@@ -157,16 +155,16 @@ With the Marshak vacuum BCs \cite{beckert_development_2007}
   \toprule
   Kernel name           & Equation 1 \\
   \midrule
-  P3Diffusion           & $\left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right>$ \\
-  P3SigmaR              & $\left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right>$ \\
-  P3SigmaCoupled        & $\left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right>$ \\
-  P3InScatter           & $\left< - \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
-  P3FissionEigenKernel  & $\left< - \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
-  BodyForce             & $\left< - Q_{0,g}, \Psi \right>$ \\
+  SP3Diffusion           & $\left< D_{0,g} \nabla \Phi_{0,g}, \nabla \Psi \right>$ \\
+  SP3SigmaR              & $\left< \Sigma_{0,g} \Phi_{0,g}, \Psi \right>$ \\
+  SP3SigmaCoupled        & $\left< - 2 \Sigma_{0,g} \Phi_{2,g}, \Psi \right>$ \\
+  SP3InScatter           & $\left< - \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
+  SP3FissionEigenKernel  & $\left< - \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
+  BodyForce (MOOSE)      & $\left< - Q_{0,g}, \Psi \right>$ \\
   \midrule
   BC Kernel name & \\
   \midrule
-  Vacuum          & $\left< \frac{1}{2} \Phi_{0,g} - \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC}$ \\
+  SP3Vacuum          & $\left< \frac{1}{2} \Phi_{0,g} - \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC}$ \\
   \bottomrule
   \end{tabular}
 \end{table}
@@ -183,16 +181,16 @@ With the Marshak vacuum BCs \cite{beckert_development_2007}
   \toprule
   Kernel name           & Equation 2 \\
   \midrule
-  P3Diffusion           & $\left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right>$ \\
-  P3SigmaR              & $\left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right>$ \\
-  P3SigmaCoupled        & $\left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g}, \Psi \right>$ \\
-  P3InScatter           & $\left< \frac{2}{5} \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
-  P3FissionEigenKernel  & $\left< \frac{2}{5} \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
-  BodyForce             & $\left< \frac{2}{5} Q_{0,g}, \Psi \right>$ \\
+  SP3Diffusion           & $\left< D_{2,g} \nabla \Phi_{2,g}, \nabla \Psi \right>$ \\
+  SP3SigmaR              & $\left< \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g}, \Psi \right>$ \\
+  SP3SigmaCoupled        & $\left< - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g}, \Psi \right>$ \\
+  SP3InScatter           & $\left< \frac{2}{5} \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
+  SP3FissionEigenKernel  & $\left< \frac{2}{5} \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \left( \Phi_{0,g'} - 2 \Phi_{2,g'} \right), \Psi \right>$ \\
+  BodyForce (MOOSE)      & $\left< \frac{2}{5} Q_{0,g}, \Psi \right>$ \\
   \midrule
   BC Kernel name & \\
   \midrule
-  Vacuum                & $\left< - \frac{3}{40} \Phi_{0,g} + \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC}$ \\
+  SP3Vacuum                & $\left< - \frac{3}{40} \Phi_{0,g} + \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC}$ \\
   \bottomrule
   \end{tabular}
 \end{table}
