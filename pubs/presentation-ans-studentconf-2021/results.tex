@@ -39,7 +39,7 @@
 \frametitle{One-group, two-dimensional eigenvalue problem (3)}
 
 \begin{columns}
-    \column[t]{5cm}
+    \column[t]{4cm}
     \begin{table}[htbp!]
       \centering
       \caption{Eigenvalue comparison.}
@@ -52,10 +52,10 @@
       \end{tabular}
     \end{table}
 
-    \column[t]{5cm}
+    \column[t]{6cm}
     \begin{figure}[htbp!]
         \begin{center}
-            \includegraphics[width=5cm]{figures/flux-output}
+            \includegraphics[width=6cm]{figures/flux-output}
         \end{center}
         \caption{Scalar flux over line at y=4.5 cm.}
     \end{figure}
@@ -69,7 +69,7 @@
 \frametitle{C5 MOX Benchmark}
 
 \begin{columns}
-    \column[t]{5cm}
+    \column[t]{4cm}
     \begin{itemize}
         \item Exercise defined in 1994 by OECD/NEA \cite{cavarec_benchmark_1994}.
         \item Two-energy groups.
@@ -77,10 +77,10 @@
         \item Two types of fuel: UO$_2$, MOX.
     \end{itemize}
 
-    \column[t]{5cm}
+    \column[t]{6cm}
     \begin{figure}[htbp!]
         \begin{center}
-            \includegraphics[width=5cm]{figures/bench-config}
+            \includegraphics[width=6cm]{figures/bench-config}
         \end{center}
         \caption{2-D C5 MOX benchmark configuration. $R$ represents the reflectors. Image reproduced from \cite{capilla_applications_2009}.}
     \end{figure}
@@ -123,10 +123,30 @@
 
 \end{frame}
 
-% Clarification on the cross-sections
-
 \begin{frame}
 \frametitle{C5 MOX Benchmark (4)}
+
+% Clarification on the cross-sections
+
+If the higher order information of the scattering cross-section is not available (no correction):
+\begin{align}
+  & D_{0,g} = \frac{1}{3 \Sigma_{1,g}} = \frac{1}{3 \Sigma_{t,g}}
+\end{align}
+
+The definition of the benchmark \cite{cavarec_benchmark_1994} recommends applying the diagonal transport correction:
+\begin{align}
+  & D_{0,g} = \frac{1}{3 \Sigma_{tr,g}} \label{eq:diff-tr} \\
+  & \Sigma_{tr, g} = \Sigma_{t,g} - \bar{\mu}_{g} \Sigma_{s0,g} \notag
+  \intertext{where}
+  & \Sigma_{tr, g} = \mbox{group $g$ transport cross-section} \notag \\
+  & \bar{\mu}_{g} = \mbox{group $g$ average cosine deviation angle.} \notag
+\end{align}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{C5 MOX Benchmark (5)}
 	\begin{table}[htbp!]
 	\centering
 	\begin{tabular}{lccc}
@@ -143,16 +163,66 @@
 	\end{table}
 \end{frame}
 
-% Figure with fluxes
 
 \begin{frame}
-\frametitle{C5 MOX Benchmark (5)}
+\frametitle{C5 MOX Benchmark (6)}
 
+\begin{columns}
+    \column[t]{5.5cm}
+    \begin{figure}[htbp!]
+        \begin{center}
+            \includegraphics[width=6cm]{figures/sp3-flux-output-correct}
+        \end{center}
+        \caption{Scalar flux at y=10.71cm.}
+    \end{figure}
+
+    \column[t]{5.5cm}
     \begin{figure}[htbp!]
         \begin{center}
             \includegraphics[width=6.cm]{figures/distrib}
         \end{center}
-        \caption{Assembly power distribution. Top: assembly power. Bottom: relative difference expressed in \%.}
+        \caption{Assembly power distribution. Top: Assembly power. Bottom: Pin power relative difference expressed in \%.}
     \end{figure}
 
+\end{columns}
 \end{frame}
+
+
+
+% \begin{frame}
+% \frametitle{C5 MOX Benchmark (6)}
+
+% % figures of the fluxes
+
+% \begin{columns}
+%     \column[t]{5.5cm}
+%     \begin{figure}[htbp!]
+%         \begin{center}
+%             \includegraphics[width=5.5cm]{figures/}
+%         \end{center}
+%         \caption{.}
+%     \end{figure}
+
+%     \column[t]{5.5cm}
+%     \begin{figure}[htbp!]
+%         \begin{center}
+%             \includegraphics[width=5.5cm]{figures/}
+%         \end{center}
+%         \caption{.}
+%     \end{figure}
+% \end{columns}
+
+% \end{frame}
+
+
+% \begin{frame}
+% \frametitle{C5 MOX Benchmark (7)}
+
+%     \begin{figure}[htbp!]
+%         \begin{center}
+%             \includegraphics[width=6.cm]{figures/distrib}
+%         \end{center}
+%         \caption{Assembly power distribution. Top: assembly power. Bottom: relative difference expressed in \%.}
+%     \end{figure}
+
+% \end{frame}

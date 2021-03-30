@@ -89,9 +89,11 @@ def plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=3, dire='x'):
             flux /= M
         plt.plot(d, flux, label=legend+', g='+str(g+1))
 
-    plt.legend(loc='upper right')
-    plt.xlabel(dire + ' [cm]')
-    plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$')
+    plt.legend(loc='upper right', fontsize=16)
+    plt.xlabel(dire + ' [cm]', fontsize=16)
+    plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$', fontsize=16)
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
     return None
 
 
@@ -464,6 +466,14 @@ def plot_radial_power_distribution(pitch, power, compare=False, rel=False):
 if __name__ == "__main__":
 
     add_legend()
+
+    # SP3 alone: with transport correction
+    save = 'sp3-flux-output-correct'
+    plt.figure()
+    file = 'input-power-correct_line_0001.csv'
+    plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=2, dire='x')
+    plt.savefig(save, dpi=300, bbox_inches="tight")
+    plt.close()
 
     # comparison of Cerberus and Moltres fluxes
     save = 'output-flux-both'
