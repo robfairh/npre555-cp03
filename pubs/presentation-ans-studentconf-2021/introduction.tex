@@ -1,43 +1,44 @@
-\subsection{Motivation}
-
-\begin{frame}
-\frametitle{Motivation}
-  \begin{itemize}
-    \item 
-  \end{itemize}
-\end{frame}
-
-
 \subsection{Objectives}
 
 \begin{frame}
 \frametitle{Objectives}
   \begin{itemize}
-    \item 
+    \item Implement the $SP_3$ equations in MOOSE.
+    \item Verify the implementation by conducting the following exercises:
+      \begin{itemize}
+        \item One-group, two-dimensional eigenvalue problem.
+        \item C5 MOX Benchmark.
+  	  \end{itemize}
   \end{itemize}
 \end{frame}
 
 
-\subsection{MOOSE}
+\subsection{Motivation}
 
 \begin{frame}
-\frametitle{MOOSE}
-\begin{columns}
-    \column[t]{4cm}
-	\begin{itemize}
-    	\item Computational framework
-    	\item Solves coupled equation systems
-    	\item MOOSE defines weak forms
-    	\item MOOSE and LibMesh translate them into residual and Jacobian functions
-    	\item PetSc solution routines solve the equations
-    \end{itemize}
+\frametitle{Motivation}
+  
+  Why a neutronics solver?
+  \begin{itemize}
+    \item Neutronics provide information on the power distribution.
+    \item Crucial role in the thermal-fluids behavior of the reactor.
+    \item Multi-physics simulations for safety assessment.
+  \end{itemize}
 
-	\column[t]{6cm}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[width=6cm]{figures/moose}
-		\end{center}
-		\caption{MOOSE framework. Image reproduced from \cite{inl_workshop_2020}.}
-	\end{figure}
-\end{columns}
+  Why the $SP_3$ equations?
+  \begin{itemize}
+    \item Fewer equations than $P_3$.
+    \item Reduces the computational expense.
+    \item Conserves a reasonable accuracy.
+    \item More accurate solution than diffusion approximation.
+  \end{itemize}
+  
+  Why MOOSE?
+  \begin{itemize}
+    \item Partial differential equations describe the reactor physics.
+    \item Computational framework for solving coupled equation systems.
+    \item Open-source.
+    \item Facilitates coupling between different applications targeting different phenomena.
+  \end{itemize}
+
 \end{frame}

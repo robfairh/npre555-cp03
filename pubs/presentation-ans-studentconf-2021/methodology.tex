@@ -42,7 +42,7 @@ Assumptions \cite{brantley_simplifiedP3_2000}:
 \begin{frame}
 \frametitle{$P_3$ equations (3)}
 
-The following definition:
+With the following definition:
 \begin{align}
     & D_{0,g} = \frac{1}{3 \Sigma_{1,g}} \notag \\
     & D_{2,g} = \frac{9}{35 \Sigma_{3,g}} \notag \\
@@ -51,6 +51,7 @@ The following definition:
 \end{align}
 \vspace{0.7cm}
 
+the equations become:
 \begin{align}
     & - D_{0,g} \frac{d^2}{dx^2} \Phi_{0,g} + \Sigma_{0,g} \Phi_{0,g} - 2 \Sigma_{0,g} \Phi_{2,g} = S_{0,g} \label{eq:SP3-0d} \\
     & - D_{2,g} \frac{d^2}{dx^2} \Phi_{2,g} + \left( \Sigma_{2,g} + \frac{4}{5} \Sigma_{0,g} \right) \Phi_{2,g} - \frac{2}{5} \Sigma_{0,g} \Phi_{0,g} = -\frac{2}{5} S_{0,g} \label{eq:SP3-2d}
@@ -91,6 +92,28 @@ With the Marshak vacuum BCs \cite{beckert_development_2007}
 
 
 \subsection{Implementation}
+
+\begin{frame}
+\frametitle{MOOSE}
+\begin{columns}
+    \column[t]{4cm}
+  \begin{itemize}
+      \item Computational framework for solving coupled equation systems.
+      \item MOOSE defines weak forms.
+      \item MOOSE and LibMesh translate them into residual and Jacobian functions.
+      \item PetSc solution routines solve the equations.
+    \end{itemize}
+
+  \column[t]{6cm}
+  \begin{figure}[htbp!]
+    \begin{center}
+      \includegraphics[width=6cm]{figures/moose}
+    \end{center}
+    \caption{MOOSE framework. Image reproduced from \cite{inl_workshop_2020}.}
+  \end{figure}
+\end{columns}
+\end{frame}
+
 
 \begin{frame}
 \frametitle{Weak form}

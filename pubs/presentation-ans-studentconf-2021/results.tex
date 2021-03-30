@@ -1,12 +1,80 @@
-\subsection{C5 MOX Benchmark}
+\subsection{1-G, 2-D}
+
 \begin{frame}
-\frametitle{Benchmark definition}
+\frametitle{One-group, two-dimensional eigenvalue problem}
 
 \begin{columns}
     \column[t]{4cm}
     \begin{itemize}
-        \item 7-group cross-sections: C5G7 \cite{oecdnea_benchmark_2003}.
-        \item Capilla et al \cite{capilla_applications_2009}: C5G2.
+        \item Problem presented in Brantley and Larsen, 2000 \cite{brantley_simplifiedP3_2000}.
+        \item One-energy group.
+        \item Two-dimensional problem.
+        \item Two materials: fuel and moderator.
+    \end{itemize}
+
+    \column[t]{6cm}
+    \begin{figure}[htbp!]
+        \begin{center}
+            \includegraphics[width=6cm]{figures/mesh2}
+        \end{center}
+        \caption{Geometry of the problem.}
+    \end{figure}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{One-group, two-dimensional eigenvalue problem (2)}
+
+    \begin{figure}[htbp!]
+        \begin{center}
+            \includegraphics[width=6.cm]{figures/bench-mesh}
+        \end{center}
+        \caption{Gmsh 2D mesh.}
+    \end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{One-group, two-dimensional eigenvalue problem (3)}
+
+\begin{columns}
+    \column[t]{5cm}
+    \begin{table}[htbp!]
+      \centering
+      \caption{Eigenvalue comparison.}
+      \begin{tabular}{lll}
+      \toprule
+        $k_{Ref}$ & $k_{SP_3}$  & $\Delta_{\rho}$ \\
+      \midrule
+        0.79862   & 0.79854     & 12        \\
+      \bottomrule
+      \end{tabular}
+    \end{table}
+
+    \column[t]{5cm}
+    \begin{figure}[htbp!]
+        \begin{center}
+            \includegraphics[width=5cm]{figures/mesh2}
+        \end{center}
+        \caption{Need to change this figure.}
+    \end{figure}
+\end{columns}
+\end{frame}
+
+
+\subsection{C5 MOX}
+
+\begin{frame}
+\frametitle{C5 MOX Benchmark}
+
+\begin{columns}
+    \column[t]{4cm}
+    \begin{itemize}
+        \item Exercise defined in \cite{cavarec_benchmark_1994}.
+        \item Two-energy groups.
+        \item Two-dimensional problem.
+        \item Two types of fuel: UO$_2$, MOX.
     \end{itemize}
 
     \column[t]{6cm}
@@ -21,7 +89,7 @@
 
 
 \begin{frame}
-\frametitle{Benchmark definition (2)}
+\frametitle{C5 MOX Benchmark (2)}
 
 \begin{columns}
     \column[t]{5.5cm}
@@ -44,73 +112,21 @@
 
 
 \begin{frame}
-\frametitle{Benchmark geometry}
+\frametitle{C5 MOX Benchmark (3)}
 
     \begin{figure}[htbp!]
         \begin{center}
             \includegraphics[width=6.cm]{figures/bench-mesh}
         \end{center}
-        \caption{Gmsh 2D geometry.}
+        \caption{Gmsh 2D mesh.}
     \end{figure}
 
 \end{frame}
 
-
-\subsection{1-D test case}
-\begin{frame}
-\frametitle{Fixed source}
-Comparison between $SP_3$ and Diffusion solutions of the scalar flux.
-
-\begin{columns}
-
-    \column[t]{5cm}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[height=4cm]{figures/output-1g-fixed}
-		\end{center}
-		\caption{1 group.}
-	\end{figure}
-
-	\column[t]{5cm}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[height=4cm]{figures/output-3g-fixed}
-		\end{center}
-		\caption{3 groups.}
-	\end{figure}
-\end{columns}
-\end{frame}
-
+% Clarification on the cross-sections
 
 \begin{frame}
-\frametitle{Eigenvalue problem}
-
-Comparison between $SP_3$ and Diffusion solutions of the scalar flux.
-Solutions are normalized to the maximum value of the flux (fast flux for the 3 group case).
-
-\begin{columns}
-    \column[t]{5cm}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[height=4cm]{figures/output-1g-crit}
-		\end{center}
-		\caption{1 group.}
-	\end{figure}
-
-	\column[t]{5cm}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[height=4cm]{figures/output-3g-crit}
-		\end{center}
-		\caption{3 groups.}
-	\end{figure}
-\end{columns}
-\end{frame}
-
-
-\subsection{2-D test case}
-\begin{frame}
-\frametitle{C5G2 MOX Benchmark}
+\frametitle{C5 MOX Benchmark (4)}
 	\begin{table}[htbp!]
 	\centering
 	\begin{tabular}{lccc}
@@ -119,63 +135,24 @@ Solutions are normalized to the maximum value of the flux (fast flux for the 3 g
 	\midrule
 	Case & $k_{Ref}$       & $k_{SP_3}$ & $\Delta_\rho$ [pcm] \\
 	\midrule
-	Heterogeneous & 0.96969  & 0.97106  & 145  \\
-	Homogeneous   & 0.96983  & 0.97061  &  83  \\
+	No correction          & 0.96969  & 0.97106  & 145  \\
+	Transport correction   & 0.93755  & 0.93792  &  43  \\
 	\bottomrule
 	\end{tabular}
 	\label{tab:2d-keff}
 	\end{table}
 \end{frame}
 
-\begin{frame}
-\frametitle{C5G2 MOX Benchmark (2)}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[height=5cm]{{figures/output-2g}}
-		\end{center}
-		\caption{Comparison of the heterogenous and homogeneous cases scalar flux.}
-	\end{figure}
-\end{frame}
+% Figure with fluxes
 
 \begin{frame}
-\begin{columns}
-\frametitle{C5G2 MOX Benchmark (3)}
+\frametitle{C5 MOX Benchmark (5)}
 
-    \column[t]{5cm}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[height=4cm]{figures/flux0_1}
-		\end{center}
-		\caption{$\Phi_{0, 1}$.}
-	\end{figure}
+    \begin{figure}[htbp!]
+        \begin{center}
+            \includegraphics[width=6.cm]{figures/distrib}
+        \end{center}
+        \caption{Assembly power distribution. Top: assembly power. Bottom: relative difference expressed in \%.}
+    \end{figure}
 
-	\column[t]{5cm}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[height=4cm]{figures/flux0_2}
-		\end{center}
-		\caption{$\Phi_{0, 2}$.}
-	\end{figure}
-\end{columns}
-\end{frame}
-
-\begin{frame}
-\frametitle{C5G2 MOX Benchmark (4)}
-\begin{columns}
-    \column[t]{5cm}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[height=4cm]{figures/flux2_1}
-		\end{center}
-		\caption{$\Phi_{2, 1}$.}
-	\end{figure}
-
-	\column[t]{5cm}
-	\begin{figure}[htbp!]
-		\begin{center}
-			\includegraphics[height=4cm]{figures/flux2_2}
-		\end{center}
-		\caption{$\Phi_{2, 2}$.}
-	\end{figure}
-\end{columns}
 \end{frame}
