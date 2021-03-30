@@ -3,12 +3,11 @@
 \begin{frame}
 \frametitle{$P_3$ equations}
 
-Assumptions \cite{brantley_simplifiedP3_2000}:
 \begin{itemize}
-  \item steady state
-  \item 1-D
+  \item $P_N$ expands the angular dependence in spherical harmonics.
+  \item For N=3, steady-state, and one-dimension:
 \end{itemize}
-\vspace{0.7cm}
+% \vspace{0.7cm}
 
 \begin{align}
     & \frac{d}{dx} \phi_{1,g} + \Sigma_{t,g} \phi_{0,g} = \sum_{g'=1}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} + Q_{0,g}  \label{eq:SP3-0} \\
@@ -16,7 +15,6 @@ Assumptions \cite{brantley_simplifiedP3_2000}:
     & \frac{2}{5} \frac{d}{dx}\phi_{1,g} + \frac{3}{5}\frac{d}{dx}\phi_{3,g} + \Sigma_{t,g} \phi_{2,g} = \sum_{g'=1}^G \Sigma_{s2,g' \rightarrow g} \phi_{2,g'} + Q_{2,g} \label{eq:SP3-2} \\
     & \frac{3}{7}\frac{d}{dx}\phi_{2,g} + \Sigma_{t,g} \phi_{3,g} = \sum_{g'=1}^G \Sigma_{s3,g' \rightarrow g} \phi_{3,g'} + Q_{3,g}. \label{eq:P3-3}
 \end{align}
-
 \end{frame}
 
 
@@ -28,7 +26,7 @@ Assumptions \cite{brantley_simplifiedP3_2000}:
 	\item isotropic external source
 	\item negligible anisotropic group-to-group scattering
 \end{itemize}
-\vspace{0.7cm}
+% \vspace{0.7cm}
 
 \begin{align}
     & \frac{d}{dx} \phi_{1,g} + \Sigma_{0,g} \phi_{0,g} = \sum_{g'\ne g}^G \Sigma_{s0,g' \rightarrow g} \phi_{0,g'} + \frac{\chi_g}{k_{eff}} \sum_{g'=1}^G \nu\Sigma_{f,g'} \phi_{0,g'} + Q_{0,g}  \label{eq:SP3-0b} \\
@@ -171,7 +169,6 @@ With the Marshak vacuum BCs \cite{beckert_development_2007}
   Vacuum          & $\left< \frac{1}{2} \Phi_{0,g} - \frac{3}{4} \Phi_{2,g}, \Psi \right>_{BC}$ \\
   \bottomrule
   \end{tabular}
-  \label{tab:kernels}
 \end{table}
 \end{frame}
 
@@ -198,6 +195,5 @@ With the Marshak vacuum BCs \cite{beckert_development_2007}
   Vacuum                & $\left< - \frac{3}{40} \Phi_{0,g} + \frac{21}{40} \Phi_{2,g}, \Psi \right>_{BC}$ \\
   \bottomrule
   \end{tabular}
-  \label{tab:kernels}
 \end{table}
 \end{frame}
