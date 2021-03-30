@@ -52,6 +52,9 @@ Physical Surface("fuel") = {1, 2, 3};
 Physical Surface("moderator") = {4};
 Physical Curve("outer") = {19, 15};
 
+Color Red{ Surface{1, 2, 3}; }
+Color Grey{ Surface{4}; }
+
 // La = 3;
 // Transfinite Line{1, 2, 4, 6} = La;
 // Transfinite Line{3, 5, 7} = 2*(La-1)+1;

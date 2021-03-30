@@ -93,9 +93,11 @@ def plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=3, dire='x'):
             flux /= M
         plt.plot(d, flux, label=legend+', g='+str(g+1))
 
-    plt.legend(loc='upper right')
-    plt.xlabel(dire + ' [cm]')
-    plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$')
+    plt.legend(loc='upper right', fontsize=16)
+    plt.xlabel(dire + ' [cm]', fontsize=16)
+    plt.ylabel(r'$\phi \left[\frac{n}{cm^2s}\right]$', fontsize=16)
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
     return None
 
 
@@ -103,8 +105,8 @@ if __name__ == "__main__":
 
     add_legend()
 
-    # save = 'output'
-    # plt.figure()
-    # file = 'input_line_0001.csv'
-    # plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=1, dire='x')
-    # plt.savefig(save, dpi=300, bbox_inches="tight")
+    save = 'flux-output'
+    plt.figure()
+    file = 'input_line_0001.csv'
+    plotcsv_frommoose_multi(file, save, diff=False, fix=False, G=1, dire='x')
+    plt.savefig(save, dpi=300, bbox_inches="tight")
