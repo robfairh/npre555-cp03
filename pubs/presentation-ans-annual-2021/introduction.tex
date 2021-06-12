@@ -1,0 +1,45 @@
+\subsection{Objectives}
+
+\begin{frame}
+\frametitle{Objectives}
+  \begin{itemize}
+    \item Cerberus is a MOOSE-based application that implements the $SP_3$ equations.
+    \item Verify the implementation by conducting the following exercises:
+      \begin{itemize}
+        \item One-group, two-dimensional eigenvalue problem.
+        \item C5 MOX Benchmark (2D)
+        \item C5 MOX Benchmark (3D mini-core variation)
+  	  \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\subsection{Motivation}
+
+\begin{frame}
+\frametitle{Motivation}
+  
+  Why a neutronics solver?
+  \begin{itemize}
+    \item Neutronics provide information on the power distribution.
+    \item Crucial role in the thermal-fluids behavior of a reactor.
+    \item Multi-physics simulations for safety assessment.
+  \end{itemize}
+
+  Why the $SP_3$ equations?
+  \begin{itemize}
+    \item Fewer equations than $P_3$.
+    \item Reduces the computational expense.
+    \item Conserves a reasonable accuracy.
+    \item More accurate solution than diffusion approximation.
+  \end{itemize}
+  
+  Why MOOSE?
+  \begin{itemize}
+    \item Partial differential equations describe the reactor physics.
+    \item Computational framework for solving coupled equation systems.
+    \item Open-source, enabling wider collaboration.
+    \item API that facilitates coupling between various applications targeting different phenomena.
+  \end{itemize}
+
+\end{frame}
