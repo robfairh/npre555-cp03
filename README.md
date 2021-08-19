@@ -74,3 +74,11 @@ Contains the necessary files for building the .pdf of the following publications
 * sp3-diffusion/extract-convert.py could use some work
 * sp3-diffusion/ C5G2-capilla/ and brantley-larsen-2d/ have similar post processing functions that could be unified.
 * same for constants.py. use constants.py from 'C5G7-benchmark'
+
+## Future work
+
+* Add Jacobians to SP3 solver
+* Update materials with only the information necessary, for ex: remove beta
+* Add AuxVar: flux_g ??
+* See about anisotropic P3 and time dependent
+
